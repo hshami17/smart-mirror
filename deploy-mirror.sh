@@ -1,7 +1,6 @@
 #!/bin/bash
 # RUN THIS SCRIPT FROM ROOT PROJECT DIR
 
-
 # Remove deploy dir if exists
 rm -rf SMART-MIRROR
 

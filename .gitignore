@@ -1,4 +1,5 @@
 .DS_Store
 /target
+/SMART-MIRROR
 src/main/resources/mirror_config.xml
 
