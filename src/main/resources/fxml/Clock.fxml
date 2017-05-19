@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="382.0" prefWidth="295.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.clock.ClockController">
+   <children>
+      <Pane fx:id="clockPane" layoutX="8.0" layoutY="4.0" prefHeight="381.0" prefWidth="287.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="369.0" prefWidth="290.0">
+               <children>
+                  <StackPane fx:id="analogClock" prefHeight="258.0" prefWidth="290.0" />
+                  <HBox alignment="CENTER" layoutY="312.0" prefHeight="48.0" prefWidth="334.0">
+                     <children>
+                        <Label fx:id="digitalTime" alignment="CENTER" layoutX="81.0" layoutY="333.0" prefHeight="48.0" prefWidth="315.0" styleClass="digital-time" text="Digital Time" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="25.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutY="360.0" prefHeight="48.0" prefWidth="334.0">
+                     <children>
+                        <Label fx:id="date" alignment="CENTER" layoutX="81.0" layoutY="333.0" prefHeight="48.0" prefWidth="336.0" styleClass="date" text="Date" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

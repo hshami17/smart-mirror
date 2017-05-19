@@ -1,0 +1,4 @@
+.DS_Store
+/target
+src/main/resources/mirror_config.xml
+

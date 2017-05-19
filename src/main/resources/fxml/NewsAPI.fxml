@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="0.0" prefWidth="969.0" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.news.NewsAPIController">
+   <children>
+      <Pane fx:id="newsContainer" layoutX="-3.0" layoutY="-1.0">
+         <children>
+            <ScrollPane fx:id="newsModule" prefHeight="227.0" prefWidth="972.0" AnchorPane.bottomAnchor="119.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="0.0">
+               <content>
+                  <VBox fx:id="newsList" prefHeight="223.0" prefWidth="976.0" spacing="15.0" style="-fx-background-color: black;">
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

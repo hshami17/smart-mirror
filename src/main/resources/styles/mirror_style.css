@@ -1,0 +1,84 @@
+@font-face{
+    font-family: 'Microsoft Yi Baiti';
+    src: url('msyi.ttf');
+}
+
+.mirror-pane{
+    -fx-background-color: black;
+}
+
+.button{
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 100;
+    -fx-font: 23px "Microsoft Yi Baiti";
+    
+}
+
+.text-area {
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, black, transparent, black;
+    -fx-font: 21px "Microsoft Yi Baiti";
+    -fx-text-fill: white;
+    -fx-background-radius: 0;
+}
+
+.text-area .content{
+    -fx-background-color: transparent, black, transparent, black;
+    -fx-background-radius: 0;
+}
+
+.label{
+    -fx-text-fill: white;
+    -fx-font: 25px "Microsoft Yi Baiti";
+}
+
+.quote-of-day{
+    -fx-font-size: 25;
+}
+
+.temperature{
+    -fx-font-size: 70;
+}
+
+.location{
+    -fx-font-size: 35;
+}
+
+.daily-summary{
+    -fx-font-size: 42;
+}
+
+.forecast{
+     -fx-font-size: 20;
+}
+
+.task-header{
+    -fx-font-size: 25;
+}
+
+.task-title{
+    -fx-font-size: 25;
+    -fx-padding: 10 0 0 0;
+}
+
+.task-time{
+    -fx-font-size: 20;
+}
+
+.news{
+    -fx-font-size: 20;
+}
+
+.scroll-pane {
+    -fx-background-color:transparent;
+}
+
+.digital-time{
+    -fx-font-size: 40;
+}
+
+.date{
+    -fx-font-size: 25;
+}
