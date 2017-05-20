@@ -71,7 +71,7 @@ public class Config {
                 weather = new Module("/fxml/DarkSky.fxml", Module.WEATHER);
                 tasks = new Module("/fxml/Wunderlist.fxml", Module.TASKS);
                 news = new Module("/fxml/NewsAPI.fxml", Module.NEWS);
-                loadModules();
+                getConfigurations();
                 addPropertyListener(zipcode, PCM.PULL_WEATHER);
                 addPropertyListener(category, PCM.PULL_QUOTE);
                 initialized = true;
@@ -83,7 +83,7 @@ public class Config {
                 bottomLeftMod = null;
                 bottom = null;
                 top = null;
-                loadModules();
+                getConfigurations();
             }
         }
         catch (IOException ex){
@@ -105,7 +105,7 @@ public class Config {
         });
     }
     
-    private static void loadModules() throws IOException, ParserConfigurationException,
+    private static void getConfigurations() throws IOException, ParserConfigurationException,
                                             DOMException, SAXException{
         
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

@@ -67,7 +67,7 @@ public class NewsAPI extends Thread implements PropertyChangeListener {
             PCS.INST.firePropertyChange(PCM.NEWS_UPDATE);
             
         } catch (IOException ex){
-            Logger.getLogger(DarkSkyAPI.class.getName()).log(Level.SEVERE, null, ex);
+            PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE NEWS API");
         }
     }  
 

@@ -4,6 +4,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -41,9 +43,12 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     private Pane bottom;
     
     @FXML
+    private TextArea alertPrompt;
+    @FXML
     private Button hideButton;
     
     private FadeTransition buttonFadeInOut;
+    private Thread alertBoxThread = new Thread();
     
     // Quote module
     @FXML
@@ -59,10 +64,9 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-       String propName = evt.getPropertyName();
-       
-       if (propName.equalsIgnoreCase(PCM.QUOTE_UPDATE)){
-           Platform.runLater(() ->{
+       switch(evt.getPropertyName()){
+           case PCM.QUOTE_UPDATE:
+                Platform.runLater(() ->{
                 quoteofday.setText(quoteModel.getQuote());
                 if (!modulesHidden){
                     FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), quoteofday);
@@ -70,16 +74,44 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
                     fadeIn.setToValue(1.0);
                     fadeIn.play();
                 }
-           });
+                });
+               break;
+           case PCM.FADE_OUT_QUOTE:
+                Platform.runLater(() ->{
+                    FadeTransition fadeOut = new FadeTransition(Duration.millis(500), quoteofday);
+                    fadeOut.setFromValue(1.0);
+                    fadeOut.setToValue(0.0);
+                    fadeOut.play();    
+                });
+               break;
+           case PCM.ALERT:
+               alert((String) evt.getNewValue());
+               break;
        }
-       else if (!modulesHidden && propName.equalsIgnoreCase(PCM.FADE_OUT_QUOTE)){
-           Platform.runLater(() ->{
-                FadeTransition fadeOut = new FadeTransition(Duration.millis(500), quoteofday);
-                fadeOut.setFromValue(1.0);
-                fadeOut.setToValue(0.0);
-                fadeOut.play();            
-           });
-       }
+    }
+    
+    private void alert(String message){
+        alertPrompt.setText(message);
+        if (!alertBoxThread.isAlive()){
+            alertBoxThread = new Thread(() -> {
+                try {
+                    FadeTransition promptFade = new FadeTransition(new Duration(500), alertPrompt);
+                    promptFade.setFromValue(alertPrompt.getOpacity() == 1.0 ? 1.0 : 0.0);
+                    promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
+                    promptFade.play();
+
+                    Thread.sleep(8000);
+
+                    promptFade.setFromValue(alertPrompt.getOpacity() == 1.0 ? 1.0 : 0.0);
+                    promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
+                    promptFade.play();
+                } 
+                catch (InterruptedException ex) {
+                    Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            });
+            alertBoxThread.start();
+        }
     }
     
     private void hideShowAllModules(){
@@ -190,11 +222,14 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        alertPrompt.setOpacity(0);
+        
         quoteModel = ModelManager.INST.getQuoteModel();
         buttonFadeInOut = new FadeTransition(Duration.millis(1000), hideButton);
         
         PCS.INST.addPropertyChangeListener(PCM.QUOTE_UPDATE, this);
         PCS.INST.addPropertyChangeListener(PCM.FADE_OUT_QUOTE, this);
+        PCS.INST.addPropertyChangeListener(PCM.ALERT, this);
         
         placeModules();
         //configureModuleContainers();

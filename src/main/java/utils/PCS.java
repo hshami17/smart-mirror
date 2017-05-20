@@ -23,5 +23,9 @@ public class PCS {
         pcs.firePropertyChange(propName, null, null);
     }
     
+    public void firePropertyChange(String propName, Object newValue){
+        pcs.firePropertyChange(propName, null, newValue);
+    }
+    
     public static PCS INST = new PCS();
 }

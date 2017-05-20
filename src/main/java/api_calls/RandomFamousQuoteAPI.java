@@ -66,7 +66,7 @@ public class RandomFamousQuoteAPI extends Thread implements PropertyChangeListen
             PCS.INST.firePropertyChange(PCM.QUOTE_UPDATE);
    
         } catch (IOException ex) {
-            Logger.getLogger(RandomFamousQuoteAPI.class.getName()).log(Level.SEVERE, null, ex);
+            PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE RANDOM FAMOUS QUOTES API");
         }
     }
 

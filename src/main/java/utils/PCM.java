@@ -23,5 +23,5 @@ public interface PCM {
     public static final String PULL_TASKS = "pull_tasks";
     public static final String PULL_QUOTE = "pull_quote";
     
-    public static final String PULL_RUNNING_APIS = "pull_running_apis";
+    public static final String ALERT = "alert";
 }

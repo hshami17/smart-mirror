@@ -100,7 +100,7 @@ public class WunderlistAPI extends Thread implements PropertyChangeListener{
             PCS.INST.firePropertyChange(PCM.TASK_UPDATE);
             
         } catch (IOException ex) {
-            Logger.getLogger(RandomFamousQuoteAPI.class.getName()).log(Level.SEVERE, null, ex);
+            PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE WUNDERLIST API");
         }
     }
 
@@ -111,11 +111,7 @@ public class WunderlistAPI extends Thread implements PropertyChangeListener{
                 stop = true;
                 this.interrupt();
                 break;
-            case PCM.PULL_NEWS:
-                if (!stop){
-                    getTasks();
-                }
-                break;
+
         }
     }
 }

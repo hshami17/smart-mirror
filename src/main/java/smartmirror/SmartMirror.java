@@ -34,8 +34,8 @@ public class SmartMirror extends Application implements PropertyChangeListener {
                     System.out.println("UNKNOWN ARG: " + arg);
             }
         }
-        System.out.println("JAR RUN IS: " + Config.jarRun);
-        System.out.println("FULLSCREEN IS: " + Config.fullscreen);
+        System.out.println("JAR RUN: " + Config.jarRun);
+        System.out.println("FULLSCREEN: " + Config.fullscreen);
         launch(args);
     }
 

@@ -120,7 +120,7 @@ public class DarkSkyAPI extends Thread implements PropertyChangeListener {
             PCS.INST.firePropertyChange(PCM.WEATHER_UPDATE);
         } 
         catch (IOException ex) {
-            Logger.getLogger(DarkSkyAPI.class.getName()).log(Level.SEVERE, null, ex);
+            PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE DARK SKY API");
         }
     }
 
