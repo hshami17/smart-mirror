@@ -23,7 +23,7 @@ figlet -f big 'smart  mirror'
 
 # Start web server and javafx
 cd web-service
-python main.py &
+python main.py --path ../resources/mirror_config.xml &
 cd ..
 java $sw -jar smart-mirror-1.0.jar -jarRun $fullscreen
 

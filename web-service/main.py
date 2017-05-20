@@ -1,4 +1,5 @@
 import os
+import argparse
 from flask import Flask, render_template, request, session, redirect
 from flask.ext.socketio import SocketIO, emit
 import socket
@@ -8,6 +9,7 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 configData = []
+path = ''
 
 @socketio.on('connect', namespace='/')
 def makeConnection():
@@ -27,7 +29,7 @@ def setConfigData():
 
 def parseXml():
     data = []
-    tree = ET.parse('../resources/mirror_config.xml')
+    tree = ET.parse(path)
     root = tree.getroot()
     for child in root:
         moduleData = {'name': child.attrib['name']}
@@ -53,7 +55,7 @@ def createXML():
                     field.text = value
 
     tree = ET.ElementTree(configuration_tag)
-    tree.write("../resources/mirror_config.xml")
+    tree.write(path)
 
 
 @app.route('/')
@@ -91,5 +93,10 @@ def removeModule(formDataName):
 
 # start the server
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description = 'Smart Mirror Web Service')
+    parser.add_argument('--path', action="store", dest="path", default='../src/main/resources/mirror_config.xml')
+    given_args = parser.parse_args()
+    path = given_args.path
+    print 'PATH IS: ' + path
     print('WEB SERVICE RUNNING ON: ' + socket.gethostbyname(socket.gethostname()) + ':8080')
     socketio.run(app, host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 8080)), debug=False)
