@@ -29,6 +29,14 @@
     -fx-background-radius: 0;
 }
 
+.alert-prompt{
+    -fx-border-color: white;
+}
+
+.alert-prompt .content{
+    -fx-background-color: #1f1f1f
+}
+
 .label{
     -fx-text-fill: white;
     -fx-font: 25px "Microsoft Yi Baiti";
