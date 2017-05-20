@@ -41,17 +41,11 @@ public class SmartMirror extends Application implements PropertyChangeListener {
 
     @Override
     public void start(Stage mirrorStage) throws Exception { 
-        // Get mirror settings from XML
-        Config.configureMirror();
-        
         FXMLLoader loader = new FXMLLoader(SmartMirror.class.getResource("/fxml/MirrorView.fxml"));
         Parent root = (Parent) loader.load();
         
         // Get controller for mirror view fxml
         controller = (MirrorViewController) loader.getController();
-        
-        // QUOTE NOT MODULIZED YET 
-        new RandomFamousQuoteAPI().start();
         
         // Watcher to watch for config file changes
         // (ONLY WHEN RUNNING FROM JAR)
@@ -62,6 +56,11 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         mirrorStage.setFullScreen(Config.fullscreen);
         mirrorStage.setOnCloseRequest(event -> {System.exit(0);});
         mirrorStage.show();
+        
+        // Get mirror settings from XML
+        Config.configureMirror();
+        // QUOTE NOT MODULIZED YET 
+        new RandomFamousQuoteAPI().start();
     }
     
     public void loadNewConfig(){
