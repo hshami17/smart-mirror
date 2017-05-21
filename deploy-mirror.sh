@@ -19,3 +19,5 @@ cp -r ./web-service ./SMART-MIRROR
 
 # Copy jar into deploy dir
 cp target/smart-mirror-1.0.jar SMART-MIRROR/
+
+echo "Success!"
