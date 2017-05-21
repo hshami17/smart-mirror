@@ -116,19 +116,20 @@ public class DarkSkyController implements Initializable, ModuleControl,
         this.darkSkyModel = modelManager.getWeatherModel();
     }
     
-    private DarkSkyAPI api = new DarkSkyAPI();
+    private boolean apiRunning = false;
 
     @Override
     public void startAPI() {
-        if (!api.isAlive()){
-            api = new DarkSkyAPI();
-            api.start();
+        if (!apiRunning){
+            new DarkSkyAPI().start();
+            apiRunning = true;
         }
     }
 
     @Override
     public void stopAPI() {
         PCS.INST.firePropertyChange(PCM.STOP_WEATHER_API);
+        apiRunning = false;
     }
     
     @Override

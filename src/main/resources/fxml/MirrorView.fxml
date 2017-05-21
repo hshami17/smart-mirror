@@ -44,5 +44,6 @@
       <Pane fx:id="bottom" layoutX="9.0" layoutY="1223.0" prefHeight="227.0" prefWidth="972.0" AnchorPane.bottomAnchor="119.0" />
       <!-- BOTTOM RIGHT CONTAINER -->
       <Pane fx:id="bottomRight" layoutX="640.0" layoutY="666.0" prefHeight="518.0" prefWidth="326.0" AnchorPane.rightAnchor="22.0" />
+      <TextArea fx:id="alertPrompt" editable="false" layoutX="373.0" layoutY="411.0" prefHeight="212.0" prefWidth="240.0" styleClass="alert-prompt" text="ALERT PROMPT" wrapText="true" AnchorPane.leftAnchor="373.0" AnchorPane.rightAnchor="368.0" AnchorPane.topAnchor="411.0" />
    </children>
 </AnchorPane>

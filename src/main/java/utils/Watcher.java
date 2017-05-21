@@ -6,6 +6,7 @@
 package utils;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,8 +38,10 @@ public class Watcher extends Thread {
 
             WatchKey myKey = path.register(watcher, ENTRY_MODIFY);
             keys.put(myKey, path);
+        } catch (NoSuchFileException ex) {
+            System.err.println("WATCHER NOT RUNNING IN DEVELOPMENT ENVIRONMENT");
         } catch (IOException ex) {
-            Logger.getLogger(SmartMirror.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Watcher.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

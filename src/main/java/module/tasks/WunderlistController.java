@@ -96,19 +96,20 @@ public class WunderlistController implements Initializable, ModuleControl,
         });
     }
 
-    private WunderlistAPI api = new WunderlistAPI();
+    private boolean apiRunning = false;
     
     @Override
     public void startAPI() {
-        if (!api.isAlive()){
-            api = new WunderlistAPI();
-            api.start();
+        if (!apiRunning){
+            new WunderlistAPI().start();
+            apiRunning = true;
         }
     }
 
     @Override
     public void stopAPI() {
         PCS.INST.firePropertyChange(PCM.STOP_TASKS_API);
+        apiRunning = false;
     }
     
     @Override

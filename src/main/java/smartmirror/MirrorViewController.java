@@ -223,6 +223,8 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         alertPrompt.setOpacity(0);
+//        ScrollBar scrollBarv = (ScrollBar) alertPrompt.lookup(".scroll-bar:vertical");
+//        scrollBarv.setDisable(true);
         
         quoteModel = ModelManager.INST.getQuoteModel();
         buttonFadeInOut = new FadeTransition(Duration.millis(1000), hideButton);
