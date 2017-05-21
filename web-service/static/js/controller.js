@@ -59,43 +59,72 @@ SmartMirror.controller('Home', function($scope){
     function updateMirrorView(configData){
         document.getElementById('topLeft').innerHTML = "";
         document.getElementById('topLeft-remove').style.display = 'none';
+        document.getElementById('topLeft-image').src = '';
+        document.getElementById('topLeft-image').style.display = 'none';
+
         document.getElementById('topRight').innerHTML = "";
         document.getElementById('topRight-remove').style.display = 'none';
+        document.getElementById('topRight-image').src = '';
+        document.getElementById('topRight-image').style.display = 'none';
+
         document.getElementById('bottomLeft').innerHTML = "";
         document.getElementById('bottomLeft-remove').style.display = 'none';
+        document.getElementById('bottomLeft-image').src = '';
+        document.getElementById('bottomLeft-image').style.display = 'none';
+
         document.getElementById('bottomRight').innerHTML = "";
         document.getElementById('bottomRight-remove').style.display = 'none';
+        document.getElementById('bottomRight-image').src = '';
+        document.getElementById('bottomRight-image').style.display = 'none';
+
+
         document.getElementById('top').innerHTML = "";
         document.getElementById('top-remove').style.display = 'none';
+        document.getElementById('top-image').src = '';
+        document.getElementById('top-image').style.display = 'none';
+
         document.getElementById('bottom').innerHTML = "";
         document.getElementById('bottom-remove').style.display = 'none';
+        document.getElementById('bottom-image').src = '';
+        document.getElementById('bottom-image').style.display = 'none';
 
 
         var length = configData.length;
         for (var i=0; i < length; i++){
             if (configData[i].position == 'topLeft'){
-                document.getElementById('topLeft').innerHTML = configData[i].name;
-                //document.getElementById('topLeft-image').src = "/assets/" + configData[i].name + ".png";
+                //document.getElementById('topLeft').innerHTML = configData[i].name;
+                document.getElementById('topLeft-image').style.display = 'block';
+                document.getElementById('topLeft-image').src = "/static/images/mirror-display/" + configData[i].name + ".png";
                 document.getElementById('topLeft-remove').dataset.module = configData[i].name;
                 document.getElementById('topLeft-remove').style.display = 'block';
             } else if (configData[i].position == 'topRight') {
-                document.getElementById('topRight').innerHTML = configData[i].name;
+                //document.getElementById('topRight').innerHTML = configData[i].name;
+                document.getElementById('topRight-image').style.display = 'block';
+                document.getElementById('topRight-image').src = "/static/images/mirror-display/" + configData[i].name + ".png";
                 document.getElementById('topRight-remove').dataset.module = configData[i].name;
                 document.getElementById('topRight-remove').style.display = 'block';
             } else if (configData[i].position == 'bottomLeft') {
-                document.getElementById('bottomLeft').innerHTML = configData[i].name;
+                //document.getElementById('bottomLeft').innerHTML = configData[i].name;
+                document.getElementById('bottomLeft-image').style.display = 'block';
+                document.getElementById('bottomLeft-image').src = "/static/images/mirror-display/" + configData[i].name + ".png";
                 document.getElementById('bottomLeft-remove').dataset.module = configData[i].name;
                 document.getElementById('bottomLeft-remove').style.display = 'block';
             } else if (configData[i].position == 'bottomRight') {
-                document.getElementById('bottomRight').innerHTML = configData[i].name;
+                //document.getElementById('bottomRight').innerHTML = configData[i].name;
+                document.getElementById('bottomRight-image').style.display = 'block';
+                document.getElementById('bottomRight-image').src = "/static/images/mirror-display/" + configData[i].name + ".png";
                 document.getElementById('bottomRight-remove').dataset.module = configData[i].name;
                 document.getElementById('bottomRight-remove').style.display = 'block';
             } else if (configData[i].position == 'top') {
-                document.getElementById('top').innerHTML = configData[i].name;
+                document.getElementById('top-image').style.display = 'block';
+                document.getElementById('top-image').src = "/static/images/mirror-display/" + configData[i].name + ".png";
+                //document.getElementById('top').innerHTML = configData[i].name;
                 document.getElementById('top-remove').dataset.module = configData[i].name;
                 document.getElementById('top-remove').style.display = 'block';
             } else if (configData[i].position == 'bottom') {
-                document.getElementById('bottom').innerHTML = configData[i].name;
+                //document.getElementById('bottom').innerHTML = configData[i].name;
+                document.getElementById('bottom-image').style.display = 'block';
+                document.getElementById('bottom-image').src = "/static/images/mirror-display/" + configData[i].name + ".png";
                 document.getElementById('bottom-remove').dataset.module = configData[i].name;
                 document.getElementById('bottom-remove').style.display = 'block';
             }

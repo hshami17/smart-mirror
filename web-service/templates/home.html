@@ -5,14 +5,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
         <script type="text/javascript" src="static/js/controller.js"></script>
+        <link rel="stylesheet" href="static/stylesheets/main.css" type="text/css">
     </head>
 
     <body>
-        <div ng-controller="Home" style="width: 100%; overflow: hidden;">
-
+        <div ng-controller="Home" class="content">
             <div style="float: left; width: 300px;">
                 <h1 id="status"></h1>
-                <h2>Weather</h2>
+                <h3>Weather</h3>
                 <div id="weather-module" style="width: 250px; height: 330px;">
                     <div class="front" onclick="editModule('weather-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/weather.png" width="250px" height="300px">
@@ -44,7 +44,7 @@
                         <button style="float:right" onclick="closeModule('weather-module')">Close</button>
                     </div>
                 </div>
-                <h2>News</h2>
+                <h3>News</h3>
                 <div id="news-module" style="width: 250px; height: 330px;">
                     <div class="front" onclick="editModule('news-module')" style="background-image: url(/static/images/mirror-bg.jpg)" >
                         <img src="/static/images/news.png" width="250px" height="300px">
@@ -73,7 +73,7 @@
                         <button style="float:right" onclick="closeModule('news-module')">Close</button>
                     </div>
                 </div>
-                <h2>Tasks</h2>
+                <h3>Tasks</h3>
                 <div id="tasks-module" style="width: 250px; height: 330px;">
                     <div class="front" onclick="editModule('tasks-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/tasks.png" width="250px" height="300px">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
 
-                <h2>Clock</h2>
+                <h3>Clock</h3>
                 <div id="clock-module" style="width: 250px; height: 330px;">
                     <div class="front" onclick="editModule('clock-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/clock.png" width="250px" height="300px">
@@ -132,7 +132,7 @@
                 </div>
 
 
-                <h2>Quote</h2>
+                <h3>Quote</h3>
                 <div id="quote-module" style="width: 250px; height: 330px;">
                     <div class="front" onclick="editModule('quote-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/quote.png" width="250px" height="300px">
@@ -161,40 +161,41 @@
 
                 </div>
             </div>
-            <div style="margin-left: 350px">
-                <div class="mirror-top-panel" style="width: 650px; background-color: black; height: 100px;">
-                    <p id="top" style="color: white;">
-                    </p>
-                    <button type="button" data-module="" id="top-remove" ng-click="removeFromMirrorView($event)">Remove</button>
+            <div class="mirror-display">
+                <div class="mirror-panel-top">
+                    <p id="top" style="color: white;"></p>
+                     <span class="remove-button-top" data-module="" id="top-remove" ng-click="removeFromMirrorView($event)">x</span>
+                    <img id="top-image" src="" width="750px">
                 </div>
-                <div class="mirror-top" style="width: 100%;">
-                    <div style="float: left; width: 300px; height: 400px; background-color: black;">
-                        <p id="topLeft" style="color: white">
-                            Module
-                        </p>
-                        <button type="button" data-module="" id="topLeft-remove" ng-click="removeFromMirrorView($event)">Remove</button>
-                        <img id="topLeft-image" src="">
+                <div class="mirror-top">
+                    <div style="float: left; width: 250px; height: 400px;">
+                        <p id="topLeft" style="color: white"></p>
+                        <span class="remove-button-topLeft" data-module="" id="topLeft-remove" ng-click="removeFromMirrorView($event)">x</span>
+                        <img id="topLeft-image" src="" width="250px">
                     </div>
-                    <div style="margin-left: 350px; width: 300px; height: 400px; background-color: black;">
-                        <p id="topRight" style="color: white">Module</p>
-                        <button type="button" data-module="" id="topRight-remove" ng-click="removeFromMirrorView($event)">Remove</button>
+                    <div style="margin-left: 480px; width: 250px; height: 400px;">
+                        <p id="topRight" style="color: white"></p>
+                        <span class="remove-button-topRight" data-module="" id="topRight-remove" ng-click="removeFromMirrorView($event)">x</span>
+                        <img id="topRight-image" src="" width="250px">
                     </div>
                 </div>
-                <br/><br/>
-                <div class="mirror-bottom" style="width: 100%;">
-                    <div style="float: left; width: 300px; height: 400px; background-color: black;">
-                        <p id="bottomLeft" style="color: white">Module</p>
-                        <button type="button" data-module="" id="bottomLeft-remove" ng-click="removeFromMirrorView($event)">Remove</button>
+                <div class="mirror-bottom">
+                    <div style="float: left; width: 250px; height: 400px;">
+                        <p id="bottomLeft" style="color: white"></p>
+                        <span class="remove-button-bottomLeft" data-module="" id="bottomLeft-remove" ng-click="removeFromMirrorView($event)">x</span>
+                        <img id="bottomLeft-image" src="" width="250px">
                     </div>
-                    <div style="margin-left: 350px; width: 300px; height: 400px; background-color: black;">
+                    <div style="margin-left: 480px; width: 250px; height: 400px;">
                         <p id="bottomRight" style="color: white">Module</p>
-                        <button type="button" data-module="" id="bottomRight-remove" ng-click="removeFromMirrorView($event)">Remove</button>
+                        <span class="remove-button-bottomRight" data-module="" id="bottomRight-remove" ng-click="removeFromMirrorView($event)">x</span>
+                        <img id="bottomRight-image" src="" width="250px">
                     </div>
                 </div>
-                <div class="mirror-bottom-panel" style="width: 650px; background-color: black; height: 100px;">
+                <div class="mirror-panel-bottom">
                     <p id="bottom" style="color:white";>
                     </p>
-                    <button type="button" data-module="" id="bottom-remove" ng-click="removeFromMirrorView($event)">Remove</button>
+                    <span class="remove-button-bottom" data-module="" id="bottom-remove" ng-click="removeFromMirrorView($event)">x</span>
+                    <img id="bottom-image" src="" width="750px">
                 </div>
             </div>
 

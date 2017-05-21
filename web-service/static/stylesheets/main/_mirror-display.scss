@@ -1,0 +1,71 @@
+/*
+* Mirror Display
+*/
+
+.mirror-display {
+	margin-top: 80px;
+	background-image: url(/static/images/mirror-bg-lrge.jpg);
+	background-size:100%;
+	margin-left: 350px;
+	width: 750px;
+}
+
+.mirror-panel {
+	width: 750px;
+}
+
+.mirror-top {
+	width: 650px;
+}
+
+.mirror-bottom {
+	width: 650px;
+}
+
+.mirror-panel-top {
+	@extend .mirror-panel;
+	height: 100px;
+}
+
+.mirror-panel-bottom {
+	@extend .mirror-panel;
+	height: 300px;
+}
+
+.remove-button {
+  border: none;
+  color: #32b5d6;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: lighter;
+}
+
+.remove-button-top {
+    @extend .remove-button;
+    float: right;
+}
+
+.remove-button-topLeft {
+    @extend .remove-button;
+    float: right;
+}
+
+.remove-button-topRight {
+    @extend .remove-button;
+    float: right;
+}
+
+.remove-button-bottomLeft {
+    @extend .remove-button;
+    float: right;
+}
+
+.remove-button-bottomRight {
+    @extend .remove-button;
+    float: right;
+}
+
+.remove-button-bottom {
+    @extend .remove-button;
+    float: right;
+}
