@@ -46,7 +46,7 @@ public class RandomFamousQuoteAPI extends Thread implements PropertyChangeListen
         }
     }
     
-    public void getQuote(){
+    synchronized public void getQuote(){
         try {
             PCS.INST.firePropertyChange(PCM.FADE_OUT_QUOTE);
             URLConnection connection = new URL("https://andruxnet-random-famous-quotes.p.mashape.com/?cat=" + Config.getQuoteCategory()).openConnection();

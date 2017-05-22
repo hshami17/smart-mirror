@@ -47,7 +47,7 @@ public class NewsAPI extends Thread implements PropertyChangeListener {
         }
     }
     
-    public void getNews(){
+    synchronized public void getNews(){
         try {
             URL news_api_url = new URL("https://newsapi.org/v1/articles?"
                     + "source=" + Config.getNewsSource() + 

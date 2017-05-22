@@ -51,7 +51,7 @@ public class WunderlistAPI extends Thread implements PropertyChangeListener{
     }
     
     // Get all tasks from Wunderlist
-    public void getTasks(){
+    synchronized public void getTasks(){
         try {
             URLConnection connection = new URL("https://a.wunderlist.com/api/v1/tasks?list_id=" + Config.getListID()).openConnection();
             connection.setDoOutput(true); // Triggers POST.

@@ -46,7 +46,7 @@ public class DarkSkyAPI extends Thread implements PropertyChangeListener {
         }
     }
     
-    public void getWeather(){
+    synchronized public void getWeather(){
         try {
             URL zip_api_url = new URL("http://www.zipcodeapi.com/rest/" + Config.getZipcodeKey() + "/"
                     + "info.json/" + Config.getZipCode() + "/degrees");
