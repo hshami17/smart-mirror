@@ -116,7 +116,7 @@ public class Config {
             doc = dBuilder.parse(new File("resources/mirror_config.xml"));
         }
         else{
-            doc = dBuilder.parse(Config.class.getResourceAsStream("/mirror_config.xml"));
+            doc = dBuilder.parse(new File("src/main/resources/mirror_config.xml"));
         }
         doc.getDocumentElement().normalize();
 

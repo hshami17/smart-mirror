@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import smartmirror.SmartMirror;
 
 
 /**
@@ -26,20 +25,21 @@ import smartmirror.SmartMirror;
  * @author hasan
  */
 public class Watcher extends Thread {
-    private Path path;
+    private Path watchDir;
+    private String configPath;
     private WatchService watcher;
     private Map<WatchKey, Path> keys;
 
     public Watcher(){
         try {
-            path = Paths.get("resources");
+            watchDir = Paths.get((Config.jarRun ? "resources" : "src/main/resources"));
+            configPath = (Config.jarRun ? "resources/mirror_config.xml" :
+                    "src/main/resources/mirror_config.xml");
             watcher = FileSystems.getDefault().newWatchService();
             keys = new HashMap<>();
 
-            WatchKey myKey = path.register(watcher, ENTRY_MODIFY);
-            keys.put(myKey, path);
-        } catch (NoSuchFileException ex) {
-            System.err.println("WATCHER NOT RUNNING IN DEVELOPMENT ENVIRONMENT");
+            WatchKey myKey = watchDir.register(watcher, ENTRY_MODIFY);
+            keys.put(myKey, watchDir);
         } catch (IOException ex) {
             Logger.getLogger(Watcher.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,7 +70,7 @@ public class Watcher extends Thread {
                     Path name = ev.context();
                     Path child = dir.resolve(name);
                     if (kind == ENTRY_MODIFY && 
-                            child.toString().equals("resources/mirror_config.xml")) {
+                            child.toString().equals(configPath)) {
                         PCS.INST.firePropertyChange(PCM.NEW_CONFIG);
                     }
                 });
