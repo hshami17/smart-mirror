@@ -31,11 +31,12 @@
 
 .alert-prompt{
     -fx-border-color: white;
+    -fx-border-width: 4px;
 }
 
-.alert-prompt .content{
+/*.alert-prompt .content{
     -fx-background-color: #1f1f1f
-}
+}*/
 
 .label{
     -fx-text-fill: white;
