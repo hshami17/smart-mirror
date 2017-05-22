@@ -1,15 +1,12 @@
 package utils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,23 +40,23 @@ public class Config {
     private static Module top;
     
     // Weather
-    private static String weatherKey;
-    private static String zipcodeKey;
-    private static StringProperty zipcode = new SimpleStringProperty("");
+    private static final StringProperty weatherKey = new SimpleStringProperty("");
+    private static final StringProperty zipcodeKey = new SimpleStringProperty("");
+    private static final StringProperty zipcode = new SimpleStringProperty("");
     
     // Quotes
-    private static String quoteKey;
-    private static StringProperty category = new SimpleStringProperty("");
+    private static final StringProperty quoteKey = new SimpleStringProperty(""); 
+    private static final StringProperty category = new SimpleStringProperty("");
     
     // Tasks
-    private static String taskKey;
-    private static String taskClientID;
-    private static String listID;
+    private static final StringProperty taskKey = new SimpleStringProperty("");
+    private static final StringProperty taskClientID = new SimpleStringProperty("");
+    private static final StringProperty listID = new SimpleStringProperty("");
     
     // News
-    private static String newsKey;
-    private static String newsSource;
-    private static String newsSortBy;
+    private static final StringProperty newsKey = new SimpleStringProperty("");
+    private static final StringProperty newsSource = new SimpleStringProperty("");
+    private static final StringProperty newsSortBy = new SimpleStringProperty("");
     
     private static boolean initialized = false;
     
@@ -72,8 +69,20 @@ public class Config {
                 tasks = new Module("/fxml/Wunderlist.fxml", Module.TASKS);
                 news = new Module("/fxml/NewsAPI.fxml", Module.NEWS);
                 getConfigurations();
-                addPropertyListener(zipcode, PCM.PULL_WEATHER);
-                addPropertyListener(category, PCM.PULL_QUOTE);
+                // Weather prop listeners
+                addPropertyListener(PCM.PULL_WEATHER, 
+                        weatherKey, 
+                        zipcodeKey, 
+                        zipcode);
+                // Quote prop listeners
+                addPropertyListener(PCM.PULL_QUOTE, 
+                        quoteKey,
+                        category);
+                // News prop listeners
+                addPropertyListener(PCM.PULL_NEWS,
+                        newsKey,
+                        newsSource,
+                        newsSortBy);
                 initialized = true;
             }
             else{
@@ -97,12 +106,14 @@ public class Config {
     }
    
     
-    private static void addPropertyListener(StringProperty propertyVal, String property){
-        propertyVal.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            new Thread(() -> {
-                PCS.INST.firePropertyChange(property);
-            }).start();
-        });
+    private static void addPropertyListener(String propName, StringProperty... properties){
+        for (StringProperty property : properties){
+            property.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+                new Thread(() -> {
+                    PCS.INST.firePropertyChange(propName);
+                }).start();
+            }); 
+        }
     }
     
     private static void getConfigurations() throws IOException, ParserConfigurationException,
@@ -133,37 +144,34 @@ public class Config {
                         .item(0).getTextContent();
                 switch (modElement.getAttribute("name").toUpperCase()){
                     case Module.WEATHER:
-                        weatherKey = key;
-                        zipcodeKey = modElement.getElementsByTagName("zipcodekey")
-                                .item(0).getTextContent();
+                        weatherKey.setValue(key);
+                        zipcodeKey.setValue(modElement.getElementsByTagName("zipcodekey")
+                                .item(0).getTextContent());
                         zipcode.setValue(modElement.getElementsByTagName("zipcode")
                                 .item(0).getTextContent());
                         setModulePosition(position, weather);
-                        //apiControl(weather);
                         break;
                     case Module.TASKS:
-                        taskKey = key;
-                        taskClientID = modElement.getElementsByTagName("clientid")
-                                .item(0).getTextContent();
-                        listID = modElement.getElementsByTagName("listid")
-                                .item(0).getTextContent();
+                        taskKey.setValue(key);
+                        taskClientID.setValue(modElement.getElementsByTagName("clientid")
+                                .item(0).getTextContent());
+                        listID.setValue(modElement.getElementsByTagName("listid")
+                                .item(0).getTextContent());
                         setModulePosition(position, tasks);
-                        //apiControl(tasks);
                         break;
                     case Module.NEWS:
-                        newsKey = key;
-                        newsSource = modElement.getElementsByTagName("source")
-                                .item(0).getTextContent();
-                        newsSortBy = modElement.getElementsByTagName("sortby")
-                                .item(0).getTextContent();
+                        newsKey.setValue(key);
+                        newsSource.setValue(modElement.getElementsByTagName("source")
+                                .item(0).getTextContent());
+                        newsSortBy.setValue(modElement.getElementsByTagName("sortby")
+                                .item(0).getTextContent());
                         setModulePosition(position, news);
-                        //apiControl(news);
                         break;
                     case Module.CLOCK:
                         setModulePosition(position, clock);
                         break;
                     case Module.QUOTE:
-                        quoteKey = key;
+                        quoteKey.setValue(key);
                         category.setValue(modElement.getElementsByTagName("category")
                                 .item(0).getTextContent());
                         break;
@@ -205,36 +213,7 @@ public class Config {
                 break;
         }
     }
-    
-//    private static void apiControl(Module module){
-//        if (module.isOnMirror()){
-//            module.startAPI();
-//        }
-//        else{
-//            module.stopAPI();
-//        }
-//    }
-    
-//    public static Module getClock(){
-//        return clock;
-//    }
-//    
-//    public static Module getWeather() {
-//        return weather;
-//    }
-//
-//    public static Module getTasks() {
-//        return tasks;
-//    }
-//
-//    public static Module getNews() {
-//        return news;
-//    }
-    
-    public static void addModuleMapListener(ListChangeListener listener){
-        //moduleList.addListener(listener);
-    }
-    
+        
     public static Module getTopRightMod(){
         return topRightMod;
     }
@@ -264,15 +243,15 @@ public class Config {
     }
     
     public static String getWeatherKey(){
-        return weatherKey;
+        return weatherKey.getValue();
     }
     
     public static String getZipcodeKey(){
-        return zipcodeKey;
+        return zipcodeKey.getValue();
     }
     
     public static String getQuoteKey() {
-        return quoteKey;
+        return quoteKey.getValue();
     }
     
     public static String getQuoteCategory() {
@@ -280,26 +259,26 @@ public class Config {
     }
 
     public static String getTaskKey() {
-        return taskKey;
+        return taskKey.getValue();
     }
     
     public static String getTaskClientID(){
-        return taskClientID;
+        return taskClientID.getValue();
     }
     
     public static String getListID(){
-        return listID;
+        return listID.getValue();
     }
 
     public static String getNewsKey() {
-        return newsKey;
+        return newsKey.getValue();
     }
     
     public static String getNewsSource() {
-        return newsSource;
+        return newsSource.getValue();
     }
     
     public static String getNewsSortBy() {
-        return newsSortBy;
+        return newsSortBy.getValue();
     }
 }
