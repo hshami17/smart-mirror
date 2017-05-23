@@ -22,7 +22,6 @@ public class SmartMirror extends Application implements PropertyChangeListener {
     private MirrorViewController controller;
     
     public static void main(String[] args) {
-        System.out.println("test");
         for (String arg : args) {
             switch (arg){
                 case "-jarRun":
