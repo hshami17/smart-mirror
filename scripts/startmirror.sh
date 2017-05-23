@@ -25,7 +25,7 @@ figlet -f big 'smart  mirror'
 cd web-service
 python main.py --path ../resources/mirror_config.xml &
 cd ..
-java $sw -jar smart-mirror-1.0.jar -jarRun $fullscreen
+java $sw -jar smart-mirror.jar -jarRun $fullscreen
 
 # Kill all python and java when exiting
 ./killall.sh

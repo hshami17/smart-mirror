@@ -22,6 +22,7 @@ public class SmartMirror extends Application implements PropertyChangeListener {
     private MirrorViewController controller;
     
     public static void main(String[] args) {
+        System.out.println("test");
         for (String arg : args) {
             switch (arg){
                 case "-jarRun":
@@ -45,10 +46,10 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         Config.configureMirror();
         
         FXMLLoader loader = new FXMLLoader(SmartMirror.class.getResource("/fxml/MirrorView.fxml"));
-        Parent root = (Parent) loader.load();
+        Parent root = loader.load();
         
         // Get controller for mirror view fxml
-        controller = (MirrorViewController) loader.getController();
+        controller = loader.getController();
 
         // Watcher to watch for config file changes
         // (ONLY WHEN RUNNING FROM JAR)
