@@ -111,9 +111,4 @@ public class WunderlistController implements Initializable, ModuleControl,
         PCS.INST.firePropertyChange(PCM.STOP_TASKS_API);
         apiRunning = false;
     }
-    
-    @Override
-    public void pullAPI(){
-        PCS.INST.firePropertyChange(PCM.PULL_TASKS);
-    }
 }

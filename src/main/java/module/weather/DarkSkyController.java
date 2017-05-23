@@ -131,9 +131,4 @@ public class DarkSkyController implements Initializable, ModuleControl,
         PCS.INST.firePropertyChange(PCM.STOP_WEATHER_API);
         apiRunning = false;
     }
-    
-    @Override
-    public void pullAPI(){
-        PCS.INST.firePropertyChange(PCM.PULL_WEATHER);
-    }
 }

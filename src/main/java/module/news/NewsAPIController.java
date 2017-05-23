@@ -140,9 +140,4 @@ public class NewsAPIController implements Initializable, ModuleControl,
         PCS.INST.firePropertyChange(PCM.STOP_NEWS_API);
         apiRunning = false;
     }
-    
-    @Override
-    public void pullAPI(){
-        PCS.INST.firePropertyChange(PCM.PULL_NEWS);
-    }
 }

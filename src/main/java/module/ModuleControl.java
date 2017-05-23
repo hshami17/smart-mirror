@@ -12,8 +12,8 @@ import models.ModelManager;
  * @author hasan
  */
 public interface ModuleControl {
-    public void setModel(ModelManager modelManager);
-    public void startAPI();
-    public void stopAPI();
-    public void pullAPI();
+    void setModel(ModelManager modelManager);
+    void startAPI();
+    void stopAPI();
+    //void pullAPI();
 }

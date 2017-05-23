@@ -81,19 +81,6 @@ public class Module<T> extends Pane {
         return controller;
     }
     
-//    public void startAPI(){
-//        ((ModuleControl) controller).startAPI();
-//    }
-//    
-//    public void stopAPI(){
-//        ((ModuleControl) controller).stopAPI();
-//    }
-    
-//    
-//    public void pullAPI(){
-//        PCS.INST.firePropertyChange(pullProp);
-//    }
-    
     public String getType(){
         return type;
     }
