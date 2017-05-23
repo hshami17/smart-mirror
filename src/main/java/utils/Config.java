@@ -70,16 +70,16 @@ public class Config {
                 news = new Module("/fxml/NewsAPI.fxml", Module.NEWS);
                 getConfigurations();
                 // Weather prop listeners
-                addPropertyListener(PCM.PULL_WEATHER, 
+                addPropertyListeners(PCM.PULL_WEATHER, 
                         weatherKey, 
                         zipcodeKey, 
                         zipcode);
                 // Quote prop listeners
-                addPropertyListener(PCM.PULL_QUOTE, 
+                addPropertyListeners(PCM.PULL_QUOTE, 
                         quoteKey,
                         category);
                 // News prop listeners
-                addPropertyListener(PCM.PULL_NEWS,
+                addPropertyListeners(PCM.PULL_NEWS,
                         newsKey,
                         newsSource,
                         newsSortBy);
@@ -106,7 +106,7 @@ public class Config {
     }
    
     
-    private static void addPropertyListener(String propName, StringProperty... properties){
+    private static void addPropertyListeners(String propName, StringProperty... properties){
         for (StringProperty property : properties){
             property.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                 new Thread(() -> {

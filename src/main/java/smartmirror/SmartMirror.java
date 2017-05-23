@@ -49,7 +49,7 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         
         // Get controller for mirror view fxml
         controller = (MirrorViewController) loader.getController();
-        
+
         // Watcher to watch for config file changes
         // (ONLY WHEN RUNNING FROM JAR)
         PCS.INST.addPropertyChangeListener(PCM.NEW_CONFIG, this);
@@ -60,7 +60,7 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         
         mirrorStage.setScene(new Scene(root));
         mirrorStage.setFullScreen(Config.fullscreen);
-        mirrorStage.setOnCloseRequest(event -> {System.exit(0);});
+        mirrorStage.setOnCloseRequest(event -> System.exit(0));
         mirrorStage.show();
 
         // Get mirror settings from XML
