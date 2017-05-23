@@ -3,3 +3,4 @@
 src/main/resources/mirror_config.xml
 /.idea/workspace.xml
 /.idea/libraries/
+/target/
