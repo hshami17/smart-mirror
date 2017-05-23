@@ -18,7 +18,7 @@ cp src/main/resources/mirror_config.xml SMART-MIRROR/resources
 cp -r ./web-service ./SMART-MIRROR
 
 # Copy jar into deploy dir
-cp out/smart-mirror.jar SMART-MIRROR/
+cp dist/smart-mirror.jar SMART-MIRROR/
 
 echo 'Deploy directory created on:' >> SMART-MIRROR/info.txt &
 date >> SMART-MIRROR/info.txt
