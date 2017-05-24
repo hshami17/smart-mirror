@@ -68,6 +68,7 @@ public class Config {
                 weather = new Module("/fxml/DarkSky.fxml", Module.WEATHER);
                 tasks = new Module("/fxml/Wunderlist.fxml", Module.TASKS);
                 news = new Module("/fxml/NewsAPI.fxml", Module.NEWS);
+                // TODO: Modulize quotes
                 getConfigurations();
                 // Weather prop listeners
                 addPropertyListeners(PCM.PULL_WEATHER, 
@@ -212,6 +213,7 @@ public class Config {
                 module.setOnMirror(false);
                 break;
         }
+        module.setPosition(position);
     }
         
     public static Module getTopRightMod(){

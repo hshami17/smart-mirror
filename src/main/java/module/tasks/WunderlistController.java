@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.ModelManager;
@@ -34,6 +35,8 @@ public class WunderlistController implements Initializable, ModuleControl,
     private Label todayTitle;
     @FXML
     private Label tomorrowTitle;
+    @FXML
+    private VBox container;
     @FXML
     private VBox todayTasks;
     @FXML
@@ -94,6 +97,13 @@ public class WunderlistController implements Initializable, ModuleControl,
                 tomorrowTasks.getChildren().addAll(title, time);
             }
         });
+    }
+
+    @Override
+    public void align(boolean left){
+        container.setAlignment(left ? Pos.TOP_LEFT : Pos.TOP_RIGHT);
+        todayTasks.setAlignment(left ? Pos.TOP_LEFT : Pos.TOP_RIGHT);
+        tomorrowTasks.setAlignment(left ? Pos.TOP_LEFT : Pos.TOP_RIGHT);
     }
 
     private boolean apiRunning = false;

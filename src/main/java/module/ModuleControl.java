@@ -15,5 +15,5 @@ public interface ModuleControl {
     void setModel(ModelManager modelManager);
     void startAPI();
     void stopAPI();
-    //void pullAPI();
+    default void align(boolean left){}
 }

@@ -5,6 +5,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -27,6 +30,7 @@ public class Module<T> extends Pane {
     
     private T controller;
     private BooleanProperty onMirror = new SimpleBooleanProperty(false);
+    private StringProperty position = new SimpleStringProperty("");
     private String type;
     private double[] dimensions = new double[2];
     
@@ -55,6 +59,10 @@ public class Module<T> extends Pane {
             else{
                 ((ModuleControl) controller).stopAPI();
             }
+        });
+
+        position.addListener((observable, oldValue, newValue) -> {
+            ((ModuleControl) controller).align(newValue.contains("Left"));
         });
     }
     
@@ -100,4 +108,6 @@ public class Module<T> extends Pane {
     public void setOnMirror(boolean onMirror){
         this.onMirror.setValue(onMirror);
     }
+
+    public void setPosition(String position) {this.position.setValue(position);}
 }

@@ -8,11 +8,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="99.0" prefWidth="505.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.tasks.WunderlistController">
+<AnchorPane id="AnchorPane" prefHeight="110.0" prefWidth="276.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.tasks.WunderlistController">
    <children>
-      <Pane layoutX="-10.0" prefHeight="110.0" prefWidth="515.0" styleClass="mirror_pane">
+      <Pane layoutX="-10.0" prefHeight="110.0" prefWidth="310.0" styleClass="mirror_pane">
          <children>
-            <VBox layoutX="1.0" layoutY="24.0" prefHeight="103.0" prefWidth="326.0">
+            <VBox fx:id="container" layoutX="1.0" layoutY="24.0" prefHeight="103.0" prefWidth="303.0">
                <children>
                   <Label fx:id="todayTitle" prefHeight="43.0" prefWidth="79.0" styleClass="task-header" text="TODAY">
                      <font>
