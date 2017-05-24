@@ -67,13 +67,17 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
        switch(evt.getPropertyName()){
            case PCM.QUOTE_UPDATE:
                 Platform.runLater(() ->{
-                quoteofday.setText(quoteModel.getQuote());
-                if (!modulesHidden){
-                    FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), quoteofday);
-                    fadeIn.setFromValue(0.0);
-                    fadeIn.setToValue(1.0);
-                    fadeIn.play();
-                }
+                    if (quoteModel.getQuote().length() > 112){
+                        PCS.INST.firePropertyChange(PCM.PULL_QUOTE);
+                        return;
+                    }
+                    quoteofday.setText(quoteModel.getQuote());
+                    if (!modulesHidden){
+                        FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), quoteofday);
+                        fadeIn.setFromValue(0.0);
+                        fadeIn.setToValue(1.0);
+                        fadeIn.play();
+                    }
                 });
                break;
            case PCM.FADE_OUT_QUOTE:

@@ -51,8 +51,7 @@ public class Module<T> extends Pane {
     }
     
     private void addListener(){
-        onMirror.addListener((ObservableValue<? extends Boolean> observable, 
-                Boolean oldValue, Boolean newValue) -> {
+        onMirror.addListener((observable,  oldValue,  newValue) -> {
             if (!oldValue){
                 ((ModuleControl) controller).startAPI();
             }

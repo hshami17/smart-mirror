@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
-<?import java.net.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.effect.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="1569.0" prefWidth="739.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="smartmirror.MirrorViewController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="2000.0" prefWidth="981.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="smartmirror.MirrorViewController">
    <children>
        <!-- TOP RIGHT CONTAINER -->
       <Pane fx:id="topRight" layoutX="421.0" layoutY="102.0" prefHeight="518.0" prefWidth="326.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="102.0" />

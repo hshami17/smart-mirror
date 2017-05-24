@@ -40,7 +40,7 @@ public class SmartMirror extends Application implements PropertyChangeListener {
     }
 
     @Override
-    public void start(Stage mirrorStage) throws Exception { 
+    public void start(Stage mirrorStage) throws Exception {
         // Get mirror settings from XML
         Config.configureMirror();
         
