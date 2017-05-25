@@ -22,6 +22,7 @@ public class SmartMirror extends Application implements PropertyChangeListener {
     private MirrorViewController controller;
     
     public static void main(String[] args) {
+        System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
         for (String arg : args) {
             switch (arg){
                 case "-jarRun":

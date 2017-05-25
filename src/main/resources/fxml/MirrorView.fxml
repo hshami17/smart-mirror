@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -35,5 +36,6 @@
       <!-- BOTTOM RIGHT CONTAINER -->
       <Pane fx:id="bottomRight" layoutX="640.0" layoutY="666.0" prefHeight="518.0" prefWidth="326.0" AnchorPane.rightAnchor="22.0" />
       <TextArea fx:id="alertPrompt" editable="false" layoutX="373.0" layoutY="411.0" prefHeight="212.0" prefWidth="240.0" styleClass="alert-prompt" text="ALERT PROMPT" wrapText="true" AnchorPane.leftAnchor="373.0" AnchorPane.rightAnchor="368.0" AnchorPane.topAnchor="411.0" />
+      <Pane fx:id="spotifyPlayer" layoutX="640.0" layoutY="1177.0" prefHeight="380.0" prefWidth="300.0" AnchorPane.rightAnchor="22.0" />
    </children>
 </AnchorPane>

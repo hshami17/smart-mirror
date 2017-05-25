@@ -31,6 +31,7 @@ public class Config {
     private static Module weather;
     private static Module tasks;
     private static Module news;
+//    private static Module spotify;
     
     private static Module topRightMod;
     private static Module topLeftMod;
@@ -68,6 +69,7 @@ public class Config {
                 weather = new Module("/fxml/DarkSky.fxml", Module.WEATHER);
                 tasks = new Module("/fxml/Wunderlist.fxml", Module.TASKS);
                 news = new Module("/fxml/NewsAPI.fxml", Module.NEWS);
+//                spotify = new Module("/fxml/Spotify.fxml");
                 // TODO: Modulize quotes
                 getConfigurations();
                 // Weather prop listeners
