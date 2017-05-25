@@ -8,7 +8,7 @@ rm -rf SMART-MIRROR
 mkdir SMART-MIRROR
 
 # Copy scripts into deploy dir
-cp -a scripts/ SMART-MIRROR/
+cp -r ./scripts/ ./SMART-MIRROR/
 
 # Create resource dir for config file
 mkdir SMART-MIRROR/resources
