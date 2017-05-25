@@ -49,6 +49,10 @@ public class Module<T> extends Pane {
             Logger.getLogger(Module.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public Module(String path){
+        this(path, "");
+    }
     
     private void addListener(){
         onMirror.addListener((observable,  oldValue,  newValue) -> {

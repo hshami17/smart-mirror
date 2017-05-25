@@ -199,6 +199,9 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
             bottom.getChildren().clear();
         });
     }
+
+    @FXML
+    private Pane spotifyPlayer;
     
     public void placeModules(){
         Platform.runLater(() -> {
@@ -212,6 +215,9 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
                 bottomLeft.getChildren().setAll(Config.getBottomLeftMod());
             if (Config.getBottomMod() != null)
                 bottom.getChildren().setAll(Config.getBottomMod());
+
+            Module spotify = new Module("/fxml/Spotify.fxml");
+            bottomRight.getChildren().addAll(spotify);
         });
     }
         
