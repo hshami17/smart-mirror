@@ -14,7 +14,7 @@
          <children>
             <VBox fx:id="container" layoutX="1.0" layoutY="24.0" prefHeight="103.0" prefWidth="303.0">
                <children>
-                  <Label fx:id="todayTitle" prefHeight="43.0" prefWidth="79.0" styleClass="task-header" text="TODAY">
+                  <Label fx:id="todayTitle" styleClass="task-header" text="TODAY">
                      <font>
                         <Font size="38.0" />
                      </font>

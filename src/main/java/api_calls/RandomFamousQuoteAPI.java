@@ -37,6 +37,7 @@ public class RandomFamousQuoteAPI extends Thread implements PropertyChangeListen
         stop = false;
         while(!stop){
             try {
+                PCS.INST.firePropertyChange(PCM.FADE_OUT_QUOTE);
                 getQuote();
                 Thread.sleep(sleepTime);
             } 
@@ -48,7 +49,6 @@ public class RandomFamousQuoteAPI extends Thread implements PropertyChangeListen
     
     synchronized public void getQuote(){
         try {
-            PCS.INST.firePropertyChange(PCM.FADE_OUT_QUOTE);
             URLConnection connection = new URL("https://andruxnet-random-famous-quotes.p.mashape.com/?cat=" + Config.getQuoteCategory()).openConnection();
             connection.setDoOutput(true); // Triggers POST.
             connection.setRequestProperty("X-Mashape-Key", Config.getQuoteKey());
@@ -62,9 +62,13 @@ public class RandomFamousQuoteAPI extends Thread implements PropertyChangeListen
             JsonObject obj = rdr.readObject();
             
             quoteModel.setQuote(obj.getString("quote"), obj.getString("author"));
-            
-            PCS.INST.firePropertyChange(PCM.QUOTE_UPDATE);
-   
+
+            if (quoteModel.getQuote().length() > 112){
+                getQuote();
+            }
+            else{
+                PCS.INST.firePropertyChange(PCM.QUOTE_UPDATE);
+            }
         } catch (IOException ex) {
             PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE RANDOM FAMOUS QUOTES API");
         }
