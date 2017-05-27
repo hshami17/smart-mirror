@@ -31,6 +31,7 @@ public class Config {
     private static Module weather;
     private static Module tasks;
     private static Module news;
+    private static Module quote;
 //    private static Module spotify;
     
     private static Module topRightMod;
@@ -69,8 +70,8 @@ public class Config {
                 weather = new Module("/fxml/DarkSky.fxml", Module.WEATHER);
                 tasks = new Module("/fxml/Wunderlist.fxml", Module.TASKS);
                 news = new Module("/fxml/NewsAPI.fxml", Module.NEWS);
+                quote = new Module("/fxml/RandomFamousQuotes.fxml", Module.QUOTE);
 //                spotify = new Module("/fxml/Spotify.fxml");
-                // TODO: Modulize quotes
                 getConfigurations();
                 // Weather prop listeners
                 addPropertyListeners(PCM.PULL_WEATHER, 
@@ -177,6 +178,7 @@ public class Config {
                         quoteKey.setValue(key);
                         category.setValue(modElement.getElementsByTagName("category")
                                 .item(0).getTextContent());
+                        setModulePosition(position, quote);
                         break;
                     default:
                         System.err.println("UNKNOWN NAME ATTR: " + modElement.getAttribute("name"));

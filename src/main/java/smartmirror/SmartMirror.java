@@ -55,19 +55,12 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         // (ONLY WHEN RUNNING FROM JAR)
         PCS.INST.addPropertyChangeListener(PCM.NEW_CONFIG, this);
         new Watcher().start();
-        
-        // QUOTE NOT MODULIZED YET 
-        new RandomFamousQuoteAPI().start();
+
         
         mirrorStage.setScene(new Scene(root));
         mirrorStage.setFullScreen(Config.fullscreen);
         mirrorStage.setOnCloseRequest(event -> System.exit(0));
         mirrorStage.show();
-
-        // Get mirror settings from XML
-//        Config.configureMirror();
-        // QUOTE NOT MODULIZED YET 
-//        new RandomFamousQuoteAPI().start();
     }
     
     public void loadNewConfig(){

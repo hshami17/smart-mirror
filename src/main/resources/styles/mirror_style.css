@@ -22,6 +22,8 @@
     -fx-font: 21px "Microsoft Yi Baiti";
     -fx-text-fill: white;
     -fx-background-radius: 0;
+    -fx-highlight-fill: null;
+    -fx-highlight-text-fill: null;
 }
 
 .text-area .content{
