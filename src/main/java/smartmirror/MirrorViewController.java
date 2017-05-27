@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import models.ModelManager;
@@ -28,7 +29,7 @@ import utils.PCS;
  */
 public class MirrorViewController implements Initializable, PropertyChangeListener {
     
-    private boolean modulesHidden = false;
+    public static boolean modulesHidden = false;
     
     // Module containers
     @FXML
@@ -41,6 +42,8 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     private Pane bottomRight;
     @FXML
     private Pane bottom;
+    @FXML
+    private HBox top;
     
     @FXML
     private TextArea alertPrompt;
@@ -49,13 +52,9 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     
     private FadeTransition buttonFadeInOut;
     private Thread alertBoxThread = new Thread();
-    
-    // Quote module
-    @FXML
-    private Label quoteofday;
+
     @FXML
     private Separator separator;
-    private RandomFamousQuoteModel quoteModel; 
     
     @FXML
     private void hideShowButtonPressed(ActionEvent event){
@@ -65,25 +64,6 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
        switch(evt.getPropertyName()){
-           case PCM.QUOTE_UPDATE:
-                Platform.runLater(() ->{
-                    quoteofday.setText(quoteModel.getQuote());
-                    if (!modulesHidden){
-                        FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), quoteofday);
-                        fadeIn.setFromValue(0.0);
-                        fadeIn.setToValue(1.0);
-                        fadeIn.play();
-                    }
-                });
-               break;
-           case PCM.FADE_OUT_QUOTE:
-                Platform.runLater(() ->{
-                    FadeTransition fadeOut = new FadeTransition(Duration.millis(500), quoteofday);
-                    fadeOut.setFromValue(1.0);
-                    fadeOut.setToValue(0.0);
-                    fadeOut.play();    
-                });
-               break;
            case PCM.ALERT:
                alert((String) evt.getNewValue());
                break;
@@ -116,7 +96,8 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     
     private void hideShowAllModules(){
         Duration duration = new Duration(!modulesHidden ? 500 : 1000);
-        FadeTransition quoteFade = new FadeTransition(duration, quoteofday);
+
+        FadeTransition quoteFade = new FadeTransition(duration, top);
         quoteFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
         quoteFade.setToValue(!modulesHidden ? 0.0 : 1.0);
 
@@ -192,6 +173,7 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     
     public void clearAllContainers(){
         Platform.runLater(() -> {
+            top.getChildren().clear();
             topRight.getChildren().clear();
             topLeft.getChildren().clear();
             bottomRight.getChildren().clear();
@@ -205,6 +187,8 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     
     public void placeModules(){
         Platform.runLater(() -> {
+            if (Config.getTopMod() != null)
+                top.getChildren().addAll(Config.getTopMod());
             if (Config.getTopRightMod() != null)
                 topRight.getChildren().setAll(Config.getTopRightMod());
             if (Config.getTopLeftMod() != null)
@@ -215,7 +199,6 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
                 bottomLeft.getChildren().setAll(Config.getBottomLeftMod());
             if (Config.getBottomMod() != null)
                 bottom.getChildren().setAll(Config.getBottomMod());
-
             Module spotify = new Module("/fxml/Spotify.fxml");
             bottomRight.getChildren().addAll(spotify);
         });
@@ -229,16 +212,7 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         alertPrompt.setOpacity(0);
-//        ScrollBar scrollBarv = (ScrollBar) alertPrompt.lookup(".scroll-bar:vertical");
-//        scrollBarv.setDisable(true);
-        
-        quoteModel = ModelManager.INST.getQuoteModel();
         buttonFadeInOut = new FadeTransition(Duration.millis(1000), hideButton);
-        
-        PCS.INST.addPropertyChangeListener(PCM.QUOTE_UPDATE, this);
-        PCS.INST.addPropertyChangeListener(PCM.FADE_OUT_QUOTE, this);
-        PCS.INST.addPropertyChangeListener(PCM.ALERT, this);
-        
         placeModules();
         //configureModuleContainers();
     }
