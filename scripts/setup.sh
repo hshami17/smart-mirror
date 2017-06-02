@@ -10,4 +10,5 @@ sudo apt-get install figlet
 sudo apt-get install screen
 
 # Remove standard java
-sudo apt-get remove --purge oracle-java8-jdk openjdk-7-jre oracle-java7-jdk openjdk-8-jre
+# no.
+#sudo apt-get remove --purge oracle-java8-jdk openjdk-7-jre oracle-java7-jdk openjdk-8-jre
