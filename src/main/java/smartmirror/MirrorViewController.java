@@ -107,7 +107,12 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
         sepFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
         sepFade.setToValue(!modulesHidden ? 0.0 : 1.0);
 
+        FadeTransition webLabelFade = new FadeTransition(duration, webServiceAddr);
+        webLabelFade.setFromValue(!modulesHidden ? 0.45 : 0.0);
+        webLabelFade.setToValue(!modulesHidden ? 0.0 : 0.45);
+
         sepFade.play();
+        webLabelFade.play();
 
         for (Module module : modulesOnMirror){
             if (modulesHidden){
