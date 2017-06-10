@@ -1,6 +1,5 @@
 package smartmirror;
 
-import api_calls.RandomFamousQuoteAPI;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javafx.application.Application;
@@ -24,15 +23,18 @@ public class SmartMirror extends Application implements PropertyChangeListener {
     public static void main(String[] args) {
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
         for (String arg : args) {
-            switch (arg){
-                case "-jarRun":
-                    Config.jarRun = true;
-                    break;
-                case "-fullscreen":
-                    Config.fullscreen = true;
-                    break;
-                default:
-                    System.out.println("UNKNOWN ARG: " + arg);
+            if (arg.contains("8080")){
+                Config.webServiceAddr = arg;
+            }
+            else {
+                switch (arg) {
+                    case "-jarRun":
+                        Config.jarRun = true;
+                        break;
+                    case "-fullscreen":
+                        Config.fullscreen = true;
+                        break;
+                }
             }
         }
         System.out.println("JAR RUN: " + Config.jarRun);
@@ -63,7 +65,7 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         mirrorStage.show();
     }
     
-    public void loadNewConfig(){
+    private void loadNewConfig(){
         controller.clearAllContainers();
         Config.configureMirror();
         controller.placeModules();

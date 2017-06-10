@@ -3,6 +3,8 @@ package module;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javafx.animation.FadeTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,6 +14,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import models.ModelManager;
 
 
@@ -87,7 +90,21 @@ public class Module<T> extends Pane {
                 break;
         }
     }
-    
+
+    public void fadeOut(){
+        FadeTransition fadeTransition = new FadeTransition(new Duration(500), this);
+        fadeTransition.setFromValue(1.0);
+        fadeTransition.setToValue(0.0);
+        fadeTransition.play();
+    }
+
+    public void fadeIn(){
+        FadeTransition fadeTransition = new FadeTransition(new Duration(1000), this);
+        fadeTransition.setFromValue(0.0);
+        fadeTransition.setToValue(1.0);
+        fadeTransition.play();
+    }
+
     public T getController(){
         return controller;
     }

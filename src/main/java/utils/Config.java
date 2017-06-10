@@ -26,6 +26,7 @@ public class Config {
     
     public static boolean jarRun = false;
     public static boolean fullscreen = false;
+    public static String webServiceAddr = "";
     
     private static Module clock;
     private static Module weather;

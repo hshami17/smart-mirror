@@ -3,6 +3,8 @@ package smartmirror;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,17 +51,21 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     private TextArea alertPrompt;
     @FXML
     private Button hideButton;
+    @FXML
+    private Label webServiceAddr;
     
     private FadeTransition buttonFadeInOut;
     private Thread alertBoxThread = new Thread();
 
     @FXML
     private Separator separator;
-    
+
     @FXML
     private void hideShowButtonPressed(ActionEvent event){
         hideShowAllModules();
     }
+
+    private List<Module> modulesOnMirror = new ArrayList<>();
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -97,41 +103,20 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     private void hideShowAllModules(){
         Duration duration = new Duration(!modulesHidden ? 500 : 1000);
 
-        FadeTransition quoteFade = new FadeTransition(duration, top);
-        quoteFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
-        quoteFade.setToValue(!modulesHidden ? 0.0 : 1.0);
-
         FadeTransition sepFade = new FadeTransition(duration, separator);
         sepFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
         sepFade.setToValue(!modulesHidden ? 0.0 : 1.0);
 
-        FadeTransition topLeftFade = new FadeTransition(duration, topLeft);
-        topLeftFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
-        topLeftFade.setToValue(!modulesHidden ? 0.0 : 1.0);
-
-        FadeTransition topRightFade = new FadeTransition(duration, topRight);
-        topRightFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
-        topRightFade.setToValue(!modulesHidden ? 0.0 : 1.0);
-
-        FadeTransition bottomLeftFade = new FadeTransition(duration, bottomLeft);
-        bottomLeftFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
-        bottomLeftFade.setToValue(!modulesHidden ? 0.0 : 1.0);
-        
-        FadeTransition bottomRightFade = new FadeTransition(duration, bottomRight);
-        bottomRightFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
-        bottomRightFade.setToValue(!modulesHidden ? 0.0 : 1.0);
-
-        FadeTransition bottomFade = new FadeTransition(duration, bottom);
-        bottomFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
-        bottomFade.setToValue(!modulesHidden ? 0.0 : 1.0);
-
-        quoteFade.play();
         sepFade.play();
-        topLeftFade.play();
-        topRightFade.play();
-        bottomLeftFade.play();
-        bottomRightFade.play();
-        bottomFade.play();
+
+        for (Module module : modulesOnMirror){
+            if (modulesHidden){
+                module.fadeIn();
+            }
+            else{
+                module.fadeOut();
+            }
+        }
 
         buttonFadeInOut.setFromValue(1.0);
         buttonFadeInOut.setToValue(0.1);
@@ -171,7 +156,7 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
         // Bottom Left
     }
     
-    public void clearAllContainers(){
+    void clearAllContainers(){
         Platform.runLater(() -> {
             top.getChildren().clear();
             topRight.getChildren().clear();
@@ -179,28 +164,43 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
             bottomRight.getChildren().clear();
             bottomLeft.getChildren().clear();
             bottom.getChildren().clear();
+            modulesOnMirror.clear();
         });
     }
 
     @FXML
     private Pane spotifyPlayer;
     
-    public void placeModules(){
+    void placeModules(){
         Platform.runLater(() -> {
-            if (Config.getTopMod() != null)
+            if (Config.getTopMod() != null){
                 top.getChildren().addAll(Config.getTopMod());
-            if (Config.getTopRightMod() != null)
+                modulesOnMirror.add(Config.getTopMod());
+            }
+            if (Config.getTopRightMod() != null) {
                 topRight.getChildren().setAll(Config.getTopRightMod());
-            if (Config.getTopLeftMod() != null)
-                topLeft.getChildren().setAll(Config.getTopLeftMod()); 
-            if (Config.getBottomRightMod() != null)
+                modulesOnMirror.add(Config.getTopRightMod());
+            }
+            if (Config.getTopLeftMod() != null) {
+                topLeft.getChildren().setAll(Config.getTopLeftMod());
+                modulesOnMirror.add(Config.getTopLeftMod());
+            }
+            if (Config.getBottomRightMod() != null) {
                 bottomRight.getChildren().setAll(Config.getBottomRightMod());
-            if (Config.getBottomLeftMod() != null)
+                modulesOnMirror.add(Config.getBottomRightMod());
+            }
+            if (Config.getBottomLeftMod() != null) {
                 bottomLeft.getChildren().setAll(Config.getBottomLeftMod());
-            if (Config.getBottomMod() != null)
+                modulesOnMirror.add(Config.getBottomLeftMod());
+            }
+            if (Config.getBottomMod() != null) {
                 bottom.getChildren().setAll(Config.getBottomMod());
-            Module spotify = new Module("/fxml/Spotify.fxml");
-            bottomRight.getChildren().addAll(spotify);
+                modulesOnMirror.add(Config.getBottomMod());
+            }
+            // TEMPORARY
+//            Module spotify = new Module("/fxml/Spotify.fxml");
+//            bottomRight.getChildren().addAll(spotify);
+//            modulesOnMirror.add(spotify);
         });
     }
         
@@ -214,6 +214,8 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
         alertPrompt.setOpacity(0);
         buttonFadeInOut = new FadeTransition(Duration.millis(1000), hideButton);
         placeModules();
+        PCS.INST.addPropertyChangeListener(PCM.ALERT, this);
+        webServiceAddr.setText(Config.webServiceAddr);
         //configureModuleContainers();
     }
 }
