@@ -23,7 +23,7 @@ figlet -f big 'smart  mirror'
 
 # Print webserver address
 address=$(ifconfig wlan0 | awk '/inet addr/{print substr($2, 6)}'):8080
-echo 'Web service running on $address'
+echo Web service running on $address
 
 # Start web server and javafx
 cd web-service
