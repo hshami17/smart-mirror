@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Kill any running python or java procs
-./killall.sh
+./kill-mirror
 
 # Get arguments
 for var in "$@"
@@ -21,6 +21,10 @@ done
 # Application banner
 figlet -f big 'smart  mirror'
 
+# Print webserver address
+address=$(ifconfig wlan0 | awk '/inet addr/{print substr($2, 6)}'):8080
+echo 'Web service running on $address'
+
 # Start web server and javafx
 cd web-service
 python main.py --path ../resources/mirror_config.xml &
@@ -28,4 +32,4 @@ cd ..
 java $sw -jar smart-mirror.jar -jarRun $fullscreen
 
 # Kill all python and java when exiting
-./killall.sh
+./kill-mirror
