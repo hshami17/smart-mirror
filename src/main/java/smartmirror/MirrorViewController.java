@@ -220,7 +220,11 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
         buttonFadeInOut = new FadeTransition(Duration.millis(1000), hideButton);
         placeModules();
         PCS.INST.addPropertyChangeListener(PCM.ALERT, this);
-        webServiceAddr.setText(Config.webServiceAddr);
+        String webAddress = System.getenv("WEBADDRESS");
+        if (webAddress == null || webAddress.isEmpty()){
+            webAddress = "Not Found";
+        }
+        webServiceAddr.setText(webAddress);
         //configureModuleContainers();
     }
 }

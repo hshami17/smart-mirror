@@ -23,18 +23,16 @@ public class SmartMirror extends Application implements PropertyChangeListener {
     public static void main(String[] args) {
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
         for (String arg : args) {
-            if (arg.contains("8080")){
-                Config.webServiceAddr = arg;
-            }
-            else {
-                switch (arg) {
-                    case "-jarRun":
-                        Config.jarRun = true;
-                        break;
-                    case "-fullscreen":
-                        Config.fullscreen = true;
-                        break;
-                }
+            switch (arg) {
+                case "-jarRun":
+                    Config.jarRun = true;
+                    break;
+                case "-fullscreen":
+                    Config.fullscreen = true;
+                    break;
+                default:
+                    System.out.println("UNKNOWN ARG: " + arg);
+                    break;
             }
         }
         System.out.println("JAR RUN: " + Config.jarRun);

@@ -24,21 +24,21 @@ figlet -f big 'smart  mirror'
 # Get and print web service address
 case $OSTYPE in
     linux*) # Linux
-        address=$(ifconfig wlan0 | awk '/inet addr/{print substr($2, 6)}'):8080
+        export WEBADDRESS=$(ifconfig wlan0 | awk '/inet addr/{print substr($2, 6)}'):8080
         ;;
     darwin*) # MacOS
-        address=$(ifconfig en0 | awk '/inet /{print substr($2, 1)}'):8080
+        export WEBADDRESS=$(ifconfig en0 | awk '/inet /{print substr($2, 1)}'):8080
         ;;
     *)
 esac
 
-echo Web service running on $address
+echo Web service running on $WEBADDRESS
 
 # Start web server and javafx
 cd web-service
 python main.py --path ../resources/mirror_config.xml &
 cd ..
-java $sw -jar smart-mirror.jar -jarRun $fullscreen $address
+java $sw -jar smart-mirror.jar -jarRun $fullscreen
 
 # Kill all python and java when exiting
 ./kill-mirror
