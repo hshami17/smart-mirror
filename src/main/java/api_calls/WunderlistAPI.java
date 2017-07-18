@@ -101,6 +101,8 @@ public class WunderlistAPI extends Thread implements PropertyChangeListener{
             
         } catch (IOException ex) {
             PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE WUNDERLIST API");
+//            System.out.println("EXCEPTION IN TASKS API");
+//            System.out.println(ex.getMessage());
         }
     }
 

@@ -3,21 +3,6 @@
 # Kill any running python or java procs
 ./kill-mirror
 
-# Get arguments
-for var in "$@"
-do
-	case $var in
-		"-sw")
-			sw="-Dprism.order=sw"
-			echo "USING SOFTWARE RENDERING"
-			;;
-		"-fullscreen")
-			fullscreen=$var
-			;;
-		*)
-	esac
-done
-
 # Application banner
 figlet -f big 'smart  mirror'
 
@@ -34,11 +19,27 @@ esac
 
 echo Web service running on $WEBADDRESS
 
-# Start web server and javafx
+# Get arguments
+for var in "$@"
+do
+	case $var in
+		"-sw")
+			sw="-Dprism.order=sw"
+			echo "Using Software Rendering"
+			;;
+		"-fullscreen")
+			fullscreen=$var
+			echo "Launching Fullscreen"
+			;;
+		*)
+	esac
+done
+
+# Start web service and mirror application
 cd web-service
 python main.py --path ../resources/mirror_config.xml &
 cd ..
-java $sw -jar smart-mirror.jar -jarRun $fullscreen
+java $sw -jar smart-mirror.jar -jarRun $fullscreen > log.txt
 
 # Kill all python and java when exiting
 ./kill-mirror

@@ -25,7 +25,7 @@ public class NewsAPI extends Thread implements PropertyChangeListener {
     
     private final NewsAPIModel newsModel;
     private boolean stop = true;
-    private final long sleepTime = 20000;
+    private final long sleepTime = 60000;
     
     public NewsAPI(){
         this.newsModel = ModelManager.INST.getNewsModel();

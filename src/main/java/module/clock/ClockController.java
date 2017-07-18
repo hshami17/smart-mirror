@@ -19,13 +19,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import models.ModelManager;
+import module.ModuleControl;
 
 /**
  * FXML Controller class
  *
  * @author hasan
  */
-public class ClockController implements Initializable {
+public class ClockController implements Initializable, ModuleControl {
     
     @FXML
     private StackPane analogClock;
@@ -34,6 +36,10 @@ public class ClockController implements Initializable {
     @FXML
     private Label date;
 
+    private RotateTransition secondsTransition;
+    private RotateTransition minuteTransition;
+    private RotateTransition hourTransition;
+
     /**
      * Initializes the controller class.
      * @param url
@@ -41,7 +47,7 @@ public class ClockController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        buildAnalogClock();
+//        buildAnalogClock();
         
         // Digital time and date 
         Timeline dateTime = new Timeline(
@@ -101,17 +107,17 @@ public class ClockController implements Initializable {
         centerPoint.setFitHeight(300);
         centerPoint.setFitWidth(300);
 
-        RotateTransition secondsHandTransition = createRotateTransition(Duration.seconds(60), 
+        secondsTransition = createRotateTransition(Duration.seconds(60),
                 secondsHand, getSecondAngle(LocalTime.now()));
-        secondsHandTransition.play();
+        secondsTransition.play();
 
-        RotateTransition minuteTransition = createRotateTransition(Duration.minutes(60), minuteHand, 
+        minuteTransition = createRotateTransition(Duration.minutes(60), minuteHand,
                 getMinuteAngle(LocalTime.now()));
         minuteTransition.play();
 
-        RotateTransition hourTranslation = createRotateTransition(Duration.hours(12), hourHand, 
+        hourTransition = createRotateTransition(Duration.hours(12), hourHand,
                 getHourAngle(LocalTime.now()));
-        hourTranslation.play();
+        hourTransition.play();
 
         analogClock.getChildren().addAll(
                 clockDial, 
@@ -153,5 +159,21 @@ public class ClockController implements Initializable {
     */
     private double getSecondAngle(LocalTime time) {
         return time.getSecond() * 360 / 60;
+    }
+
+    @Override
+    public void setModel(ModelManager modelManager) {}
+
+    @Override
+    public void startAPI() {
+        buildAnalogClock();
+    }
+
+    @Override
+    public void stopAPI() {
+        analogClock.getChildren().clear();
+        secondsTransition.stop();
+        minuteTransition.stop();
+        hourTransition.stop();
     }
 }

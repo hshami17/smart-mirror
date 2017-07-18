@@ -222,7 +222,7 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
         PCS.INST.addPropertyChangeListener(PCM.ALERT, this);
         String webAddress = System.getenv("WEBADDRESS");
         if (webAddress == null || webAddress.isEmpty()){
-            webAddress = "Not Found";
+            webAddress = "Web service address not found";
         }
         webServiceAddr.setText(webAddress);
         //configureModuleContainers();
