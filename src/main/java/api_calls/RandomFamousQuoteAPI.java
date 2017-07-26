@@ -12,6 +12,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import models.ModelManager;
+import smartmirror.MirrorViewController;
 import utils.Config;
 import utils.PCM;
 import utils.PCS;
@@ -70,7 +71,11 @@ public class RandomFamousQuoteAPI extends Thread implements PropertyChangeListen
                 PCS.INST.firePropertyChange(PCM.QUOTE_UPDATE);
             }
         } catch (IOException ex) {
-            PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE RANDOM FAMOUS QUOTES API");
+            try {
+                MirrorViewController.alerts.put("THERE WAS AN ISSUE PULLING FROM THE RANDOM FAMOUS QUOTES API");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
