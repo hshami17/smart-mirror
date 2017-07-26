@@ -11,8 +11,11 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+
+import com.sun.jdi.Mirror;
 import models.ModelManager;
 import models.NewsAPIModel;
+import smartmirror.MirrorViewController;
 import utils.Config;
 import utils.PCM;
 import utils.PCS;
@@ -67,7 +70,11 @@ public class NewsAPI extends Thread implements PropertyChangeListener {
             PCS.INST.firePropertyChange(PCM.NEWS_UPDATE);
             
         } catch (IOException ex){
-            PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE NEWS API");
+            try {
+                MirrorViewController.alerts.put("THERE WAS AN ISSUE PULLING FROM THE NEWS API");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }  
 

@@ -16,6 +16,7 @@ import models.datatypes.Task;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import smartmirror.MirrorViewController;
 import utils.Config;
 import utils.PCM;
 import utils.PCS;
@@ -100,9 +101,11 @@ public class WunderlistAPI extends Thread implements PropertyChangeListener{
             PCS.INST.firePropertyChange(PCM.TASK_UPDATE);
             
         } catch (IOException ex) {
-            PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE WUNDERLIST API");
-//            System.out.println("EXCEPTION IN TASKS API");
-//            System.out.println(ex.getMessage());
+            try {
+                MirrorViewController.alerts.put("THERE WAS AN ISSUE PULLING FROM THE WUNDERLIST API");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

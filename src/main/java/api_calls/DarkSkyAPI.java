@@ -11,6 +11,7 @@ import models.DarkSkyModel;
 import javax.json.*;
 import models.ModelManager;
 import models.datatypes.Forecast;
+import smartmirror.MirrorViewController;
 import utils.Config;
 import utils.PCM;
 import utils.PCS;
@@ -120,7 +121,11 @@ public class DarkSkyAPI extends Thread implements PropertyChangeListener {
             PCS.INST.firePropertyChange(PCM.WEATHER_UPDATE);
         } 
         catch (IOException ex) {
-            PCS.INST.firePropertyChange(PCM.ALERT, "THERE WAS AN ISSUE PULLING FROM THE DARK SKY API");
+            try {
+                MirrorViewController.alerts.put("THERE WAS AN ISSUE PULLING FROM THE DARK SKY API");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

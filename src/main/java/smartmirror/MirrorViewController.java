@@ -6,6 +6,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
@@ -29,9 +31,11 @@ import utils.PCS;
  *
  * @author hasan
  */
-public class MirrorViewController implements Initializable, PropertyChangeListener {
+public class MirrorViewController implements Initializable {
     
     public static boolean modulesHidden = false;
+    public static BlockingQueue<String> alerts = new ArrayBlockingQueue<>(20);
+    private List<Module> modulesOnMirror = new ArrayList<>();
     
     // Module containers
     @FXML
@@ -55,7 +59,6 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     private Label webServiceAddr;
     
     private FadeTransition buttonFadeInOut;
-    private Thread alertBoxThread = new Thread();
 
     @FXML
     private Separator separator;
@@ -64,23 +67,15 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     private void hideShowButtonPressed(ActionEvent event){
         hideShowAllModules();
     }
-
-    private List<Module> modulesOnMirror = new ArrayList<>();
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-       switch(evt.getPropertyName()){
-           case PCM.ALERT:
-               alert((String) evt.getNewValue());
-               break;
-       }
-    }
     
-    private void alert(String message){
-        alertPrompt.setText(message);
-        if (!alertBoxThread.isAlive()){
-            alertBoxThread = new Thread(() -> {
-                try {
+    private void alertProcessing(){
+        new Thread(() -> {
+            while (true) {
+                try{
+                    String message = alerts.take();
+
+                    alertPrompt.setText(message);
+
                     FadeTransition promptFade = new FadeTransition(new Duration(500), alertPrompt);
                     promptFade.setFromValue(alertPrompt.getOpacity() == 1.0 ? 1.0 : 0.0);
                     promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
@@ -91,13 +86,12 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
                     promptFade.setFromValue(alertPrompt.getOpacity() == 1.0 ? 1.0 : 0.0);
                     promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
                     promptFade.play();
-                } 
-                catch (InterruptedException ex) {
+                }
+                catch(InterruptedException ex){
                     Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            });
-            alertBoxThread.start();
-        }
+        }).start();
     }
     
     private void hideShowAllModules(){
@@ -217,9 +211,9 @@ public class MirrorViewController implements Initializable, PropertyChangeListen
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         alertPrompt.setOpacity(0);
+        alertProcessing();
         buttonFadeInOut = new FadeTransition(Duration.millis(1000), hideButton);
         placeModules();
-        PCS.INST.addPropertyChangeListener(PCM.ALERT, this);
         String webAddress = System.getenv("WEBADDRESS");
         if (webAddress == null || webAddress.isEmpty()){
             webAddress = "Web service address not found";
