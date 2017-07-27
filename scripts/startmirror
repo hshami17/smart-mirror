@@ -31,6 +31,9 @@ do
 			fullscreen=$var
 			echo "Launching Fullscreen"
 			;;
+        "-console")
+            console=true
+            ;;
 		*)
 	esac
 done
@@ -39,7 +42,10 @@ done
 cd web-service
 python main.py --path ../resources/mirror_config.xml &
 cd ..
-java $sw -jar smart-mirror.jar -jarRun $fullscreen > log.txt
+if [ "$console" = true ]; then
+    java $sw -jar smart-mirror.jar -jarRun $fullscreen &
+else
+    echo "Debug messages in log.txt"
+    java $sw -jar smart-mirror.jar -jarRun $fullscreen > log.txt &
+fi
 
-# Kill all python and java when exiting
-./kill-mirror
