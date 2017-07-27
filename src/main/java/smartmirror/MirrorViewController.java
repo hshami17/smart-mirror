@@ -34,7 +34,7 @@ import utils.PCS;
 public class MirrorViewController implements Initializable {
     
     public static boolean modulesHidden = false;
-    public static BlockingQueue<String> alerts = new ArrayBlockingQueue<>(20);
+    public static BlockingQueue<String> alerts = new ArrayBlockingQueue<>(5);
     private List<Module> modulesOnMirror = new ArrayList<>();
     
     // Module containers
@@ -86,6 +86,8 @@ public class MirrorViewController implements Initializable {
                     promptFade.setFromValue(alertPrompt.getOpacity() == 1.0 ? 1.0 : 0.0);
                     promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
                     promptFade.play();
+
+                    while(alertPrompt.getOpacity() != 0){/*wait*/}
                 }
                 catch(InterruptedException ex){
                     Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
