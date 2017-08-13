@@ -136,7 +136,7 @@ public class NewsAPIController implements Initializable, ModuleControl,
     private boolean apiRunning = false;
     
     @Override
-    public void startAPI() {
+    public void startModule() {
         if (!apiRunning){
             new NewsAPI().start();
             apiRunning = true;
@@ -144,7 +144,7 @@ public class NewsAPIController implements Initializable, ModuleControl,
     }
 
     @Override
-    public void stopAPI() {
+    public void stopModule() {
         PCS.INST.firePropertyChange(PCM.STOP_NEWS_API);
         apiRunning = false;
     }

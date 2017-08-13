@@ -109,7 +109,7 @@ public class WunderlistController implements Initializable, ModuleControl,
     private boolean apiRunning = false;
     
     @Override
-    public void startAPI() {
+    public void startModule() {
         if (!apiRunning){
             new WunderlistAPI().start();
             apiRunning = true;
@@ -117,7 +117,7 @@ public class WunderlistController implements Initializable, ModuleControl,
     }
 
     @Override
-    public void stopAPI() {
+    public void stopModule() {
         PCS.INST.firePropertyChange(PCM.STOP_TASKS_API);
         apiRunning = false;
     }

@@ -56,11 +56,11 @@ public class Module<T> extends Pane {
     
     private void addListener(){
         onMirror.addListener((observable,  oldValue,  newValue) -> {
-            if (!oldValue){
-                ((ModuleControl) controller).startAPI();
+            if (newValue){
+                ((ModuleControl) controller).startModule();
             }
             else{
-                ((ModuleControl) controller).stopAPI();
+                ((ModuleControl) controller).stopModule();
             }
         });
 

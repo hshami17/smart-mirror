@@ -13,7 +13,7 @@ import models.ModelManager;
  */
 public interface ModuleControl {
     void setModel(ModelManager modelManager);
-    void startAPI();
-    void stopAPI();
+    void startModule();
+    void stopModule();
     default void align(boolean left){}
 }

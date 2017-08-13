@@ -46,7 +46,7 @@ public class RandomFamousQuotesController implements Initializable, ModuleContro
     private boolean apiRunning = false;
 
     @Override
-    public void startAPI() {
+    public void startModule() {
         if (!apiRunning){
             quote.setText("");
             new RandomFamousQuoteAPI().start();
@@ -55,7 +55,7 @@ public class RandomFamousQuotesController implements Initializable, ModuleContro
     }
 
     @Override
-    public void stopAPI() {
+    public void stopModule() {
         PCS.INST.firePropertyChange(PCM.STOP_QUOTE_API);
         apiRunning = false;
     }

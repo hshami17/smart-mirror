@@ -119,7 +119,7 @@ public class DarkSkyController implements Initializable, ModuleControl,
     private boolean apiRunning = false;
 
     @Override
-    public void startAPI() {
+    public void startModule() {
         if (!apiRunning){
             new DarkSkyAPI().start();
             apiRunning = true;
@@ -127,7 +127,7 @@ public class DarkSkyController implements Initializable, ModuleControl,
     }
 
     @Override
-    public void stopAPI() {
+    public void stopModule() {
         PCS.INST.firePropertyChange(PCM.STOP_WEATHER_API);
         apiRunning = false;
     }

@@ -165,12 +165,12 @@ public class ClockController implements Initializable, ModuleControl {
     public void setModel(ModelManager modelManager) {}
 
     @Override
-    public void startAPI() {
+    public void startModule() {
         buildAnalogClock();
     }
 
     @Override
-    public void stopAPI() {
+    public void stopModule() {
         analogClock.getChildren().clear();
         secondsTransition.stop();
         minuteTransition.stop();
