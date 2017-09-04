@@ -35,6 +35,8 @@ public class ClockController implements Initializable, ModuleControl {
     private Label digitalTime;
     @FXML
     private Label date;
+    @FXML
+    private Label bday;
 
     private RotateTransition secondsTransition;
     private RotateTransition minuteTransition;
@@ -47,8 +49,6 @@ public class ClockController implements Initializable, ModuleControl {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        buildAnalogClock();
-        
         // Digital time and date 
         Timeline dateTime = new Timeline(
             new KeyFrame(Duration.seconds(0), (ActionEvent actionEvent) -> {
@@ -78,12 +78,23 @@ public class ClockController implements Initializable, ModuleControl {
                         time.get(Calendar.MINUTE) : time.get(Calendar.MINUTE))  + " ";
                 String amPm   = time.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
                 digitalTime.setText(hour + ":" + minute + amPm);
+                if (birthday(month, dayNum)){
+                    bday.setVisible(true);
+                    bday.setText("Happy Birthday!");
+                }
+                else{
+                    bday.setVisible(false);
+                }
             }),
             new KeyFrame(Duration.seconds(1))
         );
         dateTime.setCycleCount(Animation.INDEFINITE);
         dateTime.play();
-    }    
+    }
+
+    private boolean birthday(String month, String day) {
+        return month.equals("Sep") && day.equals("13th");
+    }
     
     private void buildAnalogClock(){
         

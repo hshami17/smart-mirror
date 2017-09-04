@@ -80,14 +80,14 @@ public class NewsAPIController implements Initializable, ModuleControl,
                 
                 // Set new scroll state if at top or bottom
                 if (scrollAmount >=  1.0){
-                    System.out.println("--- AT BOTTOM, WILL SCROLL UP --- ");
-                    System.out.println("Scroll amount: " + scrollAmount);
+//                    System.out.println("--- AT BOTTOM, WILL SCROLL UP --- ");
+//                    System.out.println("Scroll amount: " + scrollAmount);
                     scrollDown = false;
                     pauseScroll();
                 }
                 else if (scrollAmount <= 0.0){
-                    System.out.println("--- AT TOP, WILL SCROLL DOWN ---");
-                    System.out.println("Scroll amount: " + scrollAmount);
+//                    System.out.println("--- AT TOP, WILL SCROLL DOWN ---");
+//                    System.out.println("Scroll amount: " + scrollAmount);
                     scrollDown = true;
                     pauseScroll();
                 }
@@ -101,16 +101,16 @@ public class NewsAPIController implements Initializable, ModuleControl,
     
     
     private void pauseScroll(){
-        System.out.println("IN PAUSE SCROLL");
+//        System.out.println("IN PAUSE SCROLL");
         new Thread(() -> {
             try {
-                System.out.println("Pausing scroll...");
+//                System.out.println("Pausing scroll...");
                 autoScroll.pause();
                 Thread.sleep(5000);
-                System.out.println("Playing scroll now...");
+//                System.out.println("Playing scroll now...");
                 autoScroll.play();
             } catch (InterruptedException ex) {
-                System.out.println("INTERRUPTED EXCEPTION CAUGHT IN NEWS");
+//                System.out.println("INTERRUPTED EXCEPTION CAUGHT IN NEWS");
                 System.out.println(ex.getMessage() + "\n");
             }
         }).start();
