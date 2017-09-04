@@ -1,4 +1,4 @@
 #!/bin/bash
 
-pkill python
-pkill java
+pkill -f 'python main.py'
+pkill -f 'smart-mirror.jar'

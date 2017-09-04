@@ -43,6 +43,7 @@ cd web-service
 python main.py --path ../resources/mirror_config.xml &
 cd ..
 if [ "$console" = true ]; then
+    echo "Debug messages in console"
     java $sw -jar smart-mirror.jar -jarRun $fullscreen &
 else
     echo "Debug messages in log.txt"
