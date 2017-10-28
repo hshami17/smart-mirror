@@ -23,4 +23,4 @@ cp dist/smart-mirror.jar SMART-MIRROR/
 echo 'Deploy directory created on:' >> SMART-MIRROR/info.txt &
 date >> SMART-MIRROR/info.txt
 
-echo "Success!"
+tar cvmf smartmirror.tar.gz SMART-MIRROR/

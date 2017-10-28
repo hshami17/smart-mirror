@@ -9,10 +9,10 @@ figlet -f big 'smart  mirror'
 # Get and print web service address
 case $OSTYPE in
     linux*) # Linux
-        export WEBADDRESS=$(ifconfig wlan0 | awk '/inet addr/{print substr($2, 6)}'):8080
+        export WEBADDRESS=$(/sbin/ifconfig wlan0 | awk '/inet addr/{print substr($2, 6)}'):8080
         ;;
     darwin*) # MacOS
-        export WEBADDRESS=$(ifconfig en0 | awk '/inet /{print substr($2, 1)}'):8080
+        export WEBADDRESS=$(/sbin/ifconfig en0 | awk '/inet /{print substr($2, 1)}'):8080
         ;;
     *)
 esac
@@ -44,9 +44,9 @@ python main.py --path ../resources/mirror_config.xml &
 cd ..
 if [ "$console" = true ]; then
     echo "Debug messages in console"
-    java $sw -jar smart-mirror.jar -jarRun $fullscreen &
+    java $sw -jar smart-mirror.jar -jarRun $fullscreen
 else
     echo "Debug messages in log.txt"
-    java $sw -jar smart-mirror.jar -jarRun $fullscreen > log.txt &
+    java $sw -jar smart-mirror.jar -jarRun $fullscreen > log.txt
 fi
 
