@@ -11,7 +11,9 @@ html, body {
   height: 100%;
   font-family: 'Work Sans', sans-serif;
   color: #535252;
-  margin: 0 auto; }
+  margin: 0 auto;
+  font-size: 12px;
+  text-transform: uppercase; }
 
 body {
   padding-top: 70px; }
@@ -27,6 +29,9 @@ h2 {
   @media screen and (max-width: 991px) {
     h2 {
       font-size: 45px; } }
+
+h3 {
+  display: none; }
 
 a {
   text-decoration: none;
@@ -45,6 +50,47 @@ hr {
   display: block;
   margin-left: auto;
   margin-right: auto; }
+
+button {
+  background-color: #d9d9d9;
+  border: 1px solid #777777;
+  color: #777777;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase; }
+
+input[type=text] {
+  width: 90%;
+  padding: 5px 5px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 1px solid #777777;
+  outline: none; }
+
+input[type=text]:focus {
+  background-color: lightblue; }
+
+.select-style {
+  border: 1px solid #ccc;
+  width: 120px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fafafa url("img/icon-select.png") no-repeat 90% 50%; }
+
+.select-style select {
+  padding: 5px 8px;
+  width: 130%;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none; }
+
+.select-style select:focus {
+  outline: none; }
 
 /*
 * Mirror Display
@@ -95,6 +141,48 @@ hr {
 
 .remove-button-bottom {
   float: right; }
+
+/*
+* Mirror Modules
+*/
+/* Force scrollbars onto browser window */
+/* Box styles */
+.module-box {
+  border: none;
+  padding: 5px;
+  width: 300px;
+  height: 1200px;
+  overflow: scroll;
+  float: left; }
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px; }
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 10px; }
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #ccc; }
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999; }
+
+.module {
+  width: 250px;
+  height: 330px;
+  margin-bottom: 20px; }
+  .module form {
+    padding: 40px; }
+
+.close-module {
+  float: right;
+  font-size: 18px;
+  margin-top: -30px;
+  margin-right: -30px; }
 
 * {
   margin: 0; }

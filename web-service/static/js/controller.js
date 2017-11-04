@@ -1,5 +1,5 @@
-var SmartMirror = angular.module('SmartMirror', []);
 
+var SmartMirror = angular.module('SmartMirror', []);
 
 SmartMirror.controller('Home', function($scope){
     var socket = io.connect('http://' + document.domain + ':' + location.port + '/');
@@ -30,8 +30,10 @@ SmartMirror.controller('Home', function($scope){
                 $scope.forms.newsFormData.name = value.name;
                 $scope.forms.newsFormData.position = value.position;
                 $scope.forms.newsFormData.key = value.key;
+                console.log(value.source);
                 $scope.forms.newsFormData.source = value.source;
                 $scope.forms.newsFormData.sortby = value.sortby;
+                console.log($scope.forms.newsFormData);
                 $scope.$apply();
             } else if (value.name == "tasks") {
                 $scope.forms.tasksFormData.name = value.name;
@@ -130,6 +132,19 @@ SmartMirror.controller('Home', function($scope){
             }
         }
     }
+
+    function getNewsSources(){
+        var newsSourcesAPI = "https://newsapi.org/v1/sources?language=en";
+        $.getJSON(newsSourcesAPI).done(function(data) {
+                $.each(data.sources, function(i, field){
+                    //console.log(field.name);
+                    var option = document.createElement("option");
+                    option.value= field.id;
+                    option.innerHTML = field.name;
+                    $('#news-sources').append(option);
+                });
+        });
+    };
 
     $scope.removeFromMirrorView = function($event){
         var btn = $event.currentTarget;

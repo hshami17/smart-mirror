@@ -17,6 +17,8 @@ html, body {
     font-family: 'Work Sans', sans-serif;
     color: $black;
     margin:0 auto;
+    font-size: 12px;
+    text-transform: uppercase;
 } 
 
 body {
@@ -37,6 +39,10 @@ h2 {
         font-size: 45px;
     }
 
+}
+
+h3 {
+    display: none;
 }
 
 a {
@@ -60,5 +66,52 @@ hr {
     display: block; 
     margin-left: auto; 
     margin-right: auto;
+}
+
+button {
+    background-color: rgb(217, 217, 217);
+    border: 1px solid #777777;
+    color: #777777;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+input[type=text] {
+    width: 90%;
+    padding: 5px 5px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #777777;
+    outline: none;
+}
+
+input[type=text]:focus {
+    background-color: lightblue;
+}
+
+.select-style {
+    border: 1px solid #ccc;
+    width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fafafa url("img/icon-select.png") no-repeat 90% 50%;
+}
+
+.select-style select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.select-style select:focus {
+    outline: none;
 }
 

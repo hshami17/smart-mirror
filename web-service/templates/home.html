@@ -1,26 +1,26 @@
 <html ng-app="SmartMirror">
     <head>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.4/socket.io.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
-        <script type="text/javascript" src="static/js/controller.js"></script>
         <link rel="stylesheet" href="static/stylesheets/main.css" type="text/css">
     </head>
 
     <body>
         <div ng-controller="Home" class="content">
-            <div style="float: left; width: 300px;">
+            <div class="module-box">
                 <h1 id="status"></h1>
                 <h3>Weather</h3>
-                <div id="weather-module" style="width: 250px; height: 330px;">
+                <div class="module" id="weather-module">
                     <div class="front" onclick="editModule('weather-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/weather.png" width="250px" height="300px">
                     </div>
                     <div class="back" style="background-color: #d9d9d9">
                         <form name="Weather" id="weather">
+                            <a href=""><span class="close-module" onclick="closeModule('weather-module')">X</span></a>
                             <input type="hidden" ng-model="forms.weatherFormData.name">
                             Position:<br>
+                            <div class="select-style">
                             <select ng-model="forms.weatherFormData.position" form="weather" id="weather-position">
                                 <option value="-">-</option>
                                 <option value="topLeft">Top Left</option>
@@ -28,6 +28,7 @@
                                 <option value="bottomLeft">Bottom Left</option>
                                 <option value="bottomRight">Bottom Right</option>
                             </select>
+                            </div>
                             <br>
                             Key:<br>
                             <input ng-model="forms.weatherFormData.key" type="text">
@@ -41,28 +42,35 @@
                             <button ng-click="addModule(forms.weatherFormData)">Add/Update</button>
                             <button ng-click="removeModule(forms.weatherFormData.name)">Remove</button>
                         </form>
-                        <button style="float:right" onclick="closeModule('weather-module')">Close</button>
                     </div>
                 </div>
                 <h3>News</h3>
-                <div id="news-module" style="width: 250px; height: 330px;">
+                <div class="module" id="news-module">
                     <div class="front" onclick="editModule('news-module')" style="background-image: url(/static/images/mirror-bg.jpg)" >
                         <img src="/static/images/news.png" width="250px" height="300px">
                     </div>
                     <div class="back" style="background-color: #d9d9d9">
                         <form name="News" id="news">
+                            <a href=""><span class="close-module" onclick="closeModule('news-module')">X</span></a>
                             <input type="hidden" ng-model="forms.newsFormData.name">
                             Position:<br>
+                            <div class="select-style">
                             <select ng-model="forms.newsFormData.position" form="news">
                                 <option value="-">-</option>
                                 <option value="bottom">Bottom</option>
                             </select>
+                            </div>
                             <br>
                             Key:<br>
                             <input ng-model="forms.newsFormData.key" type="text">
                             <br/>
                             Source:<br>
-                            <input ng-model="forms.newsFormData.source" type="text">
+<!--                             <input ng-model="forms.newsFormData.source" type="text"> -->
+                            <div class="select-style">
+                            <select ng-model="forms.newsFormData.source" form="news" id="news-sources">
+                                <option value="-">-</option>
+                            </select>
+                            </div>
                             <br/>
                             Sort-By:<br>
                             <input ng-model="forms.newsFormData.sortby" type="text">
@@ -70,18 +78,19 @@
                             <button ng-click="addModule(forms.newsFormData)">Add/Update</button>
                             <button ng-click="removeModule(forms.newsFormData.name)">Remove</button>
                         </form>
-                        <button style="float:right" onclick="closeModule('news-module')">Close</button>
                     </div>
                 </div>
                 <h3>Tasks</h3>
-                <div id="tasks-module" style="width: 250px; height: 330px;">
+                <div class="module" id="tasks-module">
                     <div class="front" onclick="editModule('tasks-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/tasks.png" width="250px" height="300px">
                     </div>
                     <div class="back" style="background-color: #d9d9d9">
                         <form name="Tasks" id="tasks">
+                            <a href=""><span class="close-module" onclick="closeModule('tasks-module')">X</span></a>
                             <input type="hidden" ng-model="forms.tasksFormData.name">
                             Position:<br>
+                            <div class="select-style">
                             <select ng-model="forms.tasksFormData.position" form="tasks">
                                 <option value="-">-</option>
                                 <option value="topLeft">Top Left</option>
@@ -89,6 +98,7 @@
                                 <option value="bottomLeft">Bottom Left</option>
                                 <option value="bottomRight">Bottom Right</option>
                             </select>
+                            </div>
                             <br>
                             Key:<br>
                             <input ng-model="forms.tasksFormData.key" type="text">
@@ -102,19 +112,20 @@
                             <button ng-click="addModule(forms.tasksFormData)">Add/Update</button>
                             <button ng-click="removeModule(forms.tasksFormData.name)">Remove</button>
                         </form>
-                        <button style="float:right" onclick="closeModule('tasks-module')">Close</button>
                     </div>
                 </div>
 
                 <h3>Clock</h3>
-                <div id="clock-module" style="width: 250px; height: 330px;">
+                <div class="module" id="clock-module">
                     <div class="front" onclick="editModule('clock-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/clock.png" width="250px" height="300px">
                     </div>
                     <div class="back" style="background-color: #d9d9d9">
                         <form name="Clock" id="clock">
+                            <a href=""><span class="close-module" onclick="closeModule('clock-module')">X</span></a>
                             <input type="hidden" ng-model="forms.clockFormData.name">
                             Position:<br>
+                            <div class="select-style">
                             <select ng-model="forms.clockFormData.position" form="clock">
                                 <option value="-">-</option>
                                 <option value="topLeft">Top Left</option>
@@ -122,29 +133,32 @@
                                 <option value="bottomLeft">Bottom Left</option>
                                 <option value="bottomRight">Bottom Right</option>
                             </select>
+                            </div>
                             <br>
                             <br><br>
                             <button ng-click="addModule(forms.clockFormData)">Add/Update</button>
                             <button ng-click="removeModule(forms.clockFormData.name)">Remove</button>
                         </form>
-                        <button style="float:right" onclick="closeModule('clock-module')">Close</button>
                     </div>
                 </div>
 
 
                 <h3>Quote</h3>
-                <div id="quote-module" style="width: 250px; height: 330px;">
+                <div class="module" id="quote-module">
                     <div class="front" onclick="editModule('quote-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/quote.png" width="250px" height="300px">
                     </div>
                     <div class="back" style="background-color: #d9d9d9">
                         <form name="Quote" id="quote">
+                            <a href=""><span class="close-module" onclick="closeModule('quote-module')">X</span></a>
                             <input type="hidden" ng-model="forms.quoteFormData.name">
                             Position:<br>
+                            <div class="select-style">
                             <select ng-model="forms.quoteFormData.position" form="quote">
                                 <option value="-">-</option>
                                 <option value="top">Top</option>
                             </select>
+                            </div>
                             <br/>
                             Key<br/>
                             <input ng-model="forms.quoteFormData.key" type="text">
@@ -156,7 +170,6 @@
                             <button ng-click="addModule(forms.quoteFormData)">Add/Update</button>
                             <button ng-click="removeModule(forms.quoteFormData.name)">Remove</button>
                         </form>
-                        <button style="float:right" onclick="closeModule('quote-module')">Close</button>
                     </div>
 
                 </div>
@@ -203,6 +216,23 @@
 
     </body>
     <script>
+        // // Get News Sources for Options Dropdown
+        var newsSourcesAPI = "https://newsapi.org/v1/sources?language=en";
+        function getNewsSources(){
+            $.getJSON(newsSourcesAPI).done(function(data) {
+                    $.each(data.sources, function(i, field){
+                        //console.log(field.name);
+                        var option = document.createElement("option");
+                        option.value= field.id;
+                        option.innerHTML = field.name;
+                        $('#news-sources').append(option);
+                    });
+            });
+        };
+        getNewsSources();
+    </script>
+    <script>
+
         $("#weather-module").flip({
             trigger: 'manual',
             reverse: true
@@ -238,4 +268,9 @@
         }
 
     </script>
+    <!-- Finally load angular app & it's controller -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script type="text/javascript" src="static/js/controller.js"></script>
+
+
 </html>
