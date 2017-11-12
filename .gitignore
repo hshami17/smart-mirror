@@ -5,3 +5,4 @@ src/main/resources/mirror_config.xml
 /.idea/libraries/
 /target/
 /dist/
+smartmirror.tar.gz
