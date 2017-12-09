@@ -17,6 +17,10 @@ case $OSTYPE in
     *)
 esac
 
+# Set paths for the config file and Java watcher
+export CONFIGPATH=resources/mirror_config.xml
+export WATCHPATH=resources
+
 echo Web service running on $WEBADDRESS
 
 # Get arguments
@@ -44,9 +48,9 @@ python main.py --path ../resources/mirror_config.xml &
 cd ..
 if [ "$console" = true ]; then
     echo "Debug messages in console"
-    java $sw -jar smart-mirror.jar -jarRun $fullscreen
+    java $sw -jar smart-mirror.jar $fullscreen
 else
     echo "Debug messages in log.txt"
-    java $sw -jar smart-mirror.jar -jarRun $fullscreen > log.txt
+    java $sw -jar smart-mirror.jar $fullscreen > log.txt
 fi
 

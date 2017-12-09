@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.util.Duration;
 import models.ModelManager;
 
@@ -20,7 +20,7 @@ import models.ModelManager;
  * @author hasan
  * @param <T>
  */
-public class Module<T> extends Pane {
+public class Module<T> extends Region {
     
     public static final String WEATHER = "WEATHER";
     public static final String CLOCK = "CLOCK";
@@ -53,7 +53,7 @@ public class Module<T> extends Pane {
     public Module(String path){
         this(path, "");
     }
-    
+
     private void addListener(){
         onMirror.addListener((observable,  oldValue,  newValue) -> {
             if (newValue){

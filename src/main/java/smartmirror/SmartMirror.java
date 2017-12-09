@@ -19,16 +19,20 @@ import utils.Watcher;
 public class SmartMirror extends Application implements PropertyChangeListener {
     
     private MirrorViewController controller;
+    private static boolean fullscreen = false;
     
     public static void main(String[] args) {
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
+
+        String configPath = System.getenv("CONFIGPATH");
+        String watchPath = System.getenv("WATCHPATH");
+        Config.CONFIG_PATH = configPath != null ? configPath : "src/main/resources/mirror_config.xml";
+        Config.WATCH_PATH = watchPath != null ? watchPath : "src/main/resources";
+
         for (String arg : args) {
             switch (arg) {
-                case "-jarRun":
-                    Config.jarRun = true;
-                    break;
                 case "-fullscreen":
-                    Config.fullscreen = true;
+                    fullscreen = true;
                     break;
                 default:
                     System.out.println("UNKNOWN ARG: " + arg);
@@ -51,13 +55,11 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         controller = loader.getController();
 
         // Watcher to watch for config file changes
-        // (ONLY WHEN RUNNING FROM JAR)
         PCS.INST.addPropertyChangeListener(PCM.NEW_CONFIG, this);
         new Watcher().start();
 
-        
         mirrorStage.setScene(new Scene(root));
-        mirrorStage.setFullScreen(Config.fullscreen);
+        mirrorStage.setFullScreen(fullscreen);
         mirrorStage.setOnCloseRequest(event -> System.exit(0));
         mirrorStage.show();
     }

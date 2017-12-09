@@ -23,10 +23,10 @@ import org.xml.sax.SAXException;
  * @author hasan
  */
 public class Config {
-    
-    public static boolean jarRun = false;
-    public static boolean fullscreen = false;
-    
+
+    public static String CONFIG_PATH;
+    public static String WATCH_PATH;
+
     private static Module clock;
     private static Module weather;
     private static Module tasks;
@@ -126,13 +126,8 @@ public class Config {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc;
-        // Check if running from JAR
-        if (jarRun){
-            doc = dBuilder.parse(new File("resources/mirror_config.xml"));
-        }
-        else{
-            doc = dBuilder.parse(new File("src/main/resources/mirror_config.xml"));
-        }
+
+        doc = dBuilder.parse(new File(CONFIG_PATH));
         doc.getDocumentElement().normalize();
 
         NodeList moduleConfigs = doc.getElementsByTagName("module");

@@ -6,7 +6,6 @@
 package utils;
 
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,15 +25,12 @@ import java.util.logging.Logger;
  */
 public class Watcher extends Thread {
     private Path watchDir;
-    private String configPath;
     private WatchService watcher;
     private Map<WatchKey, Path> keys;
 
     public Watcher(){
         try {
-            watchDir = Paths.get((Config.jarRun ? "resources" : "src/main/resources"));
-            configPath = (Config.jarRun ? "resources/mirror_config.xml" :
-                    "src/main/resources/mirror_config.xml");
+            watchDir = Paths.get(Config.WATCH_PATH);
             watcher = FileSystems.getDefault().newWatchService();
             keys = new HashMap<>();
 
@@ -70,7 +66,7 @@ public class Watcher extends Thread {
                     Path name = ev.context();
                     Path child = dir.resolve(name);
                     if (kind == ENTRY_MODIFY && 
-                            child.toString().equals(configPath)) {
+                            child.toString().equals(Config.CONFIG_PATH)) {
                         PCS.INST.firePropertyChange(PCM.NEW_CONFIG);
                     }
                 });
