@@ -39,12 +39,10 @@ public abstract class APIManager extends Thread implements PropertyChangeListene
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(STOP_PROP)){
-            System.out.println("STOPPING: " + STOP_PROP);
             stop = true;
             this.interrupt();
         }
         else if (evt.getPropertyName().equals(PULL_PROP)) {
-            System.out.println("PULLING: " + PULL_PROP);
             if (!stop){
                 fetch();
             }
