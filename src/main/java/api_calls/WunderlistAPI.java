@@ -25,34 +25,18 @@ import utils.PCS;
  *
  * @author saadshami
  */
-public class WunderlistAPI extends Thread implements PropertyChangeListener{
+public class WunderlistAPI extends APIManager {
     
     private final WunderlistModel tasksModel;
-    private boolean stop = true;
-    private final long sleepTime = 2000;
     
     public WunderlistAPI(){
+        super(2000, PCM.PULL_TASKS, PCM.STOP_TASKS_API);
         this.tasksModel = ModelManager.INST.getTasksModel();
-        PCS.INST.addPropertyChangeListener(PCM.STOP_TASKS_API, this);
-        PCS.INST.addPropertyChangeListener(PCM.PULL_TASKS, this);
     }
-    
-    @Override
-    public void run(){
-        stop = false;
-        while(!stop){
-            try {
-                getTasks();
-                Thread.sleep(sleepTime);
-            } 
-            catch (InterruptedException ex) {
-                break;
-            }
-        }
-    }
-    
+
     // Get all tasks from Wunderlist
-    synchronized public void getTasks(){
+    @Override
+    synchronized public void fetch(){
         try {
             URLConnection connection = new URL("https://a.wunderlist.com/api/v1/tasks?list_id=" + Config.getListID()).openConnection();
             connection.setDoOutput(true); // Triggers POST.
@@ -106,17 +90,6 @@ public class WunderlistAPI extends Thread implements PropertyChangeListener{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()){
-            case PCM.STOP_TASKS_API:
-                stop = true;
-                this.interrupt();
-                break;
-
         }
     }
 }

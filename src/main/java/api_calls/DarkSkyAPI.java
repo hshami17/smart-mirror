@@ -1,12 +1,8 @@
 package api_calls;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.DarkSkyModel;
 import javax.json.*;
 import models.ModelManager;
@@ -21,46 +17,30 @@ import utils.PCS;
  *
  * @author hasan
  */
-public class DarkSkyAPI extends Thread implements PropertyChangeListener {
+public class DarkSkyAPI extends APIManager {
     
     private final DarkSkyModel weatherModel;
-    private boolean stop = true;
-    private final long sleepTime = 600000;
     
     public DarkSkyAPI() {
+        super(600000, PCM.PULL_WEATHER, PCM.STOP_WEATHER_API);
         this.weatherModel = ModelManager.INST.getWeatherModel();
-        PCS.INST.addPropertyChangeListener(PCM.STOP_WEATHER_API, this);
-        PCS.INST.addPropertyChangeListener(PCM.PULL_WEATHER, this);
     }
-    
+
     @Override
-    public void run(){
-        stop = false;
-        while(!stop){
-            try {
-                getWeather();
-                Thread.sleep(sleepTime);
-            } 
-            catch (InterruptedException ex) {
-                break;
-            }
-        }
-    }
-    
-    synchronized public void getWeather(){
+    synchronized public void fetch(){
         try {
             URL zip_api_url = new URL("http://www.zipcodeapi.com/rest/" + Config.getZipcodeKey() + "/"
                     + "info.json/" + Config.getZipCode() + "/degrees");
             InputStream is_zip_api = zip_api_url.openStream();
-            JsonReader rdr_zip_api = Json.createReader(is_zip_api);   
+            JsonReader rdr_zip_api = Json.createReader(is_zip_api);
             JsonObject obj_zip_api = rdr_zip_api.readObject();
-            
+
             weatherModel.setLocation(obj_zip_api.getString("city"), obj_zip_api.getString("state"));
-            
-            
+
+
             String lat = obj_zip_api.getJsonNumber("lat").toString();
             String lon = obj_zip_api.getJsonNumber("lng").toString();
-            
+
             URL url = new URL("https://api.darksky.net/forecast/" + Config.getWeatherKey() + "/" + lat + "," + lon);
             InputStream is = url.openStream();
             JsonReader rdr = Json.createReader(is);
@@ -71,7 +51,7 @@ public class DarkSkyAPI extends Thread implements PropertyChangeListener {
             weatherModel.setCurrentTemp(current.getJsonNumber("temperature").intValue());
             weatherModel.setCurrentDay(Forecast.getDay(current.getInt("time")));
             weatherModel.setCurrentSummary(current.getString("summary"));
-            switch (current.getString("icon")){
+            switch (current.getString("icon")) {
                 case "clear-day":
                     weatherModel.setCurrentIcon(DarkSkyModel.Icon.CLEAR_DAY);
                     break;
@@ -104,43 +84,27 @@ public class DarkSkyAPI extends Thread implements PropertyChangeListener {
                     break;
                 default:
                     weatherModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_DAY);
-                    break; 
+                    break;
             }
 
             JsonObject week = obj.getJsonObject("daily");
-            
+
             weatherModel.setWeeklySummary(week.getString("summary"));
-            
+
             JsonArray weeklyForecast = week.getJsonArray("data");
-            
+
             weatherModel.getForecastList().clear();
-            for (int i=1; i<weeklyForecast.size(); i++){
+            for (int i = 1; i < weeklyForecast.size(); i++) {
                 weatherModel.getForecastList().add(new Forecast(weeklyForecast.getJsonObject(i)));
             }
-            
+
             PCS.INST.firePropertyChange(PCM.WEATHER_UPDATE);
-        } 
-        catch (IOException ex) {
+        } catch (IOException ex) {
             try {
                 MirrorViewController.alerts.put("THERE WAS AN ISSUE PULLING FROM THE DARK SKY API");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()){
-            case PCM.STOP_WEATHER_API:
-                stop = true;
-                this.interrupt();
-                break;
-            case PCM.PULL_WEATHER:
-                if (!stop){
-                    getWeather();
-                }
-                break;
         }
     }
 }

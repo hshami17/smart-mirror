@@ -24,33 +24,17 @@ import utils.PCS;
  *
  * @author saadshami
  */
-public class NewsAPI extends Thread implements PropertyChangeListener {
+public class NewsAPI extends APIManager {
     
     private final NewsAPIModel newsModel;
-    private boolean stop = true;
-    private final long sleepTime = 60000;
     
     public NewsAPI(){
+        super(60000, PCM.PULL_NEWS, PCM.STOP_NEWS_API);
         this.newsModel = ModelManager.INST.getNewsModel();
-        PCS.INST.addPropertyChangeListener(PCM.STOP_NEWS_API, this);
-        PCS.INST.addPropertyChangeListener(PCM.PULL_NEWS, this);
     }
-    
+
     @Override
-    public void run(){
-        stop = false;
-        while(!stop){
-            try {
-                getNews();
-                Thread.sleep(sleepTime);
-            } 
-            catch (InterruptedException ex) {
-                break;
-            }
-        }
-    }
-    
-    synchronized public void getNews(){
+    synchronized public void fetch(){
         try {
             URL news_api_url = new URL("https://newsapi.org/v1/articles?"
                     + "source=" + Config.getNewsSource() + 
@@ -75,21 +59,6 @@ public class NewsAPI extends Thread implements PropertyChangeListener {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-    }  
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()){
-            case PCM.STOP_NEWS_API:
-                stop = true;
-                this.interrupt();
-                break;
-            case PCM.PULL_NEWS:
-                if (!stop){
-                    getNews();
-                }
-                break;
         }
     }
 }
