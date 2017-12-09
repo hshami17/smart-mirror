@@ -1,13 +1,10 @@
 package api_calls;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import models.RandomFamousQuoteModel;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;

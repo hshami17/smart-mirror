@@ -1,18 +1,12 @@
 package api_calls;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-
-import com.sun.jdi.Mirror;
 import models.ModelManager;
 import models.NewsAPIModel;
 import smartmirror.MirrorViewController;
