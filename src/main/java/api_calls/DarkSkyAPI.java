@@ -94,7 +94,7 @@ public class DarkSkyAPI extends APIManager {
             JsonArray weeklyForecast = week.getJsonArray("data");
 
             weatherModel.getForecastList().clear();
-            for (int i = 1; i < weeklyForecast.size(); i++) {
+            for (int i = 0; i < weeklyForecast.size(); i++) {
                 weatherModel.getForecastList().add(new Forecast(weeklyForecast.getJsonObject(i)));
             }
 
