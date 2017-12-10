@@ -32,12 +32,10 @@ public class Module<T> extends Region {
     private BooleanProperty onMirror = new SimpleBooleanProperty(false);
     private StringProperty position = new SimpleStringProperty("");
     private String type;
-    private double[] dimensions = new double[2];
     
     public Module(String path, String type){
         try {
             this.type = type;
-            setDimensions();
             FXMLLoader loader = new FXMLLoader(Module.class.getResource(path));
             this.getChildren().setAll((Node) loader.load());
             controller = loader.getController();
@@ -69,25 +67,6 @@ public class Module<T> extends Region {
         });
     }
     
-    private void setDimensions(){
-        switch(type){
-            case WEATHER:
-                dimensions[0] = 326d;
-                dimensions[1] = 518d;
-                break;
-            case CLOCK:
-                dimensions[0] = 273d;
-                dimensions[1] = 518d;
-                break;
-            case TASKS:
-                dimensions[0] = 515d;
-                dimensions[1] = 110d;
-                break;
-            case NEWS:
-                break;
-        }
-    }
-
     public void fadeOut(){
         FadeTransition fadeTransition = new FadeTransition(new Duration(500), this);
         fadeTransition.setFromValue(1.0);
@@ -109,11 +88,7 @@ public class Module<T> extends Region {
     public String getType(){
         return type;
     }
-    
-    public double[] getDimensions(){
-        return dimensions;
-    }
-    
+
     public BooleanProperty onMirrorProperty(){
         return onMirror;
     }
@@ -126,5 +101,7 @@ public class Module<T> extends Region {
         this.onMirror.setValue(onMirror);
     }
 
-    public void setPosition(String position) {this.position.setValue(position);}
+    public void setPosition(String position) {
+        this.position.setValue(position);
+    }
 }

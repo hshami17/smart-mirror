@@ -139,24 +139,6 @@ public class MirrorViewController implements Initializable {
         }
     }
     
-    private void configureModuleContainers(){
-        // Manipulate pref width & height depending on
-        // what module is placed in the container
-        
-        // Top Right
-        
-        
-        // Top Left
-        double[] dimensions = ((Module) topLeft.getChildren().get(0)).getDimensions();
-        topLeft.setPrefWidth(dimensions[0]);
-        topLeft.setPrefHeight(dimensions[1]);
-        
-        
-        // Bottom Right
-        
-        // Bottom Left
-    }
-    
     void clearAllContainers(){
         Platform.runLater(() -> {
             top.getChildren().clear();
@@ -221,6 +203,5 @@ public class MirrorViewController implements Initializable {
             webAddress = "Web service address not found";
         }
         webServiceAddr.setText(webAddress);
-        //configureModuleContainers();
     }
 }
