@@ -40,7 +40,7 @@ if [ $response == "y" ]; then
     echo export JAVA_HOME=/usr/java/jdk1.8.0_131/bin/java >> ~/.bashrc
     echo export PATH=$PATH:/usr/java/jdk1.8.0_131/bin >> ~/.bashrc
     source ~/.bashrc
-fid
+fi
 
 ###### Ask user if they want to remove default java from system ######
 response=""
