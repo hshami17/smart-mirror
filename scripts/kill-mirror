@@ -1,4 +1,4 @@
 #!/bin/bash
 
 pkill -f 'python main.py'
-pkill -f 'smart-mirror.jar'
+pkill -f 'smart-mirror-1.0.jar'
