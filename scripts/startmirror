@@ -48,9 +48,9 @@ python main.py --path ../resources/mirror_config.xml &
 cd ..
 if [ "$console" = true ]; then
     echo "Debug messages in console"
-    java $sw -jar smart-mirror.jar $fullscreen
+    java $sw -jar smart-mirror-1.0.jar $fullscreen
 else
     echo "Debug messages in log.txt"
-    java $sw -jar smart-mirror.jar $fullscreen > log.txt
+    java $sw -jar smart-mirror-1.0.jar $fullscreen > log.txt
 fi
 
