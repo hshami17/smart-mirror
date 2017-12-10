@@ -10,7 +10,7 @@ install:
 	rsync -rv target/smart-mirror-1.0.jar $(DEPLOY_DIR); \
 	rsync -rv scripts/ $(DEPLOY_DIR); \
 	rsync -rv src/main/resources/mirror_config.xml $(DEPLOY_DIR)/resources; \
-	rsync -a web-service $(DEPLOY_DIR); \
+	rsync -av web-service $(DEPLOY_DIR); \
 	echo 'Directory created on:' > $(DEPLOY_DIR)/info.txt & \
 	date >> $(DEPLOY_DIR)/info.txt
 
