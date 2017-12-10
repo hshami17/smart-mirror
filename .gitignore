@@ -1,8 +1,5 @@
 .DS_Store
 /SMART-MIRROR/
 src/main/resources/mirror_config.xml
-/.idea/workspace.xml
-/.idea/libraries/
 /target/
-/dist/
 smartmirror.tar.gz
