@@ -21,13 +21,13 @@ import models.ModelManager;
  * @param <T>
  */
 public class Module<T> extends Region {
-    
+
     public static final String WEATHER = "WEATHER";
     public static final String CLOCK = "CLOCK";
     public static final String NEWS = "NEWS";
     public static final String TASKS = "TASKS";
     public static final String QUOTE = "QUOTE";
-    
+
     private T controller;
     private BooleanProperty onMirror = new SimpleBooleanProperty(false);
     private StringProperty position = new SimpleStringProperty("");
@@ -51,7 +51,7 @@ public class Module<T> extends Region {
     }
 
     public Module(String path){
-        this(path, "");
+        this(path, null);
     }
 
     private void addListener(){
