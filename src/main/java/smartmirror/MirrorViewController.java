@@ -1,7 +1,5 @@
 package smartmirror;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import models.ModelManager;
-import models.RandomFamousQuoteModel;
 import module.Module;
 import utils.Config;
-import utils.PCM;
-import utils.PCS;
 
 /**
  * Mirror View controller class
@@ -35,7 +29,7 @@ public class MirrorViewController implements Initializable {
     
     public static boolean modulesHidden = false;
     public static BlockingQueue<String> alerts = new ArrayBlockingQueue<>(5);
-    private List<Module> modulesOnMirror = new ArrayList<>();
+    private final List<Module> modulesOnMirror = new ArrayList<>();
     
     // Module containers
     @FXML
@@ -87,7 +81,7 @@ public class MirrorViewController implements Initializable {
                     promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
                     promptFade.play();
 
-                    while(alertPrompt.getOpacity() != 0){/*wait*/}
+                    while(alertPrompt.getOpacity() != 0.0){/*wait*/}
                 }
                 catch(InterruptedException ex){
                     Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -110,14 +104,14 @@ public class MirrorViewController implements Initializable {
         sepFade.play();
         webLabelFade.play();
 
-        for (Module module : modulesOnMirror){
+        modulesOnMirror.forEach((module) -> {
             if (modulesHidden){
                 module.fadeIn();
             }
             else{
                 module.fadeOut();
             }
-        }
+        });
 
         buttonFadeInOut.setFromValue(1.0);
         buttonFadeInOut.setToValue(0.1);
