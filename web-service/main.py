@@ -1,5 +1,6 @@
 import os
 import argparse
+import json
 from flask import Flask, render_template, request, session, redirect
 from flask.ext.socketio import SocketIO, emit
 import socket
@@ -10,6 +11,11 @@ socketio = SocketIO(app)
 
 configData = []
 path = ''
+
+# For debugging errors
+# app.config.update(
+#     PROPAGATE_EXCEPTIONS = True
+# )
 
 @socketio.on('connect', namespace='/')
 def makeConnection():
@@ -66,6 +72,12 @@ def index():
 
     return render_template('home.html', name=name, position=position)
 
+@app.route('/api/getmirror')
+def getMirror():
+    mirrorData = parseXml()
+    mirrorDataJson = json.dumps(mirrorData)
+    return mirrorDataJson
+
 @socketio.on('addModule', namespace='/')
 def addModule(formData):
     #print(configData)
@@ -88,7 +100,6 @@ def removeModule(formDataName):
 
     createXML()
     emit('saved', configData)
-
 
 
 # start the server
