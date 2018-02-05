@@ -69,6 +69,7 @@ public class NewsAPIController implements Initializable, ModuleControl,
         // Auto scroll
         configureAutoScroll();
         
+        // Scroll fade code provided by StackOverflow user: TM00
         configureScrollFade();
         
         PCS.INST.addPropertyChangeListener(PCM.NEWS_UPDATE, this);
