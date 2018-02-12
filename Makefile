@@ -1,6 +1,6 @@
 default: all
 
-DEPLOY_DIR=SMART-MIRROR
+DEPLOY_DIR=SMART_MIRROR
 
 all:
 	mvn install;
