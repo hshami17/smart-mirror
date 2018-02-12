@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Kill any running python or java procs
-./kill-mirror
-
 # Application banner
 figlet -f big 'smart  mirror'
 
@@ -53,4 +50,8 @@ else
     echo "Debug messages in log.txt"
     java $sw -jar smart-mirror-1.0.jar $fullscreen > log.txt
 fi
+
+# Kill mirror processes before exiting
+./kill-mirror
+
 
