@@ -24,6 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -84,16 +85,20 @@ public class NewsAPIController implements Initializable, ModuleControl,
                 {
                     currentHeadlines.forEach((l) -> {
                         Bounds bounds = getVisibleBounds(l);
+                        if (bounds == null) return;
                         double minY = bounds.getMinY();
                         double maxY = bounds.getMaxY();
 
                         if(Math.abs(minY) < FADE_THRESHOLD ) {
+                            System.out.println(minY + " MIN Y LESS THAN FADE: " + l.getText());
                             l.setOpacity(1 - (FADE_THRESHOLD - Math.abs(minY)) / FADE_THRESHOLD);
                         }
                         else if(Math.abs(maxY) < FADE_THRESHOLD) {
+                            System.out.println(maxY + " MAX Y LESS THAN FADE: " + l.getText());
                             l.setOpacity(1 - (FADE_THRESHOLD - Math.abs(maxY)) / FADE_THRESHOLD);
                         }
                         else {
+                            System.out.println(minY + " IN MIDDLE: " + l.getText());
                             l.setOpacity(1);
                         }
                     });
@@ -120,10 +125,10 @@ public class NewsAPIController implements Initializable, ModuleControl,
             new KeyFrame(Duration.seconds(0), (ActionEvent actionEvent) -> {
                 // Scroll down or up depending on current scroll state
                 if (scrollDown){
-                    scrollAmount += 0.001;
+                    scrollAmount += 0.0006;
                 }
                 else{
-                    scrollAmount -= 0.001;
+                    scrollAmount -= 0.0006;
                 }  
                 
                 // Set the scroll value for the scroll pane
@@ -174,16 +179,24 @@ public class NewsAPIController implements Initializable, ModuleControl,
         this.newsAPIModel = modelManager.getNewsModel();
     }
     
+    public void addPadding() {
+        for(int i=0; i<2; i++) {
+            newsList.getChildren().add(new Label());
+        }
+    }
+    
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Platform.runLater(() -> {
            newsList.getChildren().clear();
            currentHeadlines.clear();
+           addPadding();
            for (String headline : newsAPIModel.getHeadlines()){
-               Headline h = new Headline(headline, newsModule);
+               Headline h = new Headline(headline);
                newsList.getChildren().add(h);
                currentHeadlines.add(h);
            }
+           addPadding();
        });
     }    
 
