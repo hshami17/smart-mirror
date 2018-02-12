@@ -180,7 +180,7 @@ public class NewsAPIController implements Initializable, ModuleControl,
            newsList.getChildren().clear();
            currentHeadlines.clear();
            for (String headline : newsAPIModel.getHeadlines()){
-               Headline h = new Headline(headline, newsModule);
+               Headline h = new Headline(headline);
                newsList.getChildren().add(h);
                currentHeadlines.add(h);
            }
