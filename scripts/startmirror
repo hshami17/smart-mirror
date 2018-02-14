@@ -52,6 +52,6 @@ else
 fi
 
 # Kill mirror processes before exiting
-./kill-mirror
+./killmirror
 
 
