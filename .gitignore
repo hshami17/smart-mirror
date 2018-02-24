@@ -1,5 +1,5 @@
 .DS_Store
-/SMART-MIRROR/
+/SMART_MIRROR/
 src/main/resources/mirror_config.xml
 /target/
 smartmirror.tar.gz
