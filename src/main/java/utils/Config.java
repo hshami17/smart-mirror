@@ -32,7 +32,7 @@ public class Config {
     private static Module tasks;
     private static Module news;
     private static Module quote;
-//    private static Module spotify;
+    private static Module spotify;
     
     private static Module topRightMod;
     private static Module topLeftMod;
@@ -71,7 +71,7 @@ public class Config {
                 tasks = new Module("/fxml/Wunderlist.fxml", Module.TASKS);
                 news = new Module("/fxml/NewsAPI.fxml", Module.NEWS);
                 quote = new Module("/fxml/RandomFamousQuotes.fxml", Module.QUOTE);
-//                spotify = new Module("/fxml/Spotify.fxml");
+                spotify = new Module("/fxml/Spotify.fxml");
                 getConfigurations();
                 // Weather prop listeners
                 addPropertyListeners(PCM.PULL_WEATHER, 

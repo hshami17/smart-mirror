@@ -100,11 +100,7 @@ public class DarkSkyAPI extends APIManager {
 
             PCS.INST.firePropertyChange(PCM.WEATHER_UPDATE);
         } catch (IOException ex) {
-            try {
-                MirrorViewController.alerts.put("THERE WAS AN ISSUE PULLING FROM THE DARK SKY API");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE DARK SKY API");
         }
     }
 }

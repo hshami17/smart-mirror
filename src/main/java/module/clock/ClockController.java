@@ -74,10 +74,10 @@ public class ClockController implements Initializable, ModuleControl {
                 
                 // Build time string
                 String hour   = time.get(Calendar.HOUR) == 0 ? "12" : time.get(Calendar.HOUR) + "";
-                String minute = (time.get(Calendar.MINUTE) < 10 ? "0" + 
-                        time.get(Calendar.MINUTE) : time.get(Calendar.MINUTE))  + " ";
+                String minute = String.format(Locale.US, "%02d", time.get(Calendar.MINUTE));
+                String seconds = String.format(Locale.US, "%02d", time.get(Calendar.SECOND));
                 String amPm   = time.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
-                digitalTime.setText(hour + ":" + minute + amPm);
+                digitalTime.setText(hour + ":" + minute + ":" + seconds + " " + amPm);
                 if (birthday(month, dayNum)){
                     bday.setVisible(true);
                     bday.setText("Happy Birthday!");

@@ -90,15 +90,15 @@ public class NewsAPIController implements Initializable, ModuleControl,
                         double maxY = bounds.getMaxY();
 
                         if(Math.abs(minY) < FADE_THRESHOLD ) {
-                            System.out.println(minY + " MIN Y LESS THAN FADE: " + l.getText());
+//                            System.out.println(minY + " MIN Y LESS THAN FADE: " + l.getText());
                             l.setOpacity(1 - (FADE_THRESHOLD - Math.abs(minY)) / FADE_THRESHOLD);
                         }
                         else if(Math.abs(maxY) < FADE_THRESHOLD) {
-                            System.out.println(maxY + " MAX Y LESS THAN FADE: " + l.getText());
+//                            System.out.println(maxY + " MAX Y LESS THAN FADE: " + l.getText());
                             l.setOpacity(1 - (FADE_THRESHOLD - Math.abs(maxY)) / FADE_THRESHOLD);
                         }
                         else {
-                            System.out.println(minY + " IN MIDDLE: " + l.getText());
+//                            System.out.println(minY + " IN MIDDLE: " + l.getText());
                             l.setOpacity(1);
                         }
                     });

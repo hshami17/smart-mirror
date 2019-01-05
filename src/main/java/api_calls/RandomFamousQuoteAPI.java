@@ -29,7 +29,7 @@ public class RandomFamousQuoteAPI extends APIManager {
 
     @Override
     synchronized public void fetch(){
-        try {
+        try { 
             URLConnection connection = new URL("https://andruxnet-random-famous-quotes.p.mashape.com/?cat=" + Config.getQuoteCategory()).openConnection();
             connection.setDoOutput(true); // Triggers POST.
             connection.setRequestProperty("X-Mashape-Key", Config.getQuoteKey());
@@ -51,11 +51,7 @@ public class RandomFamousQuoteAPI extends APIManager {
                 PCS.INST.firePropertyChange(PCM.QUOTE_UPDATE);
             }
         } catch (IOException ex) {
-            try {
-                MirrorViewController.alerts.put("THERE WAS AN ISSUE PULLING FROM THE RANDOM FAMOUS QUOTES API");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE RANDOM FAMOUS QUOTES API");
         }
     }
 }

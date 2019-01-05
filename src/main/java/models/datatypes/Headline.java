@@ -29,5 +29,4 @@ public class Headline extends Label {
         
     }
     
-    
 }

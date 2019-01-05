@@ -48,11 +48,7 @@ public class NewsAPI extends APIManager {
             PCS.INST.firePropertyChange(PCM.NEWS_UPDATE);
             
         } catch (IOException ex){
-            try {
-                MirrorViewController.alerts.put("THERE WAS AN ISSUE PULLING FROM THE NEWS API");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE NEWS API");
         }
     }
 }

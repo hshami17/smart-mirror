@@ -81,11 +81,7 @@ public class WunderlistAPI extends APIManager {
             PCS.INST.firePropertyChange(PCM.TASK_UPDATE);
             
         } catch (IOException ex) {
-            try {
-                MirrorViewController.alerts.put("THERE WAS AN ISSUE PULLING FROM THE WUNDERLIST API");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE WUNDERLIST API");
         }
     }
 }

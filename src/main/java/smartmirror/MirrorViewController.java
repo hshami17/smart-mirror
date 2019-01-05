@@ -4,8 +4,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
@@ -28,7 +28,7 @@ import utils.Config;
 public class MirrorViewController implements Initializable {
     
     public static boolean modulesHidden = false;
-    public static BlockingQueue<String> alerts = new ArrayBlockingQueue<>(5);
+    private static final BlockingQueue<String> alerts = new LinkedBlockingQueue<>();
     private final List<Module> modulesOnMirror = new ArrayList<>();
     
     // Module containers
@@ -60,6 +60,16 @@ public class MirrorViewController implements Initializable {
     @FXML
     private void hideShowButtonPressed(ActionEvent event){
         hideShowAllModules();
+    }
+    
+    public static void putAlert(String msg) {
+        if (alerts.size() < 5) {
+            try {
+                alerts.put(msg);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     private void alertProcessing(){

@@ -22,7 +22,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.DarkSkyModel;
 import models.ModelManager;
-import models.datatypes.Forecast;
 import utils.PCM;
 import utils.PCS;
 import module.ModuleControl;
@@ -82,8 +81,7 @@ public class DarkSkyController implements Initializable, ModuleControl,
             highs.getChildren().clear();
             lows.getChildren().clear();         
             // Loop through forecast and add to HBox
-            for (Forecast forecast : darkSkyModel.getForecastList()){
-
+            darkSkyModel.getForecastList().forEach((forecast) -> {
                 Label day = new Label(forecast.getDay());
                 day.getStyleClass().add("forecast");
 
@@ -105,7 +103,7 @@ public class DarkSkyController implements Initializable, ModuleControl,
 
                 highs.getChildren().add(high);
                 lows.getChildren().add(low);
-            }
+            });
         });
     }
     
