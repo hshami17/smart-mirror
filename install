@@ -1,0 +1,8 @@
+#!/bin/bash
+
+UNAME=pi
+IP=10.0.0.183
+TARBALL=$(ls *.tar.gz)
+
+scp $TARBALL $UNAME@$IP:~
+

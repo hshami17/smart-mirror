@@ -109,5 +109,7 @@ if __name__ == "__main__":
     given_args = parser.parse_args()
     path = given_args.path
     print 'PATH IS: ' + path
-    #print('WEB SERVICE RUNNING ON: ' + socket.gethostbyname(socket.gethostname()) + ':8080')
-    socketio.run(app, host=os.getenv('IP', '0.0.0.0'), port=int(os.getenv('PORT', 8080)), debug=False)
+    host = os.getenv('IP', 'localhost')
+    port = os.getenv('PORT', 8080)
+    print('WEB SERVICE RUNNING ON: ' + host + ':' + str(port))
+    socketio.run(app, host=host, port=int(port), debug=False)

@@ -1,4 +1,8 @@
 #!/bin/bash
 
 echo "KILLING MIRROR PROCESSES"
-pkill -P $(ps -ef | grep "[s]tartmirror" | awk '{print $2}')
+PID=$(ps aux | grep "[s]mart*" | awk '{print $2}')
+if [ "$PID" != "" ]; then
+	kill -KILL $PID
+fi
+pkill -f "main.py"
