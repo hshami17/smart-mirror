@@ -71,7 +71,7 @@ public class NewsAPIController implements Initializable, ModuleControl,
         configureAutoScroll();
         
         // Scroll fade code provided by StackOverflow user: TM00
-        configureScrollFade();
+//        configureScrollFade();
         
         PCS.INST.addPropertyChangeListener(PCM.NEWS_UPDATE, this);
     }  
@@ -190,13 +190,13 @@ public class NewsAPIController implements Initializable, ModuleControl,
         Platform.runLater(() -> {
            newsList.getChildren().clear();
            currentHeadlines.clear();
-           addPadding();
+//           addPadding();
            for (String headline : newsAPIModel.getHeadlines()){
                Headline h = new Headline(headline);
                newsList.getChildren().add(h);
                currentHeadlines.add(h);
            }
-           addPadding();
+//           addPadding();
        });
     }    
 
