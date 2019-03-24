@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import models.RandomFamousQuoteModel;
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import models.ModelManager;
@@ -38,15 +39,21 @@ public class RandomFamousQuoteAPI extends APIManager {
         InputStream response = connection.getInputStream();
 
         JsonReader rdr = Json.createReader(response);   
-        JsonObject obj = rdr.readObject();
+        JsonArray arr = rdr.readArray();
+        if (!arr.isEmpty()) {
+            JsonObject obj = arr.getJsonObject(0);
 
-        quoteModel.setQuote(obj.getString("quote"), obj.getString("author"));
+            quoteModel.setQuote(obj.getString("quote"), obj.getString("author"));
 
-        if (quoteModel.getQuote().length() > 112){
-            this.fetch();
+            if (quoteModel.getQuote().length() > 112){
+                this.fetch();
+            }
+            else{
+                PCS.INST.firePropertyChange(PCM.QUOTE_UPDATE);
+            }
         }
-        else{
-            PCS.INST.firePropertyChange(PCM.QUOTE_UPDATE);
+        else {
+            this.fetch();
         }
     }
 }

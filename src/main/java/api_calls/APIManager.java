@@ -5,14 +5,15 @@ import utils.PCS;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 import smartmirror.MirrorViewController;
 
 public abstract class APIManager extends Thread implements PropertyChangeListener {
 
     private final long sleepTime;
-    private boolean stop = true;
+    private final AtomicLong lastPull = new AtomicLong(0);
+    private final AtomicBoolean stop = new AtomicBoolean(true);
     private final String STOP_PROP;
     private final String PULL_PROP;
     private final String errMsg;
@@ -26,26 +27,32 @@ public abstract class APIManager extends Thread implements PropertyChangeListene
         PCS.INST.addPropertyChangeListener(PULL_PROP, this);
     }
 
-    abstract public void fetch() throws IOException;
+    private boolean doPull() {
+        return (System.currentTimeMillis() - lastPull.get() > sleepTime);
+    }
+    
+    private void pullApi() {
+        try {
+            fetch();
+            lastPull.set(System.currentTimeMillis());
+        } catch (IOException ex) {
+            System.out.println(ex);
+            MirrorViewController.putAlert(errMsg);
+        }
+    }
+    
+    abstract protected void fetch() throws IOException;
 
     @Override
     public void run() {
-        stop = false;
-        while(!stop){
+        stop.set(false);
+        while(!stop.get()){        
+            if (doPull()) pullApi();
             try {
-                fetch();
-            }
-            catch (IOException ex) {
-                System.out.println(ex);
-                MirrorViewController.putAlert(errMsg);
-            }
-            finally {
-                try {
-                    Thread.sleep(sleepTime);
-                } 
-                catch (InterruptedException ex) {
-                    break;
-                }
+                Thread.sleep(sleepTime);
+            } 
+            catch (InterruptedException ex) {
+                break;
             }
         }
     }
@@ -53,16 +60,12 @@ public abstract class APIManager extends Thread implements PropertyChangeListene
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(STOP_PROP)){
-            stop = true;
+            stop.set(true);
             this.interrupt();
         }
         else if (evt.getPropertyName().equals(PULL_PROP)) {
-            if (!stop){
-                try {
-                    fetch();
-                } catch (IOException ex) {
-                    MirrorViewController.putAlert(errMsg);
-                }
+            if (!stop.get()){
+                pullApi();
             }
         }
     }

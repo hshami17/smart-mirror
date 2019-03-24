@@ -57,10 +57,10 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         // Watcher to watch for config file changes
         PCS.INST.addPropertyChangeListener(PCM.NEW_CONFIG, this);
         new Watcher().start();
-
+        
         mirrorStage.setScene(new Scene(root));
         mirrorStage.setFullScreen(fullscreen);
-        mirrorStage.setOnCloseRequest(event -> System.exit(0));
+        mirrorStage.setOnCloseRequest(e -> System.exit(0));
         mirrorStage.show();
     }
     
