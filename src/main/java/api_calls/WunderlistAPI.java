@@ -31,7 +31,7 @@ public class WunderlistAPI extends APIManager {
 
     // Get all tasks from Wunderlist
     @Override
-    synchronized public void fetch() throws IOException {
+    synchronized protected void fetch() throws IOException {
         URLConnection connection = new URL("https://a.wunderlist.com/api/v1/tasks?list_id=" + Config.getListID()).openConnection();
         connection.setDoOutput(true); // Triggers POST.
         connection.setRequestProperty("X-Access-Token", Config.getTaskKey());

@@ -3,8 +3,11 @@ package api_calls;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import models.DarkSkyModel;
-import javax.json.*;
 import models.ModelManager;
 import models.datatypes.Forecast;
 import utils.Config;
@@ -26,7 +29,7 @@ public class DarkSkyAPI extends APIManager {
     }
 
     @Override
-    synchronized public void fetch() throws IOException {
+    synchronized protected void fetch() throws IOException {
         URL zip_api_url = new URL("http://www.zipcodeapi.com/rest/" + Config.getZipcodeKey() + "/"
                 + "info.json/" + Config.getZipCode() + "/degrees");
         InputStream is_zip_api = zip_api_url.openStream();

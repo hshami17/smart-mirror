@@ -27,7 +27,7 @@ public class NewsAPI extends APIManager {
     }
 
     @Override
-    synchronized public void fetch() throws IOException {
+    synchronized protected void fetch() throws IOException {
         URL news_api_url = new URL("https://newsapi.org/v1/articles?"
                 + "source=" + Config.getNewsSource() + 
                 "&sort_by=" + Config.getNewsSortBy() + 

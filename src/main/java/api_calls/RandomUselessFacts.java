@@ -24,7 +24,7 @@ public class RandomUselessFacts extends APIManager {
     }
 
     @Override
-    public void fetch() throws IOException {
+    synchronized protected void fetch() throws IOException {
         URLConnection connection = new URL("http://randomuselessfact.appspot.com/random.json?language=en").openConnection();
         connection.setDoOutput(true);
 

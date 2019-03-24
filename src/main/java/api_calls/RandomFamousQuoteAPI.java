@@ -28,7 +28,7 @@ public class RandomFamousQuoteAPI extends APIManager {
     }
 
     @Override
-    synchronized public void fetch() throws IOException {
+    synchronized protected void fetch() throws IOException {
         URLConnection connection = new URL("https://andruxnet-random-famous-quotes.p.mashape.com/?cat=" + Config.getQuoteCategory()).openConnection();
         connection.setDoOutput(true); // Triggers POST.
         connection.setRequestProperty("X-Mashape-Key", Config.getQuoteKey());
