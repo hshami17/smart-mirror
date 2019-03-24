@@ -32,6 +32,7 @@ public class Config {
     private static Module tasks;
     private static Module news;
     private static Module quote;
+    private static Module uselessFacts;
     private static Module spotify;
     
     private static Module topRightMod;
@@ -71,6 +72,7 @@ public class Config {
                 tasks = new Module("/fxml/Wunderlist.fxml", Module.TASKS);
                 news = new Module("/fxml/NewsAPI.fxml", Module.NEWS);
                 quote = new Module("/fxml/RandomFamousQuotes.fxml", Module.QUOTE);
+//                uselessFacts = new Module("/fxml/RandomUselessFacts.fxml", Module.USELESS_FACTS);
                 spotify = new Module("/fxml/Spotify.fxml");
                 getConfigurations();
                 // Weather prop listeners

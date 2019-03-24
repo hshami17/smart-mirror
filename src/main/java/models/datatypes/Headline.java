@@ -22,11 +22,5 @@ public class Headline extends Label {
         logo.setFitWidth(28);
         this.setGraphic(logo);
         this.getStyleClass().add("news");
-        checkMyPosition();
     }
-    
-    private void checkMyPosition(){
-        
-    }
-    
 }

@@ -11,7 +11,9 @@ import java.net.URLConnection;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import models.ModelManager;
 import utils.PCM;
+import utils.PCS;
 
 /**
  *
@@ -31,6 +33,8 @@ public class RandomUselessFacts extends APIManager {
         JsonReader rdr = Json.createReader(connection.getInputStream());
         JsonObject obj = rdr.readObject();
         
-        System.out.println("GOT: " + obj.getString("text"));
+        String uselessFact = obj.getString("text");
+        ModelManager.INST.getRandomUselessFactsModel().setUselessFact(uselessFact);
+        PCS.INST.firePropertyChange(PCM.FACTS_UPDATE);
     }
 }

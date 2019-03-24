@@ -27,6 +27,7 @@ public class Module<T> extends Region {
     public static final String NEWS = "NEWS";
     public static final String TASKS = "TASKS";
     public static final String QUOTE = "QUOTE";
+    public static final String USELESS_FACTS = "USELESS_FACTS";
 
     private T controller;
     private BooleanProperty onMirror = new SimpleBooleanProperty(false);

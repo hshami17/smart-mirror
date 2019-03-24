@@ -10,13 +10,16 @@ package models;
  * @author hasan
  */
 public class ModelManager {
+    
     private final RandomFamousQuoteModel quoteOfDayModel;
+    private final RandomUselessFactsModel uselessFactModel;
     private final DarkSkyModel weatherModel;
     private final NewsAPIModel newsModel;
     private final WunderlistModel tasksModel;
     
     private ModelManager(){
         quoteOfDayModel = new RandomFamousQuoteModel();
+        uselessFactModel = new RandomUselessFactsModel();
         weatherModel = new DarkSkyModel();
         newsModel = new NewsAPIModel();
         tasksModel = new WunderlistModel();
@@ -36,6 +39,10 @@ public class ModelManager {
     
     public WunderlistModel getTasksModel(){
         return tasksModel;
+    }
+    
+    public RandomUselessFactsModel getRandomUselessFactsModel() {
+        return uselessFactModel;
     }
     
     public static ModelManager INST = new ModelManager();
