@@ -46,8 +46,8 @@ public abstract class APIManager extends Thread implements PropertyChangeListene
     @Override
     public void run() {
         stop.set(false);
-        while(!stop.get()){        
-            if (doPull()) pullApi();
+        while(doPull() || !stop.get()){   
+            pullApi();
             try {
                 Thread.sleep(sleepTime);
             } 
