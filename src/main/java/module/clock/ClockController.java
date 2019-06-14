@@ -97,6 +97,7 @@ public class ClockController implements Initializable, ModuleControl {
     }
     
     private void buildAnalogClock(){
+        analogClock.getChildren().clear();
         
         ImageView clockDial = new ImageView(new Image("/images/clock/clockDial.png"));
         clockDial.setFitWidth(300);
