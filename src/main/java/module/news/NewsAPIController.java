@@ -90,15 +90,12 @@ public class NewsAPIController implements Initializable, ModuleControl,
                         double maxY = bounds.getMaxY();
 
                         if(Math.abs(minY) < FADE_THRESHOLD ) {
-//                            System.out.println(minY + " MIN Y LESS THAN FADE: " + l.getText());
                             l.setOpacity(1 - (FADE_THRESHOLD - Math.abs(minY)) / FADE_THRESHOLD);
                         }
                         else if(Math.abs(maxY) < FADE_THRESHOLD) {
-//                            System.out.println(maxY + " MAX Y LESS THAN FADE: " + l.getText());
                             l.setOpacity(1 - (FADE_THRESHOLD - Math.abs(maxY)) / FADE_THRESHOLD);
                         }
                         else {
-//                            System.out.println(minY + " IN MIDDLE: " + l.getText());
                             l.setOpacity(1);
                         }
                     });
@@ -136,14 +133,10 @@ public class NewsAPIController implements Initializable, ModuleControl,
                 
                 // Set new scroll state if at top or bottom
                 if (scrollAmount >=  1.0){
-//                    System.out.println("--- AT BOTTOM, WILL SCROLL UP --- ");
-//                    System.out.println("Scroll amount: " + scrollAmount);
                     scrollDown = false;
                     pauseScroll();
                 }
                 else if (scrollAmount <= 0.0){
-//                    System.out.println("--- AT TOP, WILL SCROLL DOWN ---");
-//                    System.out.println("Scroll amount: " + scrollAmount);
                     scrollDown = true;
                     pauseScroll();
                 }
@@ -157,16 +150,12 @@ public class NewsAPIController implements Initializable, ModuleControl,
     
     
     private void pauseScroll(){
-//        System.out.println("IN PAUSE SCROLL");
         new Thread(() -> {
             try {
-//                System.out.println("Pausing scroll...");
                 autoScroll.pause();
                 Thread.sleep(5000);
-//                System.out.println("Playing scroll now...");
                 autoScroll.play();
             } catch (InterruptedException ex) {
-//                System.out.println("INTERRUPTED EXCEPTION CAUGHT IN NEWS");
                 System.out.println(ex.getMessage() + "\n");
             }
         }).start();
@@ -190,13 +179,11 @@ public class NewsAPIController implements Initializable, ModuleControl,
         Platform.runLater(() -> {
            newsList.getChildren().clear();
            currentHeadlines.clear();
-//           addPadding();
            for (String headline : newsAPIModel.getHeadlines()){
                Headline h = new Headline(headline);
                newsList.getChildren().add(h);
                currentHeadlines.add(h);
            }
-//           addPadding();
        });
     }    
 
