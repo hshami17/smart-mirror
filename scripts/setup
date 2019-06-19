@@ -1,54 +1,14 @@
 #!/bin/bash
 
-# Validate y/n user inputs
-function validate() {
-    local retVal=$1
-    while [ $retVal != "y" ] && [ $retVal != "n" ]; do
-        echo -n "Please enter either y or n for response: "
-        read retVal
-    done
-    eval "$1='$retVal'"
-}
-
-# Make sure this is a Raspberry Pi
-if [ $(hostname) != "raspberrypi" ]; then
-    echo "Unable to run setup, this device is not a Raspberry Pi!"
-    exit 1
+if [ "$EUID" -ne 0 ]
+then
+	echo "Please run setup with sudo or as root"
+	exit 1
 fi
 
-echo "INSTALLING WEB SERVER DEPENDENCIES"
-# Get web server packages
 sudo pip install Flask
 sudo pip install Flask-SocketIO
 sudo apt-get install python-dev
 sudo pip install greenlet
 sudo pip install eventlet
-
-# Other command line tools needed
 sudo apt-get install figlet
-sudo apt-get install screen
-
-###### Ask user if they want to add Java stuff to .bashrc ######
-echo "This script will now attempt to add the JDK 1.8.0u131"
-echo "path and JAVA_HOME into your .bashrc file"
-echo -n "Would you like to continue? [y/n]: "
-read response
-validate response
-
-if [ $response == "y" ]; then
-    # Add Java variables to .bashrc
-    echo export JAVA_HOME=/usr/java/jdk1.8.0_131/bin/java >> ~/.bashrc
-    echo export PATH=$PATH:/usr/java/jdk1.8.0_131/bin >> ~/.bashrc
-    source ~/.bashrc
-fi
-
-###### Ask user if they want to remove default java from system ######
-response=""
-echo "This script will now attempt to remove the default Java from this Raspberry Pi"
-echo -n "Would you like to continue? [y/n]: "
-read response
-validate response
-
-if [ $response == "y" ]; then
-    sudo apt-get remove --purge oracle-java8-jdk openjdk-7-jre oracle-java7-jdk openjdk-8-jre
-fi
