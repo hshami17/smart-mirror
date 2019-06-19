@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo "KILLING MIRROR PROCESSES"
 PID=$(ps aux | grep "[s]mart*" | awk '{print $2}')
 if [ "$PID" != "" ]; then
 	kill -KILL $PID
