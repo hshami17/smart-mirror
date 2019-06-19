@@ -12,7 +12,6 @@ import javax.json.JsonReader;
 import models.ModelManager;
 import utils.Config;
 import utils.PCM;
-import utils.PCS;
 
 /**
  *
@@ -23,7 +22,7 @@ public class RandomFamousQuoteAPI extends APIManager {
     private final RandomFamousQuoteModel quoteModel;
 
     public RandomFamousQuoteAPI() {
-        super(60000, PCM.PULL_QUOTE, PCM.STOP_QUOTE_API, "THERE WAS AN ISSUE PULLING FROM THE RANDOM FAMOUS QUOTES API");
+        super(ModuleName.RANDOM_FAMOUS_QUOTES, 60000, PCM.PULL_QUOTE);
         this.quoteModel = ModelManager.INST.getQuoteModel();
     }
 
@@ -47,9 +46,6 @@ public class RandomFamousQuoteAPI extends APIManager {
 
             if (quoteModel.getQuote().length() > 112){
                 this.fetch();
-            }
-            else{
-                PCS.INST.firePropertyChange(PCM.QUOTE_UPDATE);
             }
         }
         else {

@@ -5,9 +5,6 @@
  */
 package module.tasks;
 
-import api_calls.WunderlistAPI;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -19,17 +16,14 @@ import javafx.scene.layout.VBox;
 import models.ModelManager;
 import models.WunderlistModel;
 import models.datatypes.Task;
-import utils.PCM;
-import utils.PCS;
-import module.ModuleControl;
+import module.ModuleController;
 
 /**
  * FXML Controller class
  *
  * @author hasan
  */
-public class WunderlistController implements Initializable, ModuleControl, 
-        PropertyChangeListener {
+public class WunderlistController implements Initializable, ModuleController {
     
     @FXML
     private Label todayTitle;
@@ -49,16 +43,16 @@ public class WunderlistController implements Initializable, ModuleControl,
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        PCS.INST.addPropertyChangeListener(PCM.TASK_UPDATE, this);
+
     }    
 
     @Override
     public void setModel(ModelManager modelManager) {
         this.wunderlistModel = modelManager.getTasksModel();
     }
-
+    
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void update() {
         Platform.runLater(() -> {
             todayTasks.getChildren().clear();
             tomorrowTasks.getChildren().clear();
@@ -104,21 +98,5 @@ public class WunderlistController implements Initializable, ModuleControl,
         container.setAlignment(left ? Pos.TOP_LEFT : Pos.TOP_RIGHT);
         todayTasks.setAlignment(left ? Pos.TOP_LEFT : Pos.TOP_RIGHT);
         tomorrowTasks.setAlignment(left ? Pos.TOP_LEFT : Pos.TOP_RIGHT);
-    }
-
-    private boolean apiRunning = false;
-    
-    @Override
-    public void startModule() {
-        if (!apiRunning){
-            new WunderlistAPI().start();
-            apiRunning = true;
-        }
-    }
-
-    @Override
-    public void stopModule() {
-        PCS.INST.firePropertyChange(PCM.STOP_TASKS_API);
-        apiRunning = false;
     }
 }

@@ -5,9 +5,6 @@
  */
 package module.news;
 
-import api_calls.NewsAPI;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +29,14 @@ import javafx.util.Duration;
 import models.ModelManager;
 import models.NewsAPIModel;
 import models.datatypes.Headline;
-import utils.PCM;
-import utils.PCS;
-import module.ModuleControl;
+import module.ModuleController;
 
 /**
  * FXML Controller class
  *
  * @author hasan
  */
-public class NewsAPIController implements Initializable, ModuleControl,
-        PropertyChangeListener{
+public class NewsAPIController implements Initializable, ModuleController {
 
     @FXML
     private ScrollPane newsModule;
@@ -53,7 +47,7 @@ public class NewsAPIController implements Initializable, ModuleControl,
     private double scrollAmount = 0.0;
     private boolean scrollDown = true;
     
-    private List<Headline> currentHeadlines = new ArrayList<>();
+    private final List<Headline> currentHeadlines = new ArrayList<>();
 
     /**
      * Initializes the controller class.
@@ -72,8 +66,6 @@ public class NewsAPIController implements Initializable, ModuleControl,
         
         // Scroll fade code provided by StackOverflow user: TM00
 //        configureScrollFade();
-        
-        PCS.INST.addPropertyChangeListener(PCM.NEWS_UPDATE, this);
     }  
     
     private final double FADE_THRESHOLD = 90;
@@ -175,7 +167,7 @@ public class NewsAPIController implements Initializable, ModuleControl,
     }
     
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void update() {
         Platform.runLater(() -> {
            newsList.getChildren().clear();
            currentHeadlines.clear();
@@ -185,21 +177,5 @@ public class NewsAPIController implements Initializable, ModuleControl,
                currentHeadlines.add(h);
            }
        });
-    }    
-
-    private boolean apiRunning = false;
-    
-    @Override
-    public void startModule() {
-        if (!apiRunning){
-            new NewsAPI().start();
-            apiRunning = true;
-        }
-    }
-
-    @Override
-    public void stopModule() {
-        PCS.INST.firePropertyChange(PCM.STOP_NEWS_API);
-        apiRunning = false;
     }
 }

@@ -13,7 +13,6 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import models.ModelManager;
 import utils.PCM;
-import utils.PCS;
 
 /**
  *
@@ -22,7 +21,7 @@ import utils.PCS;
 public class RandomUselessFacts extends APIManager {
     
     public RandomUselessFacts() {
-        super(60000, PCM.PULL_FACTS, PCM.STOP_FACTS_API, "THERE WAS AN ISSUE PULLING A RANDOM USELESS FACT");
+        super(ModuleName.RANDOM_USELESS_FACTS, 60000, PCM.PULL_FACTS);
     }
 
     @Override
@@ -35,6 +34,5 @@ public class RandomUselessFacts extends APIManager {
         
         String uselessFact = obj.getString("text");
         ModelManager.INST.getRandomUselessFactsModel().setUselessFact(uselessFact);
-        PCS.INST.firePropertyChange(PCM.FACTS_UPDATE);
     }
 }

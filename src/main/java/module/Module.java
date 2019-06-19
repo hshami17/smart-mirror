@@ -1,5 +1,6 @@
 package module;
 
+import api_calls.APIManager;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,33 +23,29 @@ import models.ModelManager;
  */
 public class Module<T> extends Region {
 
-    public static final String WEATHER = "WEATHER";
-    public static final String CLOCK = "CLOCK";
-    public static final String NEWS = "NEWS";
-    public static final String TASKS = "TASKS";
-    public static final String QUOTE = "QUOTE";
-    public static final String USELESS_FACTS = "USELESS_FACTS";
-
     private T controller;
+    private APIManager api;
     private BooleanProperty onMirror = new SimpleBooleanProperty(false);
     private StringProperty position = new SimpleStringProperty("");
-    private String type;
     
-    public Module(String path, String type){
+    public Module(String path, APIManager api) {
         try {
-            this.type = type;
+            this.api = api;
+            if (api != null) {
+                api.setModule(this);
+            }
             FXMLLoader loader = new FXMLLoader(Module.class.getResource(path));
             this.getChildren().setAll((Node) loader.load());
             controller = loader.getController();
-            if (controller instanceof ModuleControl){
-                ((ModuleControl) controller).setModel(ModelManager.INST);
+            if (controller instanceof ModuleController){
+                ((ModuleController) controller).setModel(ModelManager.INST);
                 addListener();
             }
         } catch (IOException ex) {
             Logger.getLogger(Module.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public Module(String path){
         this(path, null);
     }
@@ -56,15 +53,17 @@ public class Module<T> extends Region {
     private void addListener(){
         onMirror.addListener((observable,  oldValue,  newValue) -> {
             if (newValue){
-                ((ModuleControl) controller).startModule();
+                ((ModuleController) controller).displayingModule();
+                if (api != null) api.start();
             }
             else{
-                ((ModuleControl) controller).stopModule();
+                ((ModuleController) controller).removingModule();
+                if (api != null) api.stop();
             }
         });
 
         position.addListener((observable, oldValue, newValue) -> {
-            ((ModuleControl) controller).align(newValue.contains("Left"));
+            ((ModuleController) controller).align(newValue.contains("Left"));
         });
     }
     
@@ -86,8 +85,12 @@ public class Module<T> extends Region {
         return controller;
     }
     
-    public String getType(){
-        return type;
+    public void update() {
+        ((ModuleController) controller).update();
+    }
+    
+    public String getName(){
+        return (api != null ? api.getName() : "");
     }
 
     public BooleanProperty onMirrorProperty(){

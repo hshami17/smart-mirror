@@ -29,6 +29,8 @@ public class MirrorViewController implements Initializable {
     
     public static boolean modulesHidden = false;
     private static final BlockingQueue<String> alerts = new LinkedBlockingQueue<>();
+    private String lastAlertMsg = "";
+    private long lastAlertTimestamp = 0;
     private final List<Module> modulesOnMirror = new ArrayList<>();
     
     // Module containers
@@ -59,48 +61,71 @@ public class MirrorViewController implements Initializable {
 
     @FXML
     private void hideShowButtonPressed(ActionEvent event){
-        hideShowAllModules();
+        toggleMirrorDisplay();
     }
     
     public static void putAlert(String msg) {
-        if (alerts.size() < 5) {
-            try {
-                alerts.put(msg);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            alerts.put(msg);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     private void alertProcessing(){
         new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             while (true) {
-                try{
+                try {
                     String message = alerts.take();
-
-                    alertPrompt.setText(message);
-
-                    FadeTransition promptFade = new FadeTransition(new Duration(500), alertPrompt);
-                    promptFade.setFromValue(alertPrompt.getOpacity() == 1.0 ? 1.0 : 0.0);
-                    promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
-                    promptFade.play();
-
-                    Thread.sleep(8000);
-
-                    promptFade.setFromValue(alertPrompt.getOpacity() == 1.0 ? 1.0 : 0.0);
-                    promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
-                    promptFade.play();
-
-                    while(alertPrompt.getOpacity() != 0.0){/*wait*/}
-                }
-                catch(InterruptedException ex){
+                    long timestamp = System.currentTimeMillis() / 1000;
+                   
+                    // Avoid same alerts being spammed
+                    if (!(message.equals(lastAlertMsg) && (timestamp - lastAlertTimestamp) < 10)) { 
+                        displayAlert(message);
+                    }
+                    lastAlertTimestamp = timestamp;
+                    lastAlertMsg = message;  
+                } 
+                catch (InterruptedException ex) {
                     Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }).start();
     }
     
-    private void hideShowAllModules(){
+    private void displayAlert(String message) {
+        new Thread(() -> {
+            alertPrompt.setText(message);
+            
+            FadeTransition promptFade = new FadeTransition(new Duration(500), alertPrompt);
+            Platform.runLater(() -> {
+                promptFade.setFromValue(alertPrompt.getOpacity() == 1.0 ? 1.0 : 0.0);
+                promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
+                promptFade.play();
+            });
+            
+            try {
+                Thread.sleep(8000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            Platform.runLater(() -> {
+                promptFade.setFromValue(alertPrompt.getOpacity() == 1.0 ? 1.0 : 0.0);
+                promptFade.setToValue(alertPrompt.getOpacity() == 1.0 ? 0.0 : 1.0);
+                promptFade.play(); 
+            });
+
+            while(alertPrompt.getOpacity() != 0.0){/*wait*/}    
+        }).start();
+    }
+    
+    private void toggleMirrorDisplay(){
         Duration duration = new Duration(!modulesHidden ? 500 : 1000);
 
         FadeTransition sepFade = new FadeTransition(duration, separator);
@@ -163,26 +188,32 @@ public class MirrorViewController implements Initializable {
             if (Config.getTopMod() != null){
                 top.getChildren().addAll(Config.getTopMod());
                 modulesOnMirror.add(Config.getTopMod());
+                if (modulesHidden) Config.getTopMod().setOpacity(0);
             }
             if (Config.getTopRightMod() != null) {
                 topRight.getChildren().setAll(Config.getTopRightMod());
                 modulesOnMirror.add(Config.getTopRightMod());
+                if (modulesHidden) Config.getTopRightMod().setOpacity(0);
             }
             if (Config.getTopLeftMod() != null) {
                 topLeft.getChildren().setAll(Config.getTopLeftMod());
                 modulesOnMirror.add(Config.getTopLeftMod());
+                if (modulesHidden) Config.getTopLeftMod().setOpacity(0);
             }
             if (Config.getBottomRightMod() != null) {
                 bottomRight.getChildren().setAll(Config.getBottomRightMod());
                 modulesOnMirror.add(Config.getBottomRightMod());
+                if (modulesHidden) Config.getBottomRightMod().setOpacity(0);
             }
             if (Config.getBottomLeftMod() != null) {
                 bottomLeft.getChildren().setAll(Config.getBottomLeftMod());
                 modulesOnMirror.add(Config.getBottomLeftMod());
+                if (modulesHidden) Config.getBottomLeftMod().setOpacity(0);
             }
             if (Config.getBottomMod() != null) {
                 bottom.getChildren().setAll(Config.getBottomMod());
                 modulesOnMirror.add(Config.getBottomMod());
+                if (modulesHidden) Config.getBottomMod().setOpacity(0);
             }
             // TEMPORARY
 //            Module spotify = new Module("/fxml/Spotify.fxml");
@@ -204,7 +235,7 @@ public class MirrorViewController implements Initializable {
         placeModules();
         String webAddress = System.getenv("WEBADDRESS");
         if (webAddress == null || webAddress.isEmpty()){
-            webAddress = "Web service address not found";
+            webAddress = "Web service not running";
         }
         webServiceAddr.setText(webAddress);
     }

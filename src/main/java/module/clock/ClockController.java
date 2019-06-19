@@ -19,15 +19,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import models.ModelManager;
-import module.ModuleControl;
+import module.ModuleController;
 
 /**
  * FXML Controller class
  *
  * @author hasan
  */
-public class ClockController implements Initializable, ModuleControl {
+public class ClockController implements Initializable, ModuleController {
     
     @FXML
     private StackPane analogClock;
@@ -172,17 +171,14 @@ public class ClockController implements Initializable, ModuleControl {
     private double getSecondAngle(LocalTime time) {
         return time.getSecond() * 360 / 60;
     }
-
+    
     @Override
-    public void setModel(ModelManager modelManager) {}
-
-    @Override
-    public void startModule() {
+    public void displayingModule() {
         buildAnalogClock();
     }
 
     @Override
-    public void stopModule() {
+    public void removingModule() {
         analogClock.getChildren().clear();
         secondsTransition.stop();
         minuteTransition.stop();

@@ -14,7 +14,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import utils.Config;
 import utils.PCM;
-import utils.PCS;
 
 /**
  *
@@ -25,7 +24,7 @@ public class WunderlistAPI extends APIManager {
     private final WunderlistModel tasksModel;
     
     public WunderlistAPI(){
-        super(2000, PCM.PULL_TASKS, PCM.STOP_TASKS_API, "THERE WAS AN ISSUE PULLING FROM THE WUNDERLIST API");
+        super(ModuleName.WUNDERLIST, 5000, PCM.PULL_TASKS);
         this.tasksModel = ModelManager.INST.getTasksModel();
     }
 
@@ -75,7 +74,5 @@ public class WunderlistAPI extends APIManager {
 
             }
         }
-
-        PCS.INST.firePropertyChange(PCM.TASK_UPDATE);
     }
 }

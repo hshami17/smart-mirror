@@ -13,7 +13,7 @@ import java.beans.PropertyChangeSupport;
  * @author hasan
  */
 public class PCS {
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
     public void addPropertyChangeListener(String propName, PropertyChangeListener listener){
         pcs.addPropertyChangeListener(propName, listener);

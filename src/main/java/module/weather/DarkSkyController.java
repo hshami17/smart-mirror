@@ -5,9 +5,6 @@
  */
 package module.weather;
 
-import api_calls.DarkSkyAPI;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -22,17 +19,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.DarkSkyModel;
 import models.ModelManager;
-import utils.PCM;
-import utils.PCS;
-import module.ModuleControl;
+import module.ModuleController;
 
 /**
  * FXML Controller class
  *
  * @author hasan
  */
-public class DarkSkyController implements Initializable, ModuleControl, 
-        PropertyChangeListener {
+public class DarkSkyController implements Initializable, ModuleController {
 
     @FXML
     private Pane weatherModule;
@@ -64,11 +58,11 @@ public class DarkSkyController implements Initializable, ModuleControl,
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        PCS.INST.addPropertyChangeListener(PCM.WEATHER_UPDATE, this);
-    }    
 
+    }    
+    
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+    public void update() {
         Platform.runLater(() -> {
             temperature.setText(darkSkyModel.getCurrentTemp().toString() + "\u00b0");
             weatherIcon.setImage(new Image(darkSkyModel.getCurrentIcon().getPath()));
@@ -112,21 +106,5 @@ public class DarkSkyController implements Initializable, ModuleControl,
     @Override
     public void setModel(ModelManager modelManager) {
         this.darkSkyModel = modelManager.getWeatherModel();
-    }
-    
-    private boolean apiRunning = false;
-
-    @Override
-    public void startModule() {
-        if (!apiRunning){
-            new DarkSkyAPI().start();
-            apiRunning = true;
-        }
-    }
-
-    @Override
-    public void stopModule() {
-        PCS.INST.firePropertyChange(PCM.STOP_WEATHER_API);
-        apiRunning = false;
     }
 }

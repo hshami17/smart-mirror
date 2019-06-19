@@ -12,7 +12,6 @@ import models.ModelManager;
 import models.datatypes.Forecast;
 import utils.Config;
 import utils.PCM;
-import utils.PCS;
 
 
 /**
@@ -24,7 +23,7 @@ public class DarkSkyAPI extends APIManager {
     private final DarkSkyModel weatherModel;
     
     public DarkSkyAPI() {
-        super(600000, PCM.PULL_WEATHER, PCM.STOP_WEATHER_API, "THERE WAS AN ISSUE PULLING FROM THE DARK SKY API");
+        super(ModuleName.DARK_SKY, 600000, PCM.PULL_WEATHER);
         this.weatherModel = ModelManager.INST.getWeatherModel();
     }
 
@@ -98,7 +97,5 @@ public class DarkSkyAPI extends APIManager {
         for (int i = 0; i < weeklyForecast.size(); i++) {
             weatherModel.getForecastList().add(new Forecast(weeklyForecast.getJsonObject(i)));
         }
-
-        PCS.INST.firePropertyChange(PCM.WEATHER_UPDATE);
     }
 }

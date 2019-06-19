@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package module;
-
-import models.ModelManager;
+package api_calls;
 
 /**
  *
  * @author hasan
  */
-public interface ModuleControl {
-    void setModel(ModelManager modelManager);
-    void startModule();
-    void stopModule();
-    default void align(boolean left){}
+public enum ModuleName {
+    DARK_SKY,
+    CLOCK,
+    NEWS,
+    WUNDERLIST,
+    RANDOM_FAMOUS_QUOTES,
+    RANDOM_USELESS_FACTS,
+    SPOTIFY
 }

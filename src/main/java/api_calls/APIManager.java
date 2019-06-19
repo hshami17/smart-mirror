@@ -7,23 +7,24 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import module.Module;
 import smartmirror.MirrorViewController;
 
-public abstract class APIManager extends Thread implements PropertyChangeListener {
-
+public abstract class APIManager implements PropertyChangeListener {
+    
+    protected ModuleName name = null;
+    protected Module module = null;
+    
+    private Thread apiThread = null;
     private final long sleepTime;
     private final AtomicLong lastPull = new AtomicLong(0);
     private final AtomicBoolean stop = new AtomicBoolean(true);
-    private final String STOP_PROP;
     private final String PULL_PROP;
-    private final String errMsg;
 
-    APIManager(long sleepTime, String pullProp, String stopProp, String errMsg) {
+    APIManager(ModuleName name, long sleepTime, String pullProp) {
+        this.name = name;
         this.sleepTime = sleepTime;
-        this.STOP_PROP = stopProp;
         this.PULL_PROP = pullProp;
-        this.errMsg = errMsg;
-        PCS.INST.addPropertyChangeListener(STOP_PROP, this);
         PCS.INST.addPropertyChangeListener(PULL_PROP, this);
     }
 
@@ -32,41 +33,58 @@ public abstract class APIManager extends Thread implements PropertyChangeListene
     }
     
     private void pullApi() {
+        if (stop.get()) return;
+
         try {
             fetch();
+            module.update();
             lastPull.set(System.currentTimeMillis());
         } catch (IOException ex) {
             System.out.println(ex);
-            MirrorViewController.putAlert(errMsg);
+            MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE " + name.toString().replace("_", " ") + " API");
         }
     }
     
     abstract protected void fetch() throws IOException;
 
-    @Override
-    public void run() {
-        stop.set(false);
-        while(doPull() || !stop.get()){   
-            pullApi();
-            try {
-                Thread.sleep(sleepTime);
-            } 
-            catch (InterruptedException ex) {
-                break;
+    public void start() {
+        if (apiThread != null) return;
+        
+        apiThread = new Thread(() -> {
+            stop.set(false);
+            while(doPull() || !stop.get()){   
+                pullApi();
+                try {
+                    Thread.sleep(sleepTime);
+                } 
+                catch (InterruptedException ex) {
+                    break;
+                }
             }
-        }
+        });
+        apiThread.start();
+    }
+    
+    public void stop() {
+        if (apiThread == null) return;
+        
+        stop.set(true);
+        apiThread.interrupt();
+        apiThread = null;
+    }
+    
+    public void setModule(Module module) {
+        this.module = module;
+    }
+    
+    public String getName() {
+        return (name != null ? name.toString() : "");
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(STOP_PROP)){
-            stop.set(true);
-            this.interrupt();
-        }
-        else if (evt.getPropertyName().equals(PULL_PROP)) {
-            if (!stop.get()){
-                pullApi();
-            }
+        if (evt.getPropertyName().equals(PULL_PROP)) {
+            pullApi();
         }
     }
 }

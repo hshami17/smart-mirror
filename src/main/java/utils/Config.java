@@ -1,5 +1,10 @@
 package utils;
 
+import api_calls.DarkSkyAPI;
+import api_calls.NewsAPI;
+import api_calls.RandomFamousQuoteAPI;
+import api_calls.RandomUselessFacts;
+import api_calls.WunderlistAPI;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -23,6 +28,13 @@ import org.xml.sax.SAXException;
  * @author hasan
  */
 public class Config {
+    
+    private static final String WEATHER = "WEATHER";
+    private static final String CLOCK = "CLOCK";
+    private static final String NEWS = "NEWS";
+    private static final String TASKS = "TASKS";
+    private static final String QUOTE = "QUOTE";
+    private static final String USELESS_FACTS = "USELESS_FACTS";
 
     public static String CONFIG_PATH;
     public static String WATCH_PATH;
@@ -67,12 +79,12 @@ public class Config {
         
         try {
             if (!initialized){
-                clock = new Module("/fxml/Clock.fxml", Module.CLOCK);
-                weather = new Module("/fxml/DarkSky.fxml", Module.WEATHER);
-                tasks = new Module("/fxml/Wunderlist.fxml", Module.TASKS);
-                news = new Module("/fxml/NewsAPI.fxml", Module.NEWS);
-                quote = new Module("/fxml/RandomFamousQuotes.fxml", Module.QUOTE);
-//                uselessFacts = new Module("/fxml/RandomUselessFacts.fxml", Module.USELESS_FACTS);
+                clock = new Module("/fxml/Clock.fxml");
+                weather = new Module("/fxml/DarkSky.fxml", new DarkSkyAPI());
+                tasks = new Module("/fxml/Wunderlist.fxml", new WunderlistAPI());
+                news = new Module("/fxml/NewsAPI.fxml", new NewsAPI());
+                quote = new Module("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI());
+//                uselessFacts = new Module("/fxml/RandomUselessFacts.fxml", new RandomUselessFacts());
                 spotify = new Module("/fxml/Spotify.fxml");
                 getConfigurations();
                 // Weather prop listeners
@@ -144,7 +156,7 @@ public class Config {
                 String position = modElement.getElementsByTagName("position")
                         .item(0).getTextContent();
                 switch (modElement.getAttribute("name").toUpperCase()){
-                    case Module.WEATHER:
+                    case WEATHER:
                         weatherKey.setValue(key);
                         zipcodeKey.setValue(modElement.getElementsByTagName("zipcodekey")
                                 .item(0).getTextContent());
@@ -152,7 +164,7 @@ public class Config {
                                 .item(0).getTextContent());
                         setModulePosition(position, weather);
                         break;
-                    case Module.TASKS:
+                    case TASKS:
                         taskKey.setValue(key);
                         taskClientID.setValue(modElement.getElementsByTagName("clientid")
                                 .item(0).getTextContent());
@@ -160,7 +172,7 @@ public class Config {
                                 .item(0).getTextContent());
                         setModulePosition(position, tasks);
                         break;
-                    case Module.NEWS:
+                    case NEWS:
                         newsKey.setValue(key);
                         newsSource.setValue(modElement.getElementsByTagName("source")
                                 .item(0).getTextContent());
@@ -168,10 +180,10 @@ public class Config {
                                 .item(0).getTextContent());
                         setModulePosition(position, news);
                         break;
-                    case Module.CLOCK:
+                    case CLOCK:
                         setModulePosition(position, clock);
                         break;
-                    case Module.QUOTE:
+                    case QUOTE:
                         quoteKey.setValue(key);
                         category.setValue(modElement.getElementsByTagName("category")
                                 .item(0).getTextContent());

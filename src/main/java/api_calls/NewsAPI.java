@@ -11,7 +11,6 @@ import models.ModelManager;
 import models.NewsAPIModel;
 import utils.Config;
 import utils.PCM;
-import utils.PCS;
 
 /**
  *
@@ -22,7 +21,7 @@ public class NewsAPI extends APIManager {
     private final NewsAPIModel newsModel;
     
     public NewsAPI(){
-        super(300000, PCM.PULL_NEWS, PCM.STOP_NEWS_API, "THERE WAS AN ISSUE PULLING FROM THE NEWS API");
+        super(ModuleName.NEWS, 300000, PCM.PULL_NEWS);
         this.newsModel = ModelManager.INST.getNewsModel();
     }
 
@@ -42,7 +41,5 @@ public class NewsAPI extends APIManager {
         for (int i=0; i<articles.size(); i++){
             newsModel.getHeadlines().add(articles.getJsonObject(i).getString("title"));
         }
-
-        PCS.INST.firePropertyChange(PCM.NEWS_UPDATE);
     }
 }
