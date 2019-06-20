@@ -56,7 +56,6 @@ public abstract class APIManager implements PropertyChangeListener {
             stop.set(false);
             while(!stop.get()){
                 if (doPull()) {
-                    System.out.println("PULLING " + getName());
                     pullApi();
                 }
             }
