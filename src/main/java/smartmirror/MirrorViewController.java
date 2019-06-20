@@ -179,9 +179,6 @@ public class MirrorViewController implements Initializable {
             modulesOnMirror.clear();
         });
     }
-
-    @FXML
-    private Pane spotifyPlayer;
     
     void placeModules(){
         Platform.runLater(() -> {
@@ -215,10 +212,6 @@ public class MirrorViewController implements Initializable {
                 modulesOnMirror.add(Config.getBottomMod());
                 if (modulesHidden) Config.getBottomMod().setOpacity(0);
             }
-            // TEMPORARY
-//            Module spotify = new Module("/fxml/Spotify.fxml");
-//            bottomRight.getChildren().addAll(spotify);
-//            modulesOnMirror.add(spotify);
         });
     }
         

@@ -1,6 +1,7 @@
 package module;
 
 import api_calls.APIManager;
+import api_calls.ModuleName;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,8 +90,8 @@ public class Module<T> extends Region {
         ((ModuleController) controller).update();
     }
     
-    public String getName(){
-        return (api != null ? api.getName() : "");
+    public ModuleName getName(){
+        return api.getName();
     }
 
     public BooleanProperty onMirrorProperty(){
