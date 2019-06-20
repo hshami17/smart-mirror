@@ -22,7 +22,7 @@ public class RandomFamousQuoteAPI extends APIManager {
     private final RandomFamousQuoteModel quoteModel;
 
     public RandomFamousQuoteAPI() {
-        super(ModuleName.RANDOM_FAMOUS_QUOTES, 60000, PCM.PULL_QUOTE);
+        super(ModuleName.RANDOM_FAMOUS_QUOTES, 60, PCM.PULL_QUOTE);
         this.quoteModel = ModelManager.INST.getQuoteModel();
     }
 

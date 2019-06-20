@@ -16,20 +16,20 @@ public abstract class APIManager implements PropertyChangeListener {
     protected Module module = null;
     
     private Thread apiThread = null;
-    private final long sleepTime;
+    private final long pullInterval;
     private final AtomicLong lastPull = new AtomicLong(0);
     private final AtomicBoolean stop = new AtomicBoolean(true);
     private final String PULL_PROP;
 
-    APIManager(ModuleName name, long sleepTime, String pullProp) {
+    APIManager(ModuleName name, long pullInterval, String pullProp) {
         this.name = name;
-        this.sleepTime = sleepTime;
+        this.pullInterval = pullInterval;
         this.PULL_PROP = pullProp;
         PCS.INST.addPropertyChangeListener(PULL_PROP, this);
     }
 
     private boolean doPull() {
-        return (System.currentTimeMillis() - lastPull.get() > sleepTime);
+        return ((System.currentTimeMillis() / 1000) - lastPull.get() > pullInterval);
     }
     
     private void pullApi() {
@@ -38,10 +38,12 @@ public abstract class APIManager implements PropertyChangeListener {
         try {
             fetch();
             module.update();
-            lastPull.set(System.currentTimeMillis());
         } catch (IOException ex) {
             System.out.println(ex);
             MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE " + name.toString().replace("_", " ") + " API");
+        }
+        finally {
+            lastPull.set(System.currentTimeMillis() / 1000);
         }
     }
     
@@ -52,13 +54,10 @@ public abstract class APIManager implements PropertyChangeListener {
         
         apiThread = new Thread(() -> {
             stop.set(false);
-            while(doPull() || !stop.get()){   
-                pullApi();
-                try {
-                    Thread.sleep(sleepTime);
-                } 
-                catch (InterruptedException ex) {
-                    break;
+            while(!stop.get()){
+                if (doPull()) {
+                    System.out.println("PULLING " + getName());
+                    pullApi();
                 }
             }
         });
@@ -69,7 +68,6 @@ public abstract class APIManager implements PropertyChangeListener {
         if (apiThread == null) return;
         
         stop.set(true);
-        apiThread.interrupt();
         apiThread = null;
     }
     
@@ -77,8 +75,8 @@ public abstract class APIManager implements PropertyChangeListener {
         this.module = module;
     }
     
-    public String getName() {
-        return (name != null ? name.toString() : "");
+    public ModuleName getName() {
+        return name;
     }
 
     @Override

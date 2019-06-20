@@ -21,7 +21,7 @@ import utils.PCM;
 public class RandomUselessFacts extends APIManager {
     
     public RandomUselessFacts() {
-        super(ModuleName.RANDOM_USELESS_FACTS, 60000, PCM.PULL_FACTS);
+        super(ModuleName.RANDOM_USELESS_FACTS, 60, PCM.PULL_FACTS);
     }
 
     @Override
