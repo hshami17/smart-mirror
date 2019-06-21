@@ -1,7 +1,6 @@
 package api_calls;
 
 import utils.PCS;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -12,7 +11,6 @@ import smartmirror.MirrorViewController;
 
 public abstract class APIManager implements PropertyChangeListener {
     
-    protected ModuleName name = null;
     protected Module module = null;
     
     private Thread apiThread = null;
@@ -21,8 +19,7 @@ public abstract class APIManager implements PropertyChangeListener {
     private final AtomicBoolean stop = new AtomicBoolean(true);
     private final String PULL_PROP;
 
-    APIManager(ModuleName name, long pullInterval, String pullProp) {
-        this.name = name;
+    APIManager(long pullInterval, String pullProp) {
         this.pullInterval = pullInterval;
         this.PULL_PROP = pullProp;
         PCS.INST.addPropertyChangeListener(PULL_PROP, this);
@@ -40,7 +37,7 @@ public abstract class APIManager implements PropertyChangeListener {
             module.update();
         } catch (IOException ex) {
             System.out.println(ex);
-            MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE " + name.toString().replace("_", " ") + " API");
+            MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE " + module.getName().toString().replace("_", " ") + " API");
         }
         finally {
             lastPull.set(System.currentTimeMillis() / 1000);
@@ -74,10 +71,6 @@ public abstract class APIManager implements PropertyChangeListener {
         this.module = module;
     }
     
-    public ModuleName getName() {
-        return name;
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(PULL_PROP)) {

@@ -1,7 +1,6 @@
 package module;
 
 import api_calls.APIManager;
-import api_calls.ModuleName;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,30 +24,39 @@ import models.ModelManager;
 public class Module<T> extends Region {
 
     private T controller;
+    private String fxml;
     private APIManager api;
-    private BooleanProperty onMirror = new SimpleBooleanProperty(false);
-    private StringProperty position = new SimpleStringProperty("");
+    private ModuleName name;
+    private final BooleanProperty onMirror = new SimpleBooleanProperty(false);
+    private final StringProperty position = new SimpleStringProperty("");
     
-    public Module(String path, APIManager api) {
+    public Module(String fxml, APIManager api, ModuleName name) {
+        this.fxml = fxml;
+        this.api = api;
+        this.name = name;
+        init();
+    }
+    
+    public Module(String path, ModuleName name){
+        this(path, null, name);
+    }
+    
+    private void init() {
         try {
-            this.api = api;
             if (api != null) {
                 api.setModule(this);
             }
-            FXMLLoader loader = new FXMLLoader(Module.class.getResource(path));
+            FXMLLoader loader = new FXMLLoader(Module.class.getResource(fxml));
             this.getChildren().setAll((Node) loader.load());
             controller = loader.getController();
             if (controller instanceof ModuleController){
                 ((ModuleController) controller).setModel(ModelManager.INST);
                 addListener();
             }
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) {
             Logger.getLogger(Module.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    public Module(String path){
-        this(path, null);
     }
 
     private void addListener(){
@@ -91,7 +99,7 @@ public class Module<T> extends Region {
     }
     
     public ModuleName getName(){
-        return api.getName();
+        return name;
     }
 
     public BooleanProperty onMirrorProperty(){

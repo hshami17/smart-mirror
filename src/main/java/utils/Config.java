@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import module.Module;
+import module.ModuleName;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -79,13 +80,13 @@ public class Config {
         
         try {
             if (!initialized){
-                clock = new Module("/fxml/Clock.fxml");
-                weather = new Module("/fxml/DarkSky.fxml", new DarkSkyAPI());
-                tasks = new Module("/fxml/Wunderlist.fxml", new WunderlistAPI());
-                news = new Module("/fxml/NewsAPI.fxml", new NewsAPI());
-                quote = new Module("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI());
+                clock = new Module("/fxml/Clock.fxml", ModuleName.CLOCK);
+                weather = new Module("/fxml/DarkSky.fxml", new DarkSkyAPI(), ModuleName.DARK_SKY);
+                tasks = new Module("/fxml/Wunderlist.fxml", new WunderlistAPI(), ModuleName.WUNDERLIST);
+                news = new Module("/fxml/NewsAPI.fxml", new NewsAPI(), ModuleName.NEWS);
+                quote = new Module("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI(), ModuleName.RANDOM_FAMOUS_QUOTES);
 //                uselessFacts = new Module("/fxml/RandomUselessFacts.fxml", new RandomUselessFacts());
-                spotify = new Module("/fxml/Spotify.fxml");
+//                spotify = new Module("/fxml/Spotify.fxml", ModuleName.SPOTIFY);
                 getConfigurations();
                 // Weather prop listeners
                 addPropertyListeners(PCM.PULL_WEATHER, 

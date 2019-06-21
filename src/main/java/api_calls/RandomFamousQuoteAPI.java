@@ -1,5 +1,6 @@
 package api_calls;
 
+import module.ModuleName;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -22,7 +23,7 @@ public class RandomFamousQuoteAPI extends APIManager {
     private final RandomFamousQuoteModel quoteModel;
 
     public RandomFamousQuoteAPI() {
-        super(ModuleName.RANDOM_FAMOUS_QUOTES, 60, PCM.PULL_QUOTE);
+        super(60, PCM.PULL_QUOTE);
         this.quoteModel = ModelManager.INST.getQuoteModel();
     }
 

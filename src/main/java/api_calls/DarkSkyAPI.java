@@ -1,5 +1,6 @@
 package api_calls;
 
+import module.ModuleName;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -23,7 +24,7 @@ public class DarkSkyAPI extends APIManager {
     private final DarkSkyModel weatherModel;
     
     public DarkSkyAPI() {
-        super(ModuleName.DARK_SKY, 600, PCM.PULL_WEATHER);
+        super(600, PCM.PULL_WEATHER);
         this.weatherModel = ModelManager.INST.getWeatherModel();
     }
 

@@ -1,5 +1,6 @@
 package api_calls;
 
+import module.ModuleName;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -24,7 +25,7 @@ public class WunderlistAPI extends APIManager {
     private final WunderlistModel tasksModel;
     
     public WunderlistAPI(){
-        super(ModuleName.WUNDERLIST, 5, PCM.PULL_TASKS);
+        super(5, PCM.PULL_TASKS);
         this.tasksModel = ModelManager.INST.getTasksModel();
     }
 

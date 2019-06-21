@@ -1,5 +1,6 @@
 package api_calls;
 
+import module.ModuleName;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -21,7 +22,7 @@ public class NewsAPI extends APIManager {
     private final NewsAPIModel newsModel;
     
     public NewsAPI(){
-        super(ModuleName.NEWS, 300, PCM.PULL_NEWS);
+        super(300, PCM.PULL_NEWS);
         this.newsModel = ModelManager.INST.getNewsModel();
     }
 
