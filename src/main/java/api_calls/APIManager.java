@@ -6,6 +6,8 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import module.Module;
 import smartmirror.MirrorViewController;
 
@@ -51,9 +53,12 @@ public abstract class APIManager implements PropertyChangeListener {
         
         apiThread = new Thread(() -> {
             stop.set(false);
-            while(!stop.get()){
-                if (doPull()) {
-                    pullApi();
+            while(true){
+                pullApi();
+                try {
+                    Thread.sleep(pullInterval * 1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(APIManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -63,7 +68,7 @@ public abstract class APIManager implements PropertyChangeListener {
     public void stop() {
         if (apiThread == null) return;
         
-        stop.set(true);
+        apiThread.interrupt();
         apiThread = null;
     }
     
