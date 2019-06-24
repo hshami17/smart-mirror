@@ -1,0 +1,5 @@
+Flask==0.10.1
+Flask-Session==0.2.3
+Flask-SocketIO==2.1
+greenlet==0.4.12
+eventlet==0.18.2
