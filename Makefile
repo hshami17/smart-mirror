@@ -3,7 +3,7 @@ default: all
 DEPLOY_DIR=SMART_MIRROR
 
 all:
-	mvn install; \
+	mvn install && \
 	mkdir -p $(DEPLOY_DIR)/resources; \
 	rsync -rv target/smart-mirror-1.0.jar $(DEPLOY_DIR); \
 	rsync -rv scripts/ $(DEPLOY_DIR); \
@@ -14,10 +14,10 @@ all:
 
 
 dist:
-	make; \
+	make && \
 	tar cvmf smartmirror.tar.gz $(DEPLOY_DIR); 
 
 clean:
-	mvn clean; \
+	mvn clean && \
 	rm -rf $(DEPLOY_DIR); \
 	rm -rf smartmirror.tar.gz;
