@@ -1,7 +1,4 @@
 #!/bin/bash
 
-PID=$(ps aux | grep "[s]mart*" | awk '{print $2}')
-if [ "$PID" != "" ]; then
-	kill -KILL $PID
-fi
-pkill -f "main.py"
+pkill -f 'smart-mirror-1.0.jar'
+pkill -f 'main.py'
