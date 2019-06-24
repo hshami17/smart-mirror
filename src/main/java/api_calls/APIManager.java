@@ -58,7 +58,7 @@ public abstract class APIManager implements PropertyChangeListener {
                 try {
                     Thread.sleep(pullInterval * 1000);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(APIManager.class.getName()).log(Level.SEVERE, null, ex);
+                    break;
                 }
             }
         });
