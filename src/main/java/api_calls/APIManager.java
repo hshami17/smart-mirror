@@ -4,10 +4,7 @@ import utils.PCS;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import module.Module;
 import smartmirror.MirrorViewController;
 
@@ -18,7 +15,6 @@ public abstract class APIManager implements PropertyChangeListener {
     private Thread apiThread = null;
     private final long pullInterval;
     private final AtomicLong lastPull = new AtomicLong(0);
-    private final AtomicBoolean stop = new AtomicBoolean(true);
     private final String PULL_PROP;
 
     APIManager(long pullInterval, String pullProp) {
@@ -32,7 +28,7 @@ public abstract class APIManager implements PropertyChangeListener {
     }
     
     private void pullApi() {
-        if (stop.get()) return;
+        if (apiThread == null) return;
 
         try {
             fetch();
@@ -52,7 +48,6 @@ public abstract class APIManager implements PropertyChangeListener {
         if (apiThread != null) return;
         
         apiThread = new Thread(() -> {
-            stop.set(false);
             while(true){
                 pullApi();
                 try {
