@@ -18,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import module.Module;
+import module.ModuleName;
 import utils.Config;
 
 /**
@@ -212,6 +213,9 @@ public class MirrorViewController implements Initializable {
                 modulesOnMirror.add(Config.getBottomMod());
                 if (modulesHidden) Config.getBottomMod().setOpacity(0);
             }
+            
+            Module spotifyPlayer = new Module("/fxml/SpotifyPlayer.fxml", ModuleName.SPOTIFY_PLAYER);
+            bottomRight.getChildren().add(spotifyPlayer);
         });
     }
         

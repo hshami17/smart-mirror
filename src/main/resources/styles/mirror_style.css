@@ -97,3 +97,19 @@
 .date{
     -fx-font-size: 25;
 }
+
+.player-slider .thumb {
+    -fx-background-color: white;
+    -fx-pref-height: 10;
+    -fx-pref-width: 10;
+}
+
+.player-slider .track {
+    -fx-background-color: white;
+    -fx-pref-height: 1; 
+    
+}
+
+.track-label {
+    -fx-font-size: 20;
+}

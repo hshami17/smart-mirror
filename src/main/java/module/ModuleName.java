@@ -16,5 +16,5 @@ public enum ModuleName {
     WUNDERLIST,
     RANDOM_FAMOUS_QUOTES,
     RANDOM_USELESS_FACTS,
-    SPOTIFY
+    SPOTIFY_PLAYER
 }

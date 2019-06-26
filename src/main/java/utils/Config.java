@@ -7,6 +7,8 @@ import api_calls.RandomUselessFacts;
 import api_calls.WunderlistAPI;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,18 +38,20 @@ public class Config {
     private static final String TASKS = "TASKS";
     private static final String QUOTE = "QUOTE";
     private static final String USELESS_FACTS = "USELESS_FACTS";
-
+    
     public static String CONFIG_PATH;
     public static String WATCH_PATH;
-
+    
+    private static final Map<ModuleName, Module> modules = new HashMap<>();
+    
     private static Module clock;
     private static Module weather;
     private static Module tasks;
     private static Module news;
     private static Module quote;
+    private static Module spotifyPlayer;
     private static Module uselessFacts;
-    private static Module spotify;
-    
+
     private static Module topRightMod;
     private static Module topLeftMod;
     private static Module bottomRightMod;
@@ -85,8 +89,8 @@ public class Config {
                 tasks = new Module("/fxml/Wunderlist.fxml", new WunderlistAPI(), ModuleName.WUNDERLIST);
                 news = new Module("/fxml/NewsAPI.fxml", new NewsAPI(), ModuleName.NEWS);
                 quote = new Module("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI(), ModuleName.RANDOM_FAMOUS_QUOTES);
+                spotifyPlayer = new Module("/fxml/SpotifyPlayer.fxml", ModuleName.SPOTIFY_PLAYER);
 //                uselessFacts = new Module("/fxml/RandomUselessFacts.fxml", new RandomUselessFacts());
-//                spotify = new Module("/fxml/Spotify.fxml", ModuleName.SPOTIFY);
                 getConfigurations();
                 // Weather prop listeners
                 addPropertyListeners(PCM.PULL_WEATHER, 
@@ -156,6 +160,7 @@ public class Config {
                         .item(0).getTextContent();
                 String position = modElement.getElementsByTagName("position")
                         .item(0).getTextContent();
+                
                 switch (modElement.getAttribute("name").toUpperCase()){
                     case WEATHER:
                         weatherKey.setValue(key);
