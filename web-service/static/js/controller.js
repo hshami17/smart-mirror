@@ -12,6 +12,7 @@ SmartMirror.controller('Home', function($scope){
         $scope.forms.tasksFormData = {}
         $scope.forms.clockFormData = {}
         $scope.forms.quoteFormData = {}
+        $scope.forms.spotifyFormData = {}
 
         updateMirrorView(configData);
 
@@ -53,7 +54,11 @@ SmartMirror.controller('Home', function($scope){
                 $scope.forms.quoteFormData.position = value.position;
                 $scope.forms.quoteFormData.category = value.category;
                 $scope.$apply();
-            }
+            } else if (value.name == "spotify") {
+                $scope.forms.spotifyFormData.name = value.name;
+                $scope.forms.spotifyFormData.position = value.position;
+                $scope.$apply();
+            } 
 
         });
     });

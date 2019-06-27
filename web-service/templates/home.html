@@ -173,6 +173,34 @@
                     </div>
 
                 </div>
+
+                <h3>Spotify</h3>
+                <div class="module" id="spotify-module">
+                    <div class="front" onclick="editModule('spotify-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
+                        <img src="/static/images/spotify.png" width="250px" height="300px">
+                    </div>
+                    <div class="back" style="background-color: #d9d9d9">
+                        <form name="Spotify" id="spotify">
+                            <a href=""><span class="close-module" onclick="closeModule('spotify-module')">X</span></a>
+                            <input type="hidden" ng-model="forms.spotifyFormData.name">
+                            Position:<br>
+                            <div class="select-style">
+                            <select ng-model="forms.spotifyFormData.position" form="spotify">
+                                <option value="-">-</option>
+                                <option value="topLeft">Top Left</option>
+                                <option value="topRight">Top Right</option>
+                                <option value="bottomLeft">Bottom Left</option>
+                                <option value="bottomRight">Bottom Right</option>
+                            </select>
+                            </div>
+                            <br/>
+                            <br><br>
+                            <button ng-click="addModule(forms.spotifyFormData)">Add/Update</button>
+                            <button ng-click="removeModule(forms.spotifyFormData.name)">Remove</button>
+                        </form>
+                    </div>
+
+                </div>
             </div>
             <div class="mirror-display">
                 <div class="mirror-panel-top">
@@ -254,6 +282,11 @@
         });
 
         $("#news-module").flip({
+            trigger: 'manual',
+            reverse: true
+        });
+
+        $("#spotify-module").flip({
             trigger: 'manual',
             reverse: true
         });
