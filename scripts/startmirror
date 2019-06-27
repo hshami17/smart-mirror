@@ -39,9 +39,9 @@ do
 	esac
 done
 
-# Start web service and mirror application
-cd web-service
-python main.py --path ../resources/mirror_config.xml &
-cd ..
 echo "Debug messages in log.txt"
-java $sw -jar smart-mirror-1.0.jar $fullscreen &> log.txt
+java $sw -jar smart-mirror-1.0.jar $fullscreen &> log.txt &
+cd web-service
+python main.py --path ../resources/mirror_config.xml
+
+
