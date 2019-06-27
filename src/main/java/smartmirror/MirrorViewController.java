@@ -216,6 +216,7 @@ public class MirrorViewController implements Initializable {
             
             Module spotifyPlayer = new Module("/fxml/SpotifyPlayer.fxml", ModuleName.SPOTIFY_PLAYER);
             bottomRight.getChildren().add(spotifyPlayer);
+            modulesOnMirror.add(spotifyPlayer);
         });
     }
         
