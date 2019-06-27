@@ -6,6 +6,7 @@
 package module.spotify;
 
 import java.net.URL;
+import java.sql.Time;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +46,7 @@ public class SpotifyPlayerController implements Initializable {
     @FXML
     private Slider trackProgress;
     
-    private AtomicBoolean trackPlaying = new AtomicBoolean(true);
+    private final AtomicBoolean trackPlaying = new AtomicBoolean(true);
     
     /**
      * Initializes the controller class.
@@ -53,9 +54,9 @@ public class SpotifyPlayerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new Thread(() -> {
-            long max = 23431;
-            int minutes = (int)TimeUnit.MILLISECONDS.toMinutes(max);
-            int seconds = (int)TimeUnit.MILLISECONDS.toSeconds(max);
+            double max = 234314;
+            double minutes = (max / 1000) / 60;
+            int seconds = (int)((minutes - (int)minutes) * 60);
             Platform.runLater(() -> {
                 imgAlbumArt.setImage(new Image("https://i.scdn.co/image/6c1f62bfe24b3cf4a0f1c61448eada0ae0d16dff"));
                 lblArtist.setText("Khalid");
@@ -63,15 +64,15 @@ public class SpotifyPlayerController implements Initializable {
                 lblTrack.setText("Saturday Nights");
                 
                 trackProgress.maxProperty().setValue(max);
-                lblTrackLength.setText(String.format(Locale.US, "%02d", minutes) + ":" + String.format(Locale.US, "%02d", seconds));
+                lblTrackLength.setText(String.format(Locale.US, "%02d", (int)minutes) + ":" + String.format(Locale.US, "%02d", seconds));
             });
             while (trackProgress.valueProperty().get() != max) {
                 Platform.runLater(() -> {
                     trackProgress.increment();
-                    long current = (long)trackProgress.valueProperty().get();
-                    int minutesCurr = (int)TimeUnit.MILLISECONDS.toMinutes(current);
-                    int secondsCurr = (int)TimeUnit.MILLISECONDS.toSeconds(current);
-                    lblCurrentTime.setText(String.format(Locale.US, "%02d", minutesCurr) + ":" + String.format(Locale.US, "%02d", secondsCurr) + "/");
+                    double current = trackProgress.valueProperty().get();
+                    double minutesCurr = (current / 1000) / 60;
+                    int secondsCurr = (int)((minutesCurr - (int)minutesCurr) * 60);
+                    lblCurrentTime.setText(String.format(Locale.US, "%02d", (int)minutesCurr) + ":" + String.format(Locale.US, "%02d", secondsCurr) + "/");
                 });
                 try {
                     Thread.sleep(10);
