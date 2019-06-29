@@ -22,7 +22,7 @@ import utils.PCM;
 public class RandomUselessFacts extends APIManager {
     
     public RandomUselessFacts() {
-        super(60, PCM.PULL_FACTS);
+        super(60000, PCM.PULL_FACTS);
     }
 
     @Override

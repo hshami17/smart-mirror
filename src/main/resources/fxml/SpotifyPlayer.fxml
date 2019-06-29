@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
@@ -11,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="412.0" prefWidth="323.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.spotify.SpotifyPlayerController">
+<AnchorPane id="AnchorPane" prefHeight="412.0" prefWidth="323.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.spotify.SpotifyPlayerController">
    <children>
       <Pane layoutX="27.0" layoutY="357.0">
          <children>
@@ -20,7 +26,7 @@
                   <Insets top="3.0" />
                </padding>
             </Slider>
-            <HBox alignment="CENTER_RIGHT" layoutX="154.0" prefHeight="16.0" prefWidth="114.0">
+            <HBox alignment="CENTER_RIGHT" layoutX="154.0" prefHeight="16.0" prefWidth="114.0" translateY="-2.0">
                <children>
                   <Label fx:id="lblCurrentTime" prefHeight="23.0" styleClass="track-label" text="0:00/">
                      <font>
@@ -36,22 +42,34 @@
             </HBox>
          </children>
       </Pane>
-      <VBox layoutX="31.0" layoutY="288.0">
+      <VBox layoutX="31.0" layoutY="288.0" prefHeight="69.0" prefWidth="166.0">
          <children>
-            <Label fx:id="lblArtist" styleClass="track-label" text="Artist">
+            <Label fx:id="lblArtist" prefHeight="23.0" prefWidth="165.0" styleClass="track-label" text="Artist">
                <font>
                   <Font size="68.0" />
                </font>
             </Label>
-            <Label fx:id="lblAlbum" styleClass="track-label" text="Album" />
-            <Label fx:id="lblTrack" styleClass="track-label" text="Track" />
+            <Label fx:id="lblAlbum" prefWidth="165.0" styleClass="track-label" text="Album" />
+            <Label fx:id="lblTrack" prefWidth="165.0" styleClass="track-label" text="Track" />
          </children>
+         <padding>
+            <Insets top="4.0" />
+         </padding>
       </VBox>
-      <Label fx:id="lblTrackStatus" layoutX="238.0" layoutY="288.0" styleClass="track-label" text="Playing">
-         <font>
-            <Font size="68.0" />
-         </font>
-      </Label>
+      <HBox alignment="CENTER" layoutX="219.0" layoutY="288.0" spacing="5.0">
+         <children>
+            <Label fx:id="lblTrackStatus" layoutX="238.0" layoutY="288.0" styleClass="track-label" text="Playing">
+               <font>
+                  <Font size="68.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgPlayPause" fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/play-icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
       <ImageView fx:id="imgAlbumArt" fitHeight="260.0" fitWidth="273.0" layoutX="31.0" layoutY="23.0" onMouseClicked="#mouseClicked" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/no_album_art.jpg" />

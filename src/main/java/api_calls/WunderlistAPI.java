@@ -25,7 +25,7 @@ public class WunderlistAPI extends APIManager {
     private final WunderlistModel tasksModel;
     
     public WunderlistAPI(){
-        super(5, PCM.PULL_TASKS);
+        super(5000, PCM.PULL_TASKS);
         this.tasksModel = ModelManager.INST.getTasksModel();
     }
 

@@ -22,7 +22,7 @@ public class NewsAPI extends APIManager {
     private final NewsAPIModel newsModel;
     
     public NewsAPI(){
-        super(300, PCM.PULL_NEWS);
+        super(300000, PCM.PULL_NEWS);
         this.newsModel = ModelManager.INST.getNewsModel();
     }
 

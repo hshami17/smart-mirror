@@ -9,8 +9,6 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +17,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import models.ModelManager;
 import models.SpotifyTrackModel;
 import module.ModuleController;
 
@@ -45,11 +44,15 @@ public class SpotifyPlayerController implements Initializable, ModuleController 
     private Label lblTrackLength;
     @FXML
     private Slider trackProgressSlider;
+    @FXML
+    private ImageView imgPlayPause;
     
-    private SpotifyTrackModel currentTrack;
+    private final Image play = new Image("/images/play-icon.png");
+    private final Image pause = new Image("/images/pause-icon.png");
+    
+    private SpotifyTrackModel spotifyTrackModel;
     
     // TODO: Temporary, just using for testing purposes 
-    private final long trackLength = 234314;
     private final AtomicBoolean trackPlaying = new AtomicBoolean(true);
     
     /**
@@ -57,44 +60,25 @@ public class SpotifyPlayerController implements Initializable, ModuleController 
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        runNowPlaying();
+//        runNowPlaying();
     }  
-    
-    private void setCurrentTrack(SpotifyTrackModel currentTrack) {
-        this.currentTrack = currentTrack;
-    }
-    
-    private void runNowPlaying() {
-        new Thread(() -> {
-            double[] trackMinSec = millisecondsToMinutesSeconds(trackLength);
-            double minutes = trackMinSec[0];
-            double seconds = trackMinSec[1];
-            Platform.runLater(() -> {
-                imgAlbumArt.setImage(new Image("https://i.scdn.co/image/6c1f62bfe24b3cf4a0f1c61448eada0ae0d16dff"));
-                lblArtist.setText("Khalid");
-                lblAlbum.setText("Free Spirit");
-                lblTrack.setText("Saturday Nights");
 
-                trackProgressSlider.maxProperty().setValue(trackLength);
-                lblTrackLength.setText(String.format(Locale.US, "%02d", (int)minutes) + ":" + String.format(Locale.US, "%02d", (int)seconds));
-            });
-            while (trackProgressSlider.valueProperty().get() != trackLength) {
-                Platform.runLater(() -> {
-                    trackProgressSlider.increment();
-                    long current = (long)trackProgressSlider.valueProperty().get();
-                    double[] currentMinSec = millisecondsToMinutesSeconds(current);
-                    double minutesCurr = currentMinSec[0];
-                    double secondsCurr = currentMinSec[1];
-                    lblCurrentTime.setText(String.format(Locale.US, "%02d", (int)minutesCurr) + ":" + String.format(Locale.US, "%02d", (int)secondsCurr) + "/");
-                });
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SpotifyPlayerController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                while (!trackPlaying.get()) {/*wait*/}
-            }
-        }).start();
+    private void runNowPlaying() {
+//        new Thread(() -> {
+//            while (trackProgressSlider.valueProperty().get() != trackLength) {
+//                Platform.runLater(() -> {
+//                    trackProgressSlider.increment();
+//                    long current = (long)trackProgressSlider.valueProperty().get();
+//                    setTrackProgress(current);
+//                });
+//                try {
+//                    Thread.sleep(10);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(SpotifyPlayerController.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                while (!trackPlaying.get()) {/*wait*/}
+//            }
+//        }).start();
     }
     
     private double[] millisecondsToMinutesSeconds(long milliseconds) {
@@ -107,8 +91,50 @@ public class SpotifyPlayerController implements Initializable, ModuleController 
     // TODO: Test event, remove later
     @FXML
     private void mouseClicked(MouseEvent evt) {
-        trackPlaying.set(!trackPlaying.get());
-        Platform.runLater(() -> lblTrackStatus.setText(trackPlaying.get() ? "Playing" : "Paused"));
+//        trackPlaying.set(!trackPlaying.get());
+//        Platform.runLater(() -> lblTrackStatus.setText(trackPlaying.get() ? "Playing" : "Paused"));
     }
     
+    private void setTrackLength(long trackLength) {
+        double[] trackMinSec = millisecondsToMinutesSeconds(trackLength);
+        double minutes = trackMinSec[0];
+        double seconds = trackMinSec[1];
+        lblTrackLength.setText(String.format(Locale.US, "%02d", (int)minutes) + ":" + String.format(Locale.US, "%02d", (int)seconds));
+    }
+    
+    private void setTrackProgress(long trackProgress) {
+        double[] currentMinSec = millisecondsToMinutesSeconds(trackProgress);
+        double minutesCurr = currentMinSec[0];
+        double secondsCurr = currentMinSec[1];
+        lblCurrentTime.setText(String.format(Locale.US, "%02d", (int)minutesCurr) + ":" + String.format(Locale.US, "%02d", (int)secondsCurr) + "/");
+    }
+    
+    @Override
+    public void update() {
+        Platform.runLater(() -> {
+            boolean isPlaying = spotifyTrackModel.isPlaying();
+//            if (isPlaying != trackPlaying.get()) {
+//                setTrackProgress(spotifyTrackModel.getTrackProgress());
+//                trackProgressSlider.setValue(spotifyTrackModel.getTrackProgress());
+//            }
+            setTrackProgress(spotifyTrackModel.getTrackProgress());
+            trackProgressSlider.setValue(spotifyTrackModel.getTrackProgress());
+            trackPlaying.set(isPlaying);
+            lblTrackStatus.setText(trackPlaying.get() ? "Playing" : "Paused");
+            imgPlayPause.setImage(trackPlaying.get() ? play : pause);
+            lblAlbum.setText(spotifyTrackModel.getAlbum());
+            lblArtist.setText(spotifyTrackModel.getArtist());
+            lblTrack.setText(spotifyTrackModel.getTrackName());
+            imgAlbumArt.setImage(spotifyTrackModel.getSongArt());
+            setTrackLength(spotifyTrackModel.getTrackLength());
+            if (trackProgressSlider.getMax() != spotifyTrackModel.getTrackLength()) {
+                trackProgressSlider.setMax(spotifyTrackModel.getTrackLength());
+            }
+        });
+    }
+    
+    @Override
+    public void setModel(ModelManager modelManager) {
+        this.spotifyTrackModel = modelManager.getSpotifyTrackModel();
+    }
 }

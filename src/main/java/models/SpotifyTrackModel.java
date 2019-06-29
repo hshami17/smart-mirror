@@ -18,6 +18,7 @@ public class SpotifyTrackModel {
     private String trackName;
     private Image songArt;
     private long trackLength;
+    private long trackProgress;
     private boolean playing;
     
     public SpotifyTrackModel() {
@@ -62,6 +63,14 @@ public class SpotifyTrackModel {
 
     public void setTrackLength(long trackLength) {
         this.trackLength = trackLength;
+    }
+    
+    public long getTrackProgress() {
+        return trackProgress;
+    }
+
+    public void setTrackProgress(long trackProgress) {
+        this.trackProgress = trackProgress;
     }
 
     public boolean isPlaying() {
