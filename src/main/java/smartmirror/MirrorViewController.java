@@ -1,5 +1,6 @@
 package smartmirror;
 
+import api_calls.SpotifyAPI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -214,7 +215,8 @@ public class MirrorViewController implements Initializable {
                 if (modulesHidden) Config.getBottomMod().setOpacity(0);
             }
             
-            Module spotifyPlayer = new Module("/fxml/SpotifyPlayer.fxml", ModuleName.SPOTIFY_PLAYER);
+            Module spotifyPlayer = new Module("/fxml/SpotifyPlayer.fxml", new SpotifyAPI(), ModuleName.SPOTIFY_PLAYER);
+            spotifyPlayer.setOnMirror(true);
             bottomRight.getChildren().add(spotifyPlayer);
             modulesOnMirror.add(spotifyPlayer);
         });

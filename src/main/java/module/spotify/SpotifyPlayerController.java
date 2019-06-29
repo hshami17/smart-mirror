@@ -6,10 +6,8 @@
 package module.spotify;
 
 import java.net.URL;
-import java.sql.Time;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,13 +19,15 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import models.SpotifyTrackModel;
+import module.ModuleController;
 
 /**
  * FXML Controller class
  *
  * @author hasan
  */
-public class SpotifyPlayerController implements Initializable {
+public class SpotifyPlayerController implements Initializable, ModuleController {
     
     @FXML
     private ImageView imgAlbumArt;
@@ -44,8 +44,12 @@ public class SpotifyPlayerController implements Initializable {
     @FXML
     private Label lblTrackLength;
     @FXML
-    private Slider trackProgress;
+    private Slider trackProgressSlider;
     
+    private SpotifyTrackModel currentTrack;
+    
+    // TODO: Temporary, just using for testing purposes 
+    private final long trackLength = 234314;
     private final AtomicBoolean trackPlaying = new AtomicBoolean(true);
     
     /**
@@ -53,26 +57,35 @@ public class SpotifyPlayerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        runNowPlaying();
+    }  
+    
+    private void setCurrentTrack(SpotifyTrackModel currentTrack) {
+        this.currentTrack = currentTrack;
+    }
+    
+    private void runNowPlaying() {
         new Thread(() -> {
-            double max = 234314;
-            double minutes = (max / 1000) / 60;
-            int seconds = (int)((minutes - (int)minutes) * 60);
+            double[] trackMinSec = millisecondsToMinutesSeconds(trackLength);
+            double minutes = trackMinSec[0];
+            double seconds = trackMinSec[1];
             Platform.runLater(() -> {
                 imgAlbumArt.setImage(new Image("https://i.scdn.co/image/6c1f62bfe24b3cf4a0f1c61448eada0ae0d16dff"));
                 lblArtist.setText("Khalid");
                 lblAlbum.setText("Free Spirit");
                 lblTrack.setText("Saturday Nights");
-                
-                trackProgress.maxProperty().setValue(max);
-                lblTrackLength.setText(String.format(Locale.US, "%02d", (int)minutes) + ":" + String.format(Locale.US, "%02d", seconds));
+
+                trackProgressSlider.maxProperty().setValue(trackLength);
+                lblTrackLength.setText(String.format(Locale.US, "%02d", (int)minutes) + ":" + String.format(Locale.US, "%02d", (int)seconds));
             });
-            while (trackProgress.valueProperty().get() != max) {
+            while (trackProgressSlider.valueProperty().get() != trackLength) {
                 Platform.runLater(() -> {
-                    trackProgress.increment();
-                    double current = trackProgress.valueProperty().get();
-                    double minutesCurr = (current / 1000) / 60;
-                    int secondsCurr = (int)((minutesCurr - (int)minutesCurr) * 60);
-                    lblCurrentTime.setText(String.format(Locale.US, "%02d", (int)minutesCurr) + ":" + String.format(Locale.US, "%02d", secondsCurr) + "/");
+                    trackProgressSlider.increment();
+                    long current = (long)trackProgressSlider.valueProperty().get();
+                    double[] currentMinSec = millisecondsToMinutesSeconds(current);
+                    double minutesCurr = currentMinSec[0];
+                    double secondsCurr = currentMinSec[1];
+                    lblCurrentTime.setText(String.format(Locale.US, "%02d", (int)minutesCurr) + ":" + String.format(Locale.US, "%02d", (int)secondsCurr) + "/");
                 });
                 try {
                     Thread.sleep(10);
@@ -82,7 +95,14 @@ public class SpotifyPlayerController implements Initializable {
                 while (!trackPlaying.get()) {/*wait*/}
             }
         }).start();
-    }    
+    }
+    
+    private double[] millisecondsToMinutesSeconds(long milliseconds) {
+        double minutes = ((double)milliseconds / 1000) / 60;
+        double seconds = (minutes - (int)minutes) * 60;
+        
+        return new double[]{minutes, seconds};
+    }
     
     // TODO: Test event, remove later
     @FXML

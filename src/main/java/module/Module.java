@@ -43,36 +43,34 @@ public class Module<T> extends Region {
     
     private void init() {
         try {
-            if (api != null) {
+            if (hasApi()) {
                 api.setModule(this);
             }
             FXMLLoader loader = new FXMLLoader(Module.class.getResource(fxml));
             this.getChildren().setAll((Node) loader.load());
             controller = loader.getController();
-            if (controller instanceof ModuleController){
-                ((ModuleController) controller).setModel(ModelManager.INST);
-                addListener();
-            }
+            if (hasModuleController()) ((ModuleController) controller).setModel(ModelManager.INST);
+            addListeners();
         } 
         catch (IOException ex) {
             Logger.getLogger(Module.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void addListener(){
+    private void addListeners(){
         onMirror.addListener((observable,  oldValue,  newValue) -> {
             if (newValue){
-                ((ModuleController) controller).displayingModule();
-                if (api != null) api.start();
-            }
+                if (hasModuleController()) ((ModuleController) controller).displayingModule();
+                if (hasApi()) api.start();
+                }
             else{
-                ((ModuleController) controller).removingModule();
-                if (api != null) api.stop();
+                if (hasModuleController()) ((ModuleController) controller).removingModule();
+                if (hasApi()) api.stop();
             }
         });
 
         position.addListener((observable, oldValue, newValue) -> {
-            ((ModuleController) controller).align(newValue.contains("Left"));
+            if (hasModuleController()) ((ModuleController) controller).align(newValue.contains("Left"));
         });
     }
     
@@ -108,6 +106,14 @@ public class Module<T> extends Region {
     
     public boolean isOnMirror(){
         return onMirror.getValue();
+    }
+    
+    public boolean hasApi() {
+        return api != null;
+    }
+    
+    public boolean hasModuleController() {
+        return controller instanceof ModuleController;
     }
     
     public void setOnMirror(boolean onMirror){

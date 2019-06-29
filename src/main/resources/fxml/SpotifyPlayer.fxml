@@ -15,7 +15,7 @@
    <children>
       <Pane layoutX="27.0" layoutY="357.0">
          <children>
-            <Slider fx:id="trackProgress" layoutY="16.0" prefHeight="16.0" prefWidth="270.0" styleClass="player-slider" value="50.0">
+            <Slider fx:id="trackProgressSlider" layoutY="16.0" prefHeight="16.0" prefWidth="270.0" styleClass="player-slider" value="50.0">
                <padding>
                   <Insets top="3.0" />
                </padding>

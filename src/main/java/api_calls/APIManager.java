@@ -13,18 +13,18 @@ public abstract class APIManager implements PropertyChangeListener {
     protected Module module = null;
     
     private Thread apiThread = null;
-    private final long pullInterval;
+    private final long pullIntervalSeconds;
     private final AtomicLong lastPull = new AtomicLong(0);
     private final String PULL_PROP;
 
-    APIManager(long pullInterval, String pullProp) {
-        this.pullInterval = pullInterval;
+    APIManager(long pullIntervalSeconds, String pullProp) {
+        this.pullIntervalSeconds = pullIntervalSeconds;
         this.PULL_PROP = pullProp;
         PCS.INST.addPropertyChangeListener(PULL_PROP, this);
     }
 
     private boolean doPull() {
-        return ((System.currentTimeMillis() / 1000) - lastPull.get() > pullInterval);
+        return ((System.currentTimeMillis() / 1000) - lastPull.get() > pullIntervalSeconds);
     }
     
     private void pullApi() {
@@ -51,7 +51,7 @@ public abstract class APIManager implements PropertyChangeListener {
             while(true){
                 pullApi();
                 try {
-                    Thread.sleep(pullInterval * 1000);
+                    Thread.sleep(pullIntervalSeconds * 1000);
                 } catch (InterruptedException ex) {
                     break;
                 }
