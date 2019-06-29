@@ -7,11 +7,11 @@ SmartMirror.controller('Home', function($scope){
     socket.on('start', function(configData){
 
         $scope.forms = [];
-        $scope.forms.weatherFormData = {};
+        $scope.forms.darkskyFormData = {};
         $scope.forms.newsFormData = {}
-        $scope.forms.tasksFormData = {}
+        $scope.forms.wunderlistFormData = {}
         $scope.forms.clockFormData = {}
-        $scope.forms.quoteFormData = {}
+        $scope.forms.famousquoteFormData = {}
         $scope.forms.spotifyFormData = {}
 
         updateMirrorView(configData);
@@ -19,13 +19,13 @@ SmartMirror.controller('Home', function($scope){
         // Loop through each module data in the list to initially populate fields with existing data
         $.each(configData,function(index,value){
 
-            if (value.name == "weather") {
+            if (value.name == "darksky") {
                 // Set ng-model values for form data fields
-                $scope.forms.weatherFormData.name = value.name;
-                $scope.forms.weatherFormData.position = value.position;
-                $scope.forms.weatherFormData.key = value.key;
-                $scope.forms.weatherFormData.zipcodekey = value.zipcodekey;
-                $scope.forms.weatherFormData.zipcode = value.zipcode;
+                $scope.forms.darkskyFormData.name = value.name;
+                $scope.forms.darkskyFormData.position = value.position;
+                $scope.forms.darkskyFormData.key = value.key;
+                $scope.forms.darkskyFormData.zipcodekey = value.zipcodekey;
+                $scope.forms.darkskyFormData.zipcode = value.zipcode;
                 $scope.$apply();
             } else if (value.name == "news") {
                 $scope.forms.newsFormData.name = value.name;
@@ -36,23 +36,23 @@ SmartMirror.controller('Home', function($scope){
                 $scope.forms.newsFormData.sortby = value.sortby;
                 console.log($scope.forms.newsFormData);
                 $scope.$apply();
-            } else if (value.name == "tasks") {
-                $scope.forms.tasksFormData.name = value.name;
-                $scope.forms.tasksFormData.position = value.position;
-                $scope.forms.tasksFormData.key = value.key;
-                $scope.forms.tasksFormData.clientid = value.clientid;
-                $scope.forms.tasksFormData.listid = value.listid;
+            } else if (value.name == "wunderlist") {
+                $scope.forms.wunderlistFormData.name = value.name;
+                $scope.forms.wunderlistFormData.position = value.position;
+                $scope.forms.wunderlistFormData.key = value.key;
+                $scope.forms.wunderlistFormData.clientid = value.clientid;
+                $scope.forms.wunderlistFormData.listid = value.listid;
                 $scope.$apply();
             } else if (value.name == "clock") {
                 $scope.forms.clockFormData.name = value.name;
                 $scope.forms.clockFormData.position = value.position;
                 $scope.forms.clockFormData.key = value.key;
                 $scope.$apply();
-            } else if (value.name == "quote") {
-                $scope.forms.quoteFormData.name = value.name;
-                $scope.forms.quoteFormData.key = value.key;
-                $scope.forms.quoteFormData.position = value.position;
-                $scope.forms.quoteFormData.category = value.category;
+            } else if (value.name == "random-famous-quote") {
+                $scope.forms.famousquoteFormData.name = value.name;
+                $scope.forms.famousquoteFormData.key = value.key;
+                $scope.forms.famousquoteFormData.position = value.position;
+                $scope.forms.famousquoteFormData.category = value.category;
                 $scope.$apply();
             } else if (value.name == "spotify") {
                 $scope.forms.spotifyFormData.name = value.name;
