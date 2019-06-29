@@ -9,7 +9,7 @@ figlet -f big 'smart  mirror'
 export PORT=8080
 case $OSTYPE in
     linux*) # Linux
-		export IP=$(/sbin/ifconfig wlan0 | awk '/inet addr /{print substr($2, 6)}')
+		export IP=$(/sbin/ifconfig wlan0 | awk '/inet addr:/{print substr($2, 6)}')
         export WEBADDRESS=$IP:$PORT
         ;;
     darwin*) # MacOS
