@@ -9,8 +9,6 @@ import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
@@ -31,8 +29,6 @@ public class Module<T> extends Region {
     private final APIManager api;
     private final ModuleName name;
     private final BooleanProperty onMirror = new SimpleBooleanProperty(false);
-    private final StringProperty positionOld = new SimpleStringProperty("");
-    
     private Position position = Position.NONE;
     private final Map<String, String> moduleConfigs = new HashMap<>();
     
@@ -69,10 +65,6 @@ public class Module<T> extends Region {
                 if (hasModuleController()) ((ModuleController) controller).removingModule();
                 if (hasApi()) api.stop();
             }
-        });
-
-        positionOld.addListener((observable, oldValue, newValue) -> {
-            if (hasModuleController()) ((ModuleController) controller).align(newValue.contains("Left"));
         });
     }
     
