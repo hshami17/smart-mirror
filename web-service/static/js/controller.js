@@ -57,6 +57,7 @@ SmartMirror.controller('Home', function($scope){
             } else if (value.name == "spotify") {
                 $scope.forms.spotifyFormData.name = value.name;
                 $scope.forms.spotifyFormData.position = value.position;
+		$scope.forms.spotifyFormData.key = value.key;
                 $scope.$apply();
             } 
 
