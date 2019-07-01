@@ -44,7 +44,7 @@ public class Module<T> extends Region {
             FXMLLoader loader = new FXMLLoader(Module.class.getResource(fxml));
             this.getChildren().setAll((Node) loader.load());
             controller = loader.getController();
-            if (hasModuleController()) ((ModuleController) controller).setModel(ModelManager.INST);
+            if (hasModuleController()) moduleController().setModel(ModelManager.INST);
             addListeners();
         } 
         catch (IOException ex) {
@@ -55,11 +55,11 @@ public class Module<T> extends Region {
     private void addListeners(){
         onMirror.addListener((observable,  oldValue,  newValue) -> {
             if (newValue){
-                if (hasModuleController()) ((ModuleController) controller).displayingModule();
+                if (hasModuleController()) moduleController().displayingModule();
                 if (hasApi()) api.start();
                 }
             else{
-                if (hasModuleController()) ((ModuleController) controller).removingModule();
+                if (hasModuleController()) moduleController().removingModule();
                 if (hasApi()) api.stop();
             }
         });
@@ -83,8 +83,12 @@ public class Module<T> extends Region {
         return controller;
     }
     
+    public ModuleController moduleController() {
+        return hasModuleController() ? (ModuleController) controller : null;
+    }
+    
     public void update() {
-        ((ModuleController) controller).update();
+        moduleController().update();
     }
     
     public ModuleName getName(){
@@ -115,7 +119,7 @@ public class Module<T> extends Region {
         this.position = position;
         setOnMirror(position != Position.NONE);
         if (hasModuleController()) {
-            ((ModuleController) controller).align(position.toString().contains("LEFT"));
+            moduleController().align(position.toString().contains("LEFT"));
         }
     }
     
