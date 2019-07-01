@@ -1,9 +1,10 @@
 package smartmirror;
 
-import api_calls.SpotifyAPI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -19,8 +20,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import module.Module;
-import module.ModuleName;
 import utils.Config;
+import utils.Position;
 
 /**
  * Mirror View controller class
@@ -34,6 +35,7 @@ public class MirrorViewController implements Initializable {
     private String lastAlertMsg = "";
     private long lastAlertTimestamp = 0;
     private final List<Module> modulesOnMirror = new ArrayList<>();
+    private final Map<Position, Pane> spaces = new HashMap<>();
     
     // Module containers
     @FXML
@@ -60,7 +62,34 @@ public class MirrorViewController implements Initializable {
 
     @FXML
     private Separator separator;
-
+    
+            
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Put spaces in the map
+        spaces.put(Position.TOP, top);
+        spaces.put(Position.TOPLEFT, topLeft);
+        spaces.put(Position.TOPRIGHT, topRight);
+        spaces.put(Position.BOTTOMLEFT, bottomLeft);
+        spaces.put(Position.BOTTOMRIGHT, bottomRight);
+        spaces.put(Position.BOTTOM, bottom);
+        
+        alertPrompt.setOpacity(0);
+        alertProcessing();
+        buttonFadeInOut = new FadeTransition(Duration.millis(1000), hideButton);
+        placeModules();
+        String webAddress = System.getenv("WEBADDRESS");
+        if (webAddress == null || webAddress.isEmpty()){
+            webAddress = "Web service not running";
+        }
+        webServiceAddr.setText(webAddress);
+    }
+    
     @FXML
     private void hideShowButtonPressed(ActionEvent event){
         toggleMirrorDisplay();
@@ -172,71 +201,29 @@ public class MirrorViewController implements Initializable {
     
     void clearAllContainers(){
         Platform.runLater(() -> {
-            top.getChildren().clear();
-            topRight.getChildren().clear();
-            topLeft.getChildren().clear();
-            bottomRight.getChildren().clear();
-            bottomLeft.getChildren().clear();
-            bottom.getChildren().clear();
+            spaces.forEach((k, space) -> {
+               space.getChildren().clear();
+            });
             modulesOnMirror.clear();
         });
     }
     
     void placeModules(){
         Platform.runLater(() -> {
-            if (Config.getTopMod() != null){
-                top.getChildren().addAll(Config.getTopMod());
-                modulesOnMirror.add(Config.getTopMod());
-                if (modulesHidden) Config.getTopMod().setOpacity(0);
+            for (Position position : Position.values()) {
+                Module module = Config.getModuleAt(position);
+                if (module != null && module.getPosition() != Position.NONE) {
+                    Pane space = spaces.get(position);
+                    space.getChildren().setAll(module);
+                    modulesOnMirror.add(module);
+                    if (modulesHidden) {
+                        module.setOpacity(0);
+                    }
+                }
+                else {
+                    modulesOnMirror.remove(module);
+                }
             }
-            if (Config.getTopRightMod() != null) {
-                topRight.getChildren().setAll(Config.getTopRightMod());
-                modulesOnMirror.add(Config.getTopRightMod());
-                if (modulesHidden) Config.getTopRightMod().setOpacity(0);
-            }
-            if (Config.getTopLeftMod() != null) {
-                topLeft.getChildren().setAll(Config.getTopLeftMod());
-                modulesOnMirror.add(Config.getTopLeftMod());
-                if (modulesHidden) Config.getTopLeftMod().setOpacity(0);
-            }
-            if (Config.getBottomRightMod() != null) {
-                bottomRight.getChildren().setAll(Config.getBottomRightMod());
-                modulesOnMirror.add(Config.getBottomRightMod());
-                if (modulesHidden) Config.getBottomRightMod().setOpacity(0);
-            }
-            if (Config.getBottomLeftMod() != null) {
-                bottomLeft.getChildren().setAll(Config.getBottomLeftMod());
-                modulesOnMirror.add(Config.getBottomLeftMod());
-                if (modulesHidden) Config.getBottomLeftMod().setOpacity(0);
-            }
-            if (Config.getBottomMod() != null) {
-                bottom.getChildren().setAll(Config.getBottomMod());
-                modulesOnMirror.add(Config.getBottomMod());
-                if (modulesHidden) Config.getBottomMod().setOpacity(0);
-            }
-            
-            Module spotifyPlayer = new Module("/fxml/SpotifyPlayer.fxml", new SpotifyAPI(), ModuleName.SPOTIFY_PLAYER);
-            spotifyPlayer.setOnMirror(true);
-            bottomRight.getChildren().add(spotifyPlayer);
-            modulesOnMirror.add(spotifyPlayer);
         });
-    }
-        
-    /**
-     * Initializes the controller class.
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        alertPrompt.setOpacity(0);
-        alertProcessing();
-        buttonFadeInOut = new FadeTransition(Duration.millis(1000), hideButton);
-        placeModules();
-        String webAddress = System.getenv("WEBADDRESS");
-        if (webAddress == null || webAddress.isEmpty()){
-            webAddress = "Web service not running";
-        }
-        webServiceAddr.setText(webAddress);
     }
 }

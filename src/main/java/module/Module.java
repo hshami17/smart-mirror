@@ -2,6 +2,8 @@ package module;
 
 import api_calls.APIManager;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
@@ -14,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
 import models.ModelManager;
+import utils.Position;
 
 
 /**
@@ -24,21 +27,20 @@ import models.ModelManager;
 public class Module<T> extends Region {
 
     private T controller;
-    private String fxml;
-    private APIManager api;
-    private ModuleName name;
+    private final String fxml;
+    private final APIManager api;
+    private final ModuleName name;
     private final BooleanProperty onMirror = new SimpleBooleanProperty(false);
-    private final StringProperty position = new SimpleStringProperty("");
+    private final StringProperty positionOld = new SimpleStringProperty("");
     
-    public Module(String fxml, APIManager api, ModuleName name) {
-        this.fxml = fxml;
-        this.api = api;
+    private Position position = Position.NONE;
+    private final Map<String, String> moduleConfigs = new HashMap<>();
+    
+    public Module(ModuleName name) {
+        this.fxml = name.getFxml();
+        this.api = name.getApi();
         this.name = name;
         init();
-    }
-    
-    public Module(String path, ModuleName name){
-        this(path, null, name);
     }
     
     private void init() {
@@ -69,7 +71,7 @@ public class Module<T> extends Region {
             }
         });
 
-        position.addListener((observable, oldValue, newValue) -> {
+        positionOld.addListener((observable, oldValue, newValue) -> {
             if (hasModuleController()) ((ModuleController) controller).align(newValue.contains("Left"));
         });
     }
@@ -120,7 +122,15 @@ public class Module<T> extends Region {
         this.onMirror.setValue(onMirror);
     }
 
-    public void setPosition(String position) {
-        this.position.setValue(position);
+    public void setPosition(Position position) {
+        this.position = position;
+        setOnMirror(position != Position.NONE);
+        if (hasModuleController()) {
+            ((ModuleController) controller).align(position.toString().contains("LEFT"));
+        }
+    }
+    
+    public Position getPosition() {
+        return position;
     }
 }

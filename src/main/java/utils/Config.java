@@ -1,10 +1,5 @@
 package utils;
 
-import api_calls.DarkSkyAPI;
-import api_calls.NewsAPI;
-import api_calls.RandomFamousQuoteAPI;
-import api_calls.RandomUselessFacts;
-import api_calls.WunderlistAPI;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,32 +27,10 @@ import org.xml.sax.SAXException;
  */
 public class Config {
     
-    private static final String WEATHER = "WEATHER";
-    private static final String CLOCK = "CLOCK";
-    private static final String NEWS = "NEWS";
-    private static final String TASKS = "TASKS";
-    private static final String QUOTE = "QUOTE";
-    private static final String USELESS_FACTS = "USELESS_FACTS";
-    
     public static String CONFIG_PATH;
     public static String WATCH_PATH;
     
     private static final Map<ModuleName, Module> modules = new HashMap<>();
-    
-    private static Module clock;
-    private static Module weather;
-    private static Module tasks;
-    private static Module news;
-    private static Module quote;
-    private static Module spotifyPlayer;
-    private static Module uselessFacts;
-
-    private static Module topRightMod;
-    private static Module topLeftMod;
-    private static Module bottomRightMod;
-    private static Module bottomLeftMod;
-    private static Module bottom;
-    private static Module top;
     
     // Weather
     private static final StringProperty weatherKey = new SimpleStringProperty("");
@@ -84,38 +57,25 @@ public class Config {
         
         try {
             if (!initialized){
-                clock = new Module("/fxml/Clock.fxml", ModuleName.CLOCK);
-                weather = new Module("/fxml/DarkSky.fxml", new DarkSkyAPI(), ModuleName.DARK_SKY);
-                tasks = new Module("/fxml/Wunderlist.fxml", new WunderlistAPI(), ModuleName.WUNDERLIST);
-                news = new Module("/fxml/NewsAPI.fxml", new NewsAPI(), ModuleName.NEWS);
-                quote = new Module("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI(), ModuleName.RANDOM_FAMOUS_QUOTES);
-                spotifyPlayer = new Module("/fxml/SpotifyPlayer.fxml", ModuleName.SPOTIFY_PLAYER);
-//                uselessFacts = new Module("/fxml/RandomUselessFacts.fxml", new RandomUselessFacts());
-                getConfigurations();
                 // Weather prop listeners
-                addPropertyListeners(PCM.PULL_WEATHER, 
+                addPropertyListeners(PCM.FETCH_DARKSKY, 
                         weatherKey, 
                         zipcodeKey, 
                         zipcode);
                 // Quote prop listeners
-                addPropertyListeners(PCM.PULL_QUOTE, 
+                addPropertyListeners(PCM.FETCH_RANDOM_FAMOUS_QUOTE, 
                         quoteKey,
                         category);
                 // News prop listeners
-                addPropertyListeners(PCM.PULL_NEWS,
+                addPropertyListeners(PCM.FETCH_NEWS,
                         newsKey,
                         newsSource,
                         newsSortBy);
+                parseMirrorConfig();
                 initialized = true;
             }
-            else{
-                topRightMod = null;
-                topLeftMod = null;
-                bottomRightMod = null;
-                bottomLeftMod = null;
-                bottom = null;
-                top = null;
-                getConfigurations();
+            else {
+                parseMirrorConfig();
             }
         }
         catch (IOException ex){
@@ -139,7 +99,7 @@ public class Config {
         }
     }
     
-    private static void getConfigurations() throws IOException, ParserConfigurationException,
+    private static void parseMirrorConfig() throws IOException, ParserConfigurationException,
                                             DOMException, SAXException{
         
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -150,115 +110,75 @@ public class Config {
         doc.getDocumentElement().normalize();
 
         NodeList moduleConfigs = doc.getElementsByTagName("module");
-
+        
         // Get API keys
         for (int i=0; i<moduleConfigs.getLength(); i++){
-            Node module = moduleConfigs.item(i);
-            if (module.getNodeType() == Node.ELEMENT_NODE){
-                Element modElement = (Element) module;
-                String key = modElement.getElementsByTagName("key")
-                        .item(0).getTextContent();
-                String position = modElement.getElementsByTagName("position")
-                        .item(0).getTextContent();
+            Node moduleNode = moduleConfigs.item(i);
+            if (moduleNode.getNodeType() == Node.ELEMENT_NODE){
+                Element modElement = (Element) moduleNode;
+                String apiKey = modElement.getElementsByTagName("key").item(0).getTextContent();
                 
-                switch (modElement.getAttribute("name").toUpperCase()){
-                    case WEATHER:
-                        weatherKey.setValue(key);
+                String moduleNameXml = modElement.getAttribute("name").replace("-", "_").toUpperCase();
+                String positionXml = modElement.getElementsByTagName("position").item(0).getTextContent().toUpperCase();
+                
+                ModuleName moduleName = ModuleName.valueOf(moduleNameXml);
+                Position position;
+                if (!positionXml.equals("-")) {
+                    position = Position.valueOf(positionXml);
+                }
+                else {
+                    position = Position.NONE;
+                }
+                
+                switch (moduleName){
+                    case DARKSKY:
+                        weatherKey.setValue(apiKey);
                         zipcodeKey.setValue(modElement.getElementsByTagName("zipcodekey")
                                 .item(0).getTextContent());
                         zipcode.setValue(modElement.getElementsByTagName("zipcode")
                                 .item(0).getTextContent());
-                        setModulePosition(position, weather);
                         break;
-                    case TASKS:
-                        taskKey.setValue(key);
+                    case WUNDERLIST:
+                        taskKey.setValue(apiKey);
                         taskClientID.setValue(modElement.getElementsByTagName("clientid")
                                 .item(0).getTextContent());
                         listID.setValue(modElement.getElementsByTagName("listid")
                                 .item(0).getTextContent());
-                        setModulePosition(position, tasks);
                         break;
                     case NEWS:
-                        newsKey.setValue(key);
+                        newsKey.setValue(apiKey);
                         newsSource.setValue(modElement.getElementsByTagName("source")
                                 .item(0).getTextContent());
                         newsSortBy.setValue(modElement.getElementsByTagName("sortby")
                                 .item(0).getTextContent());
-                        setModulePosition(position, news);
                         break;
-                    case CLOCK:
-                        setModulePosition(position, clock);
-                        break;
-                    case QUOTE:
-                        quoteKey.setValue(key);
+                    case RANDOM_FAMOUS_QUOTE:
+                        quoteKey.setValue(apiKey);
                         category.setValue(modElement.getElementsByTagName("category")
                                 .item(0).getTextContent());
-                        setModulePosition(position, quote);
                         break;
-                    default:
-                        System.err.println("UNKNOWN NAME ATTR: " + modElement.getAttribute("name"));
                 }
+                
+                if (!initialized) {
+                    Module module = new Module(moduleName);
+                    modules.put(moduleName, module);
+                }
+                
+                Module module = modules.get(moduleName);
+                module.setPosition(position);
             }
         }        
     }
-    
-    private static void setModulePosition(String position, Module module){
-        switch (position){
-            case "topRight":
-                topRightMod = module;
-                module.setOnMirror(true);
-                break;
-            case "topLeft":
-                topLeftMod = module;
-                module.setOnMirror(true);
-                break;
-            case "bottomRight":
-                bottomRightMod = module;
-                module.setOnMirror(true);
-                break;
-            case "bottomLeft":
-                bottomLeftMod = module;
-                module.setOnMirror(true);
-                break;
-            case "bottom":
-                bottom = module;
-                module.setOnMirror(true);
-                break;
-            case "top":
-                top = module;
-                module.setOnMirror(true);
-                break;
-            default:
-                module.setOnMirror(false);
-                break;
+
+    public static Module getModuleAt(Position position) {
+        for (Map.Entry<ModuleName, Module> entry : modules.entrySet()) {
+            if (entry.getValue().getPosition() == position) {
+                return entry.getValue();
+            }
         }
-        module.setPosition(position);
+        return null;
     }
-        
-    public static Module getTopRightMod(){
-        return topRightMod;
-    }
-    
-    public static Module getTopLeftMod(){
-        return topLeftMod;
-    }
-    
-    public static Module getBottomRightMod(){
-        return bottomRightMod;
-    }
-    
-    public static Module getBottomLeftMod(){
-        return bottomLeftMod;
-    }
-    
-    public static Module getBottomMod(){
-        return bottom;
-    }
-    
-    public static Module getTopMod(){
-        return top;
-    }
-    
+            
     public static String getZipCode(){
         return zipcode.getValue();
     }

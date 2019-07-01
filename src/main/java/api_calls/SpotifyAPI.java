@@ -26,7 +26,7 @@ public class SpotifyAPI extends APIManager {
     private String lastAlbumImageUrl = "";
     
     public SpotifyAPI() {
-        super(200, PCM.PULL_SPOTIFY);
+        super(200, PCM.FETCH_SPOTIFY);
         this.spotifyTrackModel = ModelManager.INST.getSpotifyTrackModel();
     }
 

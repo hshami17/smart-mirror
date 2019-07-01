@@ -24,7 +24,7 @@ public class DarkSkyAPI extends APIManager {
     private final DarkSkyModel weatherModel;
     
     public DarkSkyAPI() {
-        super(600000, PCM.PULL_WEATHER);
+        super(600000, PCM.FETCH_DARKSKY);
         this.weatherModel = ModelManager.INST.getWeatherModel();
     }
 
