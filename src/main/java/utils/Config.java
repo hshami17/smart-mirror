@@ -121,51 +121,58 @@ public class Config {
                 String moduleNameXml = modElement.getAttribute("name").replace("-", "_").toUpperCase();
                 String positionXml = modElement.getElementsByTagName("position").item(0).getTextContent().toUpperCase();
                 
-                ModuleName moduleName = ModuleName.valueOf(moduleNameXml);
-                Position position;
-                if (!positionXml.equals("-")) {
-                    position = Position.valueOf(positionXml);
-                }
-                else {
-                    position = Position.NONE;
-                }
+                try {
+                    ModuleName moduleName = ModuleName.valueOf(moduleNameXml);
+                    Position position;
+                    if (!positionXml.equals("-")) {
+                        position = Position.valueOf(positionXml);
+                    }
+                    else {
+                        position = Position.NONE;
+                    }
                 
-                switch (moduleName){
-                    case DARKSKY:
-                        weatherKey.setValue(apiKey);
-                        zipcodeKey.setValue(modElement.getElementsByTagName("zipcodekey")
-                                .item(0).getTextContent());
-                        zipcode.setValue(modElement.getElementsByTagName("zipcode")
-                                .item(0).getTextContent());
-                        break;
-                    case WUNDERLIST:
-                        taskKey.setValue(apiKey);
-                        taskClientID.setValue(modElement.getElementsByTagName("clientid")
-                                .item(0).getTextContent());
-                        listID.setValue(modElement.getElementsByTagName("listid")
-                                .item(0).getTextContent());
-                        break;
-                    case NEWS:
-                        newsKey.setValue(apiKey);
-                        newsSource.setValue(modElement.getElementsByTagName("source")
-                                .item(0).getTextContent());
-                        newsSortBy.setValue(modElement.getElementsByTagName("sortby")
-                                .item(0).getTextContent());
-                        break;
-                    case RANDOM_FAMOUS_QUOTE:
-                        quoteKey.setValue(apiKey);
-                        category.setValue(modElement.getElementsByTagName("category")
-                                .item(0).getTextContent());
-                        break;
-                }
                 
-                if (!initialized) {
-                    Module module = new Module(moduleName);
-                    modules.put(moduleName, module);
+                    switch (moduleName){
+                        case DARKSKY:
+                            weatherKey.setValue(apiKey);
+                            zipcodeKey.setValue(modElement.getElementsByTagName("zipcodekey")
+                                    .item(0).getTextContent());
+                            zipcode.setValue(modElement.getElementsByTagName("zipcode")
+                                    .item(0).getTextContent());
+                            break;
+                        case WUNDERLIST:
+                            taskKey.setValue(apiKey);
+                            taskClientID.setValue(modElement.getElementsByTagName("clientid")
+                                    .item(0).getTextContent());
+                            listID.setValue(modElement.getElementsByTagName("listid")
+                                    .item(0).getTextContent());
+                            break;
+                        case NEWS:
+                            newsKey.setValue(apiKey);
+                            newsSource.setValue(modElement.getElementsByTagName("source")
+                                    .item(0).getTextContent());
+                            newsSortBy.setValue(modElement.getElementsByTagName("sortby")
+                                    .item(0).getTextContent());
+                            break;
+                        case RANDOM_FAMOUS_QUOTE:
+                            quoteKey.setValue(apiKey);
+                            category.setValue(modElement.getElementsByTagName("category")
+                                    .item(0).getTextContent());
+                            break;
+                    }
+
+                    if (!initialized) {
+                        Module module = new Module(moduleName);
+                        modules.put(moduleName, module);
+                    }
+
+                    Module module = modules.get(moduleName);
+                    module.setPosition(position);
                 }
-                
-                Module module = modules.get(moduleName);
-                module.setPosition(position);
+                catch (IllegalArgumentException ex) {
+                    System.err.println("ERROR IN CONFIG: " + moduleNameXml);
+                    System.err.println(ex.toString());
+                }
             }
         }        
     }
