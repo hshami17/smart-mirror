@@ -2,8 +2,6 @@ package module;
 
 import api_calls.APIManager;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
