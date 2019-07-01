@@ -131,7 +131,6 @@ public class Config {
                         position = Position.NONE;
                     }
                 
-                
                     switch (moduleName){
                         case DARKSKY:
                             weatherKey.setValue(apiKey);
