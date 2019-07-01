@@ -30,7 +30,6 @@ public class Module<T> extends Region {
     private final ModuleName name;
     private final BooleanProperty onMirror = new SimpleBooleanProperty(false);
     private Position position = Position.NONE;
-    private final Map<String, String> moduleConfigs = new HashMap<>();
     
     public Module(ModuleName name) {
         this.fxml = name.getFxml();
