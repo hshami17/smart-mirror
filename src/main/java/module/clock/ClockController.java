@@ -10,6 +10,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -179,9 +180,11 @@ public class ClockController implements Initializable, ModuleController {
 
     @Override
     public void removingModule() {
-        analogClock.getChildren().clear();
-        secondsTransition.stop();
-        minuteTransition.stop();
-        hourTransition.stop();
+        Platform.runLater(() -> {
+            analogClock.getChildren().clear();
+            secondsTransition.stop();
+            minuteTransition.stop();
+            hourTransition.stop();
+        });
     }
 }
