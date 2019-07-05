@@ -43,7 +43,14 @@ public class SpotifyAPI extends APIManager {
 
                 boolean isPlaying = objSpotifyApi.getBoolean("is_playing");
                 String currentTrack = itemObj.getJsonString("name").getString();
-                String albumArtUrl = itemObj.getJsonObject("album").getJsonArray("images").getJsonObject(0).getJsonString("url").getString();
+                JsonArray albumArts = itemObj.getJsonObject("album").getJsonArray("images");
+                String albumArtUrl;
+                if (!albumArts.isEmpty()) {
+                    albumArtUrl = albumArts.getJsonObject(0).getJsonString("url").getString();
+                }
+                else {
+                    albumArtUrl = "/images/default-album-art.jpg";
+                }
                 StringBuilder artists = new StringBuilder();
                 JsonArray artistsJson = itemObj.getJsonArray("artists");
                 for (int i=0; i<artistsJson.size(); i++) {

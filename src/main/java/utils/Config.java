@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javax.xml.parsers.DocumentBuilder;
@@ -21,56 +20,50 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+// Config elements 
+import static utils.ConfigElements.category;
+import static utils.ConfigElements.darkskyKey;
+import static utils.ConfigElements.listID;
+import static utils.ConfigElements.newsKey;
+import static utils.ConfigElements.newsSortBy;
+import static utils.ConfigElements.newsSource;
+import static utils.ConfigElements.randomFamousQuoteKey;
+import static utils.ConfigElements.wunderlistClientID;
+import static utils.ConfigElements.wunderlistKey;
+import static utils.ConfigElements.zipcode;
+import static utils.ConfigElements.zipcodeKey;
+
 /**
  *
  * @author hasan
  */
 public class Config {
-    
+
+    private static final Map<ModuleName, Module> modules = new HashMap<>();
+
     public static String CONFIG_PATH;
     public static String WATCH_PATH;
-    
-    private static final Map<ModuleName, Module> modules = new HashMap<>();
-    
-    // Weather
-    private static final StringProperty weatherKey = new SimpleStringProperty("");
-    private static final StringProperty zipcodeKey = new SimpleStringProperty("");
-    private static final StringProperty zipcode = new SimpleStringProperty("");
-    
-    // Quotes
-    private static final StringProperty quoteKey = new SimpleStringProperty(""); 
-    private static final StringProperty category = new SimpleStringProperty("");
-    
-    // Tasks
-    private static final StringProperty taskKey = new SimpleStringProperty("");
-    private static final StringProperty taskClientID = new SimpleStringProperty("");
-    private static final StringProperty listID = new SimpleStringProperty("");
-    
-    // News
-    private static final StringProperty newsKey = new SimpleStringProperty("");
-    private static final StringProperty newsSource = new SimpleStringProperty("");
-    private static final StringProperty newsSortBy = new SimpleStringProperty("");
     
     private static boolean initialized = false;
     
     public static void configureMirror(){
-        
         try {
             if (!initialized){
                 // Weather prop listeners
                 addPropertyListeners(PCM.FETCH_DARKSKY, 
-                        weatherKey, 
+                        darkskyKey, 
                         zipcodeKey, 
                         zipcode);
                 // Quote prop listeners
                 addPropertyListeners(PCM.FETCH_RANDOM_FAMOUS_QUOTE, 
-                        quoteKey,
+                        randomFamousQuoteKey,
                         category);
                 // News prop listeners
                 addPropertyListeners(PCM.FETCH_NEWS,
                         newsKey,
                         newsSource,
                         newsSortBy);
+                
                 parseMirrorConfig();
                 initialized = true;
             }
@@ -133,15 +126,15 @@ public class Config {
                 
                     switch (moduleName){
                         case DARKSKY:
-                            weatherKey.setValue(apiKey);
+                            darkskyKey.setValue(apiKey);
                             zipcodeKey.setValue(modElement.getElementsByTagName("zipcodekey")
                                     .item(0).getTextContent());
                             zipcode.setValue(modElement.getElementsByTagName("zipcode")
                                     .item(0).getTextContent());
                             break;
                         case WUNDERLIST:
-                            taskKey.setValue(apiKey);
-                            taskClientID.setValue(modElement.getElementsByTagName("clientid")
+                            wunderlistKey.setValue(apiKey);
+                            wunderlistClientID.setValue(modElement.getElementsByTagName("clientid")
                                     .item(0).getTextContent());
                             listID.setValue(modElement.getElementsByTagName("listid")
                                     .item(0).getTextContent());
@@ -154,7 +147,7 @@ public class Config {
                                     .item(0).getTextContent());
                             break;
                         case RANDOM_FAMOUS_QUOTE:
-                            quoteKey.setValue(apiKey);
+                            randomFamousQuoteKey.setValue(apiKey);
                             category.setValue(modElement.getElementsByTagName("category")
                                     .item(0).getTextContent());
                             break;
@@ -183,49 +176,5 @@ public class Config {
             }
         }
         return null;
-    }
-            
-    public static String getZipCode(){
-        return zipcode.getValue();
-    }
-    
-    public static String getWeatherKey(){
-        return weatherKey.getValue();
-    }
-    
-    public static String getZipcodeKey(){
-        return zipcodeKey.getValue();
-    }
-    
-    public static String getQuoteKey() {
-        return quoteKey.getValue();
-    }
-    
-    public static String getQuoteCategory() {
-        return category.getValue();
-    }
-
-    public static String getTaskKey() {
-        return taskKey.getValue();
-    }
-    
-    public static String getTaskClientID(){
-        return taskClientID.getValue();
-    }
-    
-    public static String getListID(){
-        return listID.getValue();
-    }
-
-    public static String getNewsKey() {
-        return newsKey.getValue();
-    }
-    
-    public static String getNewsSource() {
-        return newsSource.getValue();
-    }
-    
-    public static String getNewsSortBy() {
-        return newsSortBy.getValue();
     }
 }

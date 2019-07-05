@@ -19,14 +19,9 @@
 
 <AnchorPane id="AnchorPane" prefHeight="412.0" prefWidth="323.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.spotify.SpotifyController">
    <children>
-      <Pane layoutX="27.0" layoutY="357.0">
+      <VBox alignment="CENTER_RIGHT" layoutX="26.0" layoutY="357.0" prefHeight="33.0" prefWidth="276.0">
          <children>
-            <Slider fx:id="trackProgressSlider" layoutY="16.0" prefHeight="16.0" prefWidth="270.0" styleClass="player-slider" value="50.0">
-               <padding>
-                  <Insets top="3.0" />
-               </padding>
-            </Slider>
-            <HBox alignment="CENTER_RIGHT" layoutX="154.0" prefHeight="16.0" prefWidth="114.0" translateY="-2.0">
+            <HBox alignment="CENTER_RIGHT" layoutX="154.0">
                <children>
                   <Label fx:id="lblCurrentTime" prefHeight="23.0" styleClass="track-label" text="0:00/">
                      <font>
@@ -40,23 +35,21 @@
                   </Label>
                </children>
             </HBox>
+            <Slider fx:id="trackProgressSlider" styleClass="player-slider" value="50.0" />
          </children>
-      </Pane>
-      <VBox layoutX="31.0" layoutY="288.0" prefHeight="69.0" prefWidth="166.0">
+      </VBox>
+      <VBox layoutX="27.0" layoutY="290.0" prefHeight="73.0" prefWidth="273.0">
          <children>
-            <Label fx:id="lblArtist" prefHeight="23.0" prefWidth="165.0" styleClass="track-label" text="Artist">
+            <Label fx:id="lblArtist" prefHeight="23.0" prefWidth="168.0" styleClass="track-label" text="Artist">
                <font>
                   <Font size="68.0" />
                </font>
             </Label>
-            <Label fx:id="lblAlbum" prefWidth="165.0" styleClass="track-label" text="Album" />
-            <Label fx:id="lblTrack" prefWidth="165.0" styleClass="track-label" text="Track" />
+            <Label fx:id="lblAlbum" prefWidth="273.0" styleClass="track-label" text="Album" />
+            <Label fx:id="lblTrack" prefWidth="273.0" styleClass="track-label" text="Track" />
          </children>
-         <padding>
-            <Insets top="4.0" />
-         </padding>
       </VBox>
-      <HBox alignment="CENTER" layoutX="219.0" layoutY="288.0" spacing="5.0">
+      <HBox alignment="CENTER" layoutX="229.0" layoutY="290.0" spacing="5.0">
          <children>
             <Label fx:id="lblTrackStatus" layoutX="238.0" layoutY="288.0" styleClass="track-label" text="Playing">
                <font>
@@ -70,9 +63,9 @@
             </ImageView>
          </children>
       </HBox>
-      <ImageView fx:id="imgAlbumArt" fitHeight="260.0" fitWidth="273.0" layoutX="31.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgAlbumArt" fitHeight="273.0" fitWidth="273.0" layoutX="27.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/no_album_art.jpg" />
+            <Image url="@../images/default-album-art.jpg" />
          </image>
       </ImageView>
    </children>

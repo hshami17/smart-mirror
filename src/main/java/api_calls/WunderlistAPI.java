@@ -1,6 +1,5 @@
 package api_calls;
 
-import module.ModuleName;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -13,7 +12,9 @@ import models.datatypes.Task;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import utils.Config;
+import static utils.ConfigElements.listID;
+import static utils.ConfigElements.wunderlistClientID;
+import static utils.ConfigElements.wunderlistKey;
 import utils.PCM;
 
 /**
@@ -32,10 +33,10 @@ public class WunderlistAPI extends APIManager {
     // Get all tasks from Wunderlist
     @Override
     synchronized protected void fetch() throws IOException {
-        URLConnection connection = new URL("https://a.wunderlist.com/api/v1/tasks?list_id=" + Config.getListID()).openConnection();
+        URLConnection connection = new URL("https://a.wunderlist.com/api/v1/tasks?list_id=" + listID.get()).openConnection();
         connection.setDoOutput(true); // Triggers POST.
-        connection.setRequestProperty("X-Access-Token", Config.getTaskKey());
-        connection.setRequestProperty("X-Client-ID", Config.getTaskClientID());
+        connection.setRequestProperty("X-Access-Token", wunderlistKey.get());
+        connection.setRequestProperty("X-Client-ID", wunderlistClientID.get());
         connection.setRequestProperty("Accept", "application/json");
 
         InputStream response = connection.getInputStream(); 
