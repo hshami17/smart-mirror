@@ -1,6 +1,5 @@
 package api_calls;
 
-import module.ModuleName;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -11,7 +10,9 @@ import javax.json.JsonReader;
 import models.DarkSkyModel;
 import models.ModelManager;
 import models.datatypes.Forecast;
-import utils.Config;
+import static utils.ConfigElements.darkskyKey;
+import static utils.ConfigElements.zipcode;
+import static utils.ConfigElements.zipcodeKey;
 import utils.PCM;
 
 
@@ -24,14 +25,14 @@ public class DarkSkyAPI extends APIManager {
     private final DarkSkyModel weatherModel;
     
     public DarkSkyAPI() {
-        super(600, PCM.PULL_WEATHER);
+        super(600000, PCM.FETCH_DARKSKY);
         this.weatherModel = ModelManager.INST.getWeatherModel();
     }
 
     @Override
     synchronized protected void fetch() throws IOException {
-        URL zip_api_url = new URL("http://www.zipcodeapi.com/rest/" + Config.getZipcodeKey() + "/"
-                + "info.json/" + Config.getZipCode() + "/degrees");
+        URL zip_api_url = new URL("http://www.zipcodeapi.com/rest/" + zipcodeKey.get() + "/"
+                + "info.json/" + zipcode.get() + "/degrees");
         InputStream is_zip_api = zip_api_url.openStream();
         JsonReader rdr_zip_api = Json.createReader(is_zip_api);
         JsonObject obj_zip_api = rdr_zip_api.readObject();
@@ -42,7 +43,7 @@ public class DarkSkyAPI extends APIManager {
         String lat = obj_zip_api.getJsonNumber("lat").toString();
         String lon = obj_zip_api.getJsonNumber("lng").toString();
 
-        URL url = new URL("https://api.darksky.net/forecast/" + Config.getWeatherKey() + "/" + lat + "," + lon);
+        URL url = new URL("https://api.darksky.net/forecast/" + darkskyKey.get() + "/" + lat + "," + lon);
         InputStream is = url.openStream();
         JsonReader rdr = Json.createReader(is);
 

@@ -7,13 +7,12 @@ import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
 import models.ModelManager;
+import utils.Position;
 
 
 /**
@@ -24,55 +23,45 @@ import models.ModelManager;
 public class Module<T> extends Region {
 
     private T controller;
-    private String fxml;
-    private APIManager api;
-    private ModuleName name;
+    private final String fxml;
+    private final APIManager api;
+    private final ModuleName name;
     private final BooleanProperty onMirror = new SimpleBooleanProperty(false);
-    private final StringProperty position = new SimpleStringProperty("");
+    private Position position = Position.NONE;
     
-    public Module(String fxml, APIManager api, ModuleName name) {
-        this.fxml = fxml;
-        this.api = api;
+    public Module(ModuleName name) {
+        this.fxml = name.getFxml();
+        this.api = name.getApi();
         this.name = name;
         init();
     }
     
-    public Module(String path, ModuleName name){
-        this(path, null, name);
-    }
-    
     private void init() {
         try {
-            if (api != null) {
+            if (hasApi()) {
                 api.setModule(this);
             }
             FXMLLoader loader = new FXMLLoader(Module.class.getResource(fxml));
             this.getChildren().setAll((Node) loader.load());
             controller = loader.getController();
-            if (controller instanceof ModuleController){
-                ((ModuleController) controller).setModel(ModelManager.INST);
-                addListener();
-            }
+            if (hasModuleController()) moduleController().setModel(ModelManager.INST);
+            addListeners();
         } 
         catch (IOException ex) {
             Logger.getLogger(Module.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void addListener(){
+    private void addListeners(){
         onMirror.addListener((observable,  oldValue,  newValue) -> {
             if (newValue){
-                ((ModuleController) controller).displayingModule();
-                if (api != null) api.start();
-            }
+                if (hasModuleController()) moduleController().displayingModule();
+                if (hasApi()) api.start();
+                }
             else{
-                ((ModuleController) controller).removingModule();
-                if (api != null) api.stop();
+                if (hasModuleController()) moduleController().removingModule();
+                if (hasApi()) api.stop();
             }
-        });
-
-        position.addListener((observable, oldValue, newValue) -> {
-            ((ModuleController) controller).align(newValue.contains("Left"));
         });
     }
     
@@ -94,8 +83,12 @@ public class Module<T> extends Region {
         return controller;
     }
     
+    public ModuleController moduleController() {
+        return hasModuleController() ? (ModuleController) controller : null;
+    }
+    
     public void update() {
-        ((ModuleController) controller).update();
+        moduleController().update();
     }
     
     public ModuleName getName(){
@@ -110,11 +103,27 @@ public class Module<T> extends Region {
         return onMirror.getValue();
     }
     
+    public boolean hasApi() {
+        return api != null;
+    }
+    
+    public boolean hasModuleController() {
+        return controller instanceof ModuleController;
+    }
+    
     public void setOnMirror(boolean onMirror){
         this.onMirror.setValue(onMirror);
     }
 
-    public void setPosition(String position) {
-        this.position.setValue(position);
+    public void setPosition(Position position) {
+        this.position = position;
+        setOnMirror(position != Position.NONE);
+        if (hasModuleController()) {
+            moduleController().align(position.toString().contains("LEFT"));
+        }
+    }
+    
+    public Position getPosition() {
+        return position;
     }
 }

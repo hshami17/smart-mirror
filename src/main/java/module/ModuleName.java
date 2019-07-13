@@ -5,16 +5,39 @@
  */
 package module;
 
+import api_calls.APIManager;
+import api_calls.DarkSkyAPI;
+import api_calls.NewsAPI;
+import api_calls.RandomFamousQuoteAPI;
+import api_calls.RandomUselessFacts;
+import api_calls.SpotifyAPI;
+import api_calls.WunderlistAPI;
+
 /**
  *
  * @author hasan
  */
 public enum ModuleName {
-    DARK_SKY,
-    CLOCK,
-    NEWS,
-    WUNDERLIST,
-    RANDOM_FAMOUS_QUOTES,
-    RANDOM_USELESS_FACTS,
-    SPOTIFY
+    DARKSKY("/fxml/DarkSky.fxml", new DarkSkyAPI()),
+    CLOCK("/fxml/Clock.fxml", null),
+    NEWS("/fxml/NewsAPI.fxml", new NewsAPI()),
+    WUNDERLIST("/fxml/Wunderlist.fxml", new WunderlistAPI()),
+    RANDOM_FAMOUS_QUOTE("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI()),
+    RANDOM_USELESS_FACTS("/fxml/RandomUselessFacts.fxml", new RandomUselessFacts()),
+    SPOTIFY("/fxml/SpotifyPlayer.fxml", new SpotifyAPI());
+    
+    private final String fxml;
+    private final APIManager api;
+    ModuleName(String fxml, APIManager api) {
+        this.fxml = fxml;
+        this.api = api;
+    }
+    
+    public String getFxml() {
+        return fxml;
+    }
+    
+    public APIManager getApi() {
+        return api;
+    }
 }

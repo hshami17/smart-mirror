@@ -16,6 +16,7 @@ public class ModelManager {
     private final DarkSkyModel weatherModel;
     private final NewsAPIModel newsModel;
     private final WunderlistModel tasksModel;
+    private final SpotifyTrackModel spotifyTrackModel;
     
     private ModelManager(){
         quoteOfDayModel = new RandomFamousQuoteModel();
@@ -23,6 +24,7 @@ public class ModelManager {
         weatherModel = new DarkSkyModel();
         newsModel = new NewsAPIModel();
         tasksModel = new WunderlistModel();
+        spotifyTrackModel = new SpotifyTrackModel();
     }
     
     public RandomFamousQuoteModel getQuoteModel(){
@@ -43,6 +45,10 @@ public class ModelManager {
     
     public RandomUselessFactsModel getRandomUselessFactsModel() {
         return uselessFactModel;
+    }
+    
+    public SpotifyTrackModel getSpotifyTrackModel() {
+        return spotifyTrackModel;
     }
     
     public static ModelManager INST = new ModelManager();

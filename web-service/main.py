@@ -5,6 +5,10 @@ from flask import Flask, render_template, request, session, redirect
 from flask.ext.socketio import SocketIO, emit
 import socket
 import xml.etree.ElementTree as ET
+from flask import jsonify
+import spotipy
+import spotipy.oauth2 as oauth2
+import spotipy.util as util
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -78,9 +82,49 @@ def getMirror():
     mirrorDataJson = json.dumps(mirrorData)
     return mirrorDataJson
 
+
+def spotifyEstablishToken():
+    token = util.prompt_for_user_token(
+            username='smartmirror-spotify',
+            scope='user-read-currently-playing',
+            client_id='9759a5611e3d4f78a079090e67696c91',
+            client_secret='20785be11bfd4931bb6df63a2db88a75',
+            redirect_uri='http://localhost:8080/spotify-callback')
+
+    spotify = spotipy.Spotify(auth=token)
+
+    print "Spotify Token Created: " + token
+
+@app.route('/spotify-callback')
+def spotifyCallback():
+    return 'Spotify Authenticated!'
+
+@app.route('/spotify-current-track')
+def spotifyCurrentTrack():
+    token = util.prompt_for_user_token(
+            username='smartmirror-spotify',
+            scope='user-read-currently-playing',
+            client_id='9759a5611e3d4f78a079090e67696c91',
+            client_secret='20785be11bfd4931bb6df63a2db88a75',
+            redirect_uri='http://localhost:8080/spotify-callback')
+
+    spotify = spotipy.Spotify(auth=token)
+
+    currently_playing_track = spotify.current_user_playing_track()
+
+    if currently_playing_track:
+        return jsonify(currently_playing_track)
+    else:
+        return jsonify({})
+
+
 @socketio.on('addModule', namespace='/')
 def addModule(formData):
     #print(configData)
+
+    # Establish spotify token if not already exists.
+    if (formData.get('name') == 'spotify'):
+        spotifyEstablishToken()
 
     global configData
     # Replace module data set with new data set

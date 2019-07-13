@@ -5,7 +5,6 @@
  */
 package api_calls;
 
-import module.ModuleName;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -22,7 +21,7 @@ import utils.PCM;
 public class RandomUselessFacts extends APIManager {
     
     public RandomUselessFacts() {
-        super(60, PCM.PULL_FACTS);
+        super(60000, PCM.FETCH_RANDOM_FAMOUS_FACTS);
     }
 
     @Override

@@ -10,18 +10,18 @@
         <div ng-controller="Home" class="content">
             <div class="module-box">
                 <h1 id="status"></h1>
-                <h3>Weather</h3>
-                <div class="module" id="weather-module">
-                    <div class="front" onclick="editModule('weather-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
+                <h3>Weather (Dark Sky)</h3>
+                <div class="module" id="darksky-module">
+                    <div class="front" onclick="editModule('darksky-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/weather.png" width="250px" height="300px">
                     </div>
                     <div class="back" style="background-color: #d9d9d9">
-                        <form name="Weather" id="weather">
-                            <a href=""><span class="close-module" onclick="closeModule('weather-module')">X</span></a>
-                            <input type="hidden" ng-model="forms.weatherFormData.name">
+                        <form name="Dark Sky" id="darksky">
+                            <a href=""><span class="close-module" onclick="closeModule('darksky-module')">X</span></a>
+                            <input type="hidden" ng-model="forms.darkskyFormData.name">
                             Position:<br>
                             <div class="select-style">
-                            <select ng-model="forms.weatherFormData.position" form="weather" id="weather-position">
+                            <select ng-model="forms.darkskyFormData.position" form="darksky" id="darksky-position">
                                 <option value="-">-</option>
                                 <option value="topLeft">Top Left</option>
                                 <option value="topRight">Top Right</option>
@@ -31,16 +31,16 @@
                             </div>
                             <br>
                             Key:<br>
-                            <input ng-model="forms.weatherFormData.key" type="text">
+                            <input ng-model="forms.darkskyFormData.key" type="text">
                             <br/>
                             Zipcode Key:<br>
-                            <input ng-model="forms.weatherFormData.zipcodekey" type="text">
+                            <input ng-model="forms.darkskyFormData.zipcodekey" type="text">
                             <br/>
                             Zipcode:<br>
-                            <input ng-model="forms.weatherFormData.zipcode" type="text">
+                            <input ng-model="forms.darkskyFormData.zipcode" type="text">
                             <br><br>
-                            <button ng-click="addModule(forms.weatherFormData)">Add/Update</button>
-                            <button ng-click="removeModule(forms.weatherFormData.name)">Remove</button>
+                            <button ng-click="addModule(forms.darkskyFormData)">Add/Update</button>
+                            <button ng-click="removeModule(forms.darkskyFormData.name)">Remove</button>
                         </form>
                     </div>
                 </div>
@@ -80,18 +80,18 @@
                         </form>
                     </div>
                 </div>
-                <h3>Tasks</h3>
-                <div class="module" id="tasks-module">
-                    <div class="front" onclick="editModule('tasks-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
+                <h3>Tasks (Wunderlist)</h3>
+                <div class="module" id="wunderlist-module">
+                    <div class="front" onclick="editModule('wunderlist-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/tasks.png" width="250px" height="300px">
                     </div>
                     <div class="back" style="background-color: #d9d9d9">
-                        <form name="Tasks" id="tasks">
-                            <a href=""><span class="close-module" onclick="closeModule('tasks-module')">X</span></a>
-                            <input type="hidden" ng-model="forms.tasksFormData.name">
+                        <form name="Wunderlist" id="wunderlist">
+                            <a href=""><span class="close-module" onclick="closeModule('wunderlist-module')">X</span></a>
+                            <input type="hidden" ng-model="forms.wunderlistFormData.name">
                             Position:<br>
                             <div class="select-style">
-                            <select ng-model="forms.tasksFormData.position" form="tasks">
+                            <select ng-model="forms.wunderlistFormData.position" form="wunderlist">
                                 <option value="-">-</option>
                                 <option value="topLeft">Top Left</option>
                                 <option value="topRight">Top Right</option>
@@ -101,16 +101,16 @@
                             </div>
                             <br>
                             Key:<br>
-                            <input ng-model="forms.tasksFormData.key" type="text">
+                            <input ng-model="forms.wunderlistFormData.key" type="text">
                             <br/>
                             Client-ID:<br>
-                            <input ng-model="forms.tasksFormData.clientid" type="text">
+                            <input ng-model="forms.wunderlistFormData.clientid" type="text">
                             <br/>
                             List-ID:<br>
-                            <input ng-model="forms.tasksFormData.listid" type="text">
+                            <input ng-model="forms.wunderlistFormData.listid" type="text">
                             <br><br>
-                            <button ng-click="addModule(forms.tasksFormData)">Add/Update</button>
-                            <button ng-click="removeModule(forms.tasksFormData.name)">Remove</button>
+                            <button ng-click="addModule(forms.wunderlistFormData)">Add/Update</button>
+                            <button ng-click="removeModule(forms.wunderlistFormData.name)">Remove</button>
                         </form>
                     </div>
                 </div>
@@ -143,32 +143,61 @@
                 </div>
 
 
-                <h3>Quote</h3>
-                <div class="module" id="quote-module">
-                    <div class="front" onclick="editModule('quote-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
+                <h3>Famous Quote</h3>
+                <div class="module" id="famousquote-module">
+                    <div class="front" onclick="editModule('famousquote-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
                         <img src="/static/images/quote.png" width="250px" height="300px">
                     </div>
                     <div class="back" style="background-color: #d9d9d9">
-                        <form name="Quote" id="quote">
-                            <a href=""><span class="close-module" onclick="closeModule('quote-module')">X</span></a>
-                            <input type="hidden" ng-model="forms.quoteFormData.name">
+                        <form name="Famous Quote" id="famousquote">
+                            <a href=""><span class="close-module" onclick="closeModule('famousquote-module')">X</span></a>
+                            <input type="hidden" ng-model="forms.famousquoteFormData.name">
                             Position:<br>
                             <div class="select-style">
-                            <select ng-model="forms.quoteFormData.position" form="quote">
+                            <select ng-model="forms.famousquoteFormData.position" form="famousquote">
                                 <option value="-">-</option>
                                 <option value="top">Top</option>
                             </select>
                             </div>
                             <br/>
                             Key<br/>
-                            <input ng-model="forms.quoteFormData.key" type="text">
+                            <input ng-model="forms.famousquoteFormData.key" type="text">
                             <br/>
                             Category<br/>
-                            <input ng-model="forms.quoteFormData.category" type="text">
+                            <input ng-model="forms.famousquoteFormData.category" type="text">
                             <br>
                             <br><br>
-                            <button ng-click="addModule(forms.quoteFormData)">Add/Update</button>
-                            <button ng-click="removeModule(forms.quoteFormData.name)">Remove</button>
+                            <button ng-click="addModule(forms.famousquoteFormData)">Add/Update</button>
+                            <button ng-click="removeModule(forms.famousquoteFormData.name)">Remove</button>
+                        </form>
+                    </div>
+
+                </div>
+
+                <h3>Spotify</h3>
+                <div class="module" id="spotify-module">
+                    <div class="front" onclick="editModule('spotify-module')" style="background-image: url(/static/images/mirror-bg.jpg)">
+                        <img src="/static/images/spotify.png" width="250px" height="300px">
+                    </div>
+                    <div class="back" style="background-color: #d9d9d9">
+                        <form name="Spotify" id="spotify">
+                            <a href=""><span class="close-module" onclick="closeModule('spotify-module')">X</span></a>
+                            <input type="hidden" ng-model="forms.spotifyFormData.name">
+                            Position:<br>
+                            <div class="select-style">
+                            <select ng-model="forms.spotifyFormData.position" form="spotify">
+                                <option value="-">-</option>
+                                <option value="topLeft">Top Left</option>
+                                <option value="topRight">Top Right</option>
+                                <option value="bottomLeft">Bottom Left</option>
+                                <option value="bottomRight">Bottom Right</option>
+                            </select>
+			    <input ng-model="forms.spotifyFormData.key" type="hidden"/>
+                            </div>
+                            <br/>
+                            <br><br>
+                            <button ng-click="addModule(forms.spotifyFormData)">Add/Update</button>
+                            <button ng-click="removeModule(forms.spotifyFormData.name)">Remove</button>
                         </form>
                     </div>
 
@@ -233,12 +262,12 @@
     </script>
     <script>
 
-        $("#weather-module").flip({
+        $("#darksky-module").flip({
             trigger: 'manual',
             reverse: true
         });
 
-        $("#tasks-module").flip({
+        $("#wunderlist-module").flip({
             trigger: 'manual',
             reverse: true
         });
@@ -248,12 +277,17 @@
             reverse: true
         });
 
-        $("#quote-module").flip({
+        $("#famousquote-module").flip({
             trigger: 'manual',
             reverse: true
         });
 
         $("#news-module").flip({
+            trigger: 'manual',
+            reverse: true
+        });
+
+        $("#spotify-module").flip({
             trigger: 'manual',
             reverse: true
         });

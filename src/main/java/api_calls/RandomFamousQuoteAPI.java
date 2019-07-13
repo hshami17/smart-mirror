@@ -1,6 +1,5 @@
 package api_calls;
 
-import module.ModuleName;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -11,7 +10,9 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import models.ModelManager;
-import utils.Config;
+import utils.ConfigElements;
+import static utils.ConfigElements.category;
+import static utils.ConfigElements.randomFamousQuoteKey;
 import utils.PCM;
 
 /**
@@ -23,15 +24,15 @@ public class RandomFamousQuoteAPI extends APIManager {
     private final RandomFamousQuoteModel quoteModel;
 
     public RandomFamousQuoteAPI() {
-        super(60, PCM.PULL_QUOTE);
+        super(60000, PCM.FETCH_RANDOM_FAMOUS_QUOTE);
         this.quoteModel = ModelManager.INST.getQuoteModel();
     }
 
     @Override
     synchronized protected void fetch() throws IOException {
-        URLConnection connection = new URL("https://andruxnet-random-famous-quotes.p.mashape.com/?cat=" + Config.getQuoteCategory()).openConnection();
+        URLConnection connection = new URL("https://andruxnet-random-famous-quotes.p.mashape.com/?cat=" + category.get()).openConnection();
         connection.setDoOutput(true); // Triggers POST.
-        connection.setRequestProperty("X-Mashape-Key", Config.getQuoteKey());
+        connection.setRequestProperty("X-Mashape-Key", randomFamousQuoteKey.get());
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         connection.setRequestProperty("Accept", "application/json");
 

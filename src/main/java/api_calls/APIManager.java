@@ -24,7 +24,7 @@ public abstract class APIManager implements PropertyChangeListener {
     }
 
     private boolean doPull() {
-        return ((System.currentTimeMillis() / 1000) - lastPull.get() > pullInterval);
+        return ((System.currentTimeMillis()) - lastPull.get() > pullInterval);
     }
     
     private void pullApi() {
@@ -38,7 +38,7 @@ public abstract class APIManager implements PropertyChangeListener {
             MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE " + module.getName().toString().replace("_", " ") + " API");
         }
         finally {
-            lastPull.set(System.currentTimeMillis() / 1000);
+            lastPull.set(System.currentTimeMillis());
         }
     }
     
@@ -51,7 +51,7 @@ public abstract class APIManager implements PropertyChangeListener {
             while(true){
                 pullApi();
                 try {
-                    Thread.sleep(pullInterval * 1000);
+                    Thread.sleep(pullInterval);
                 } catch (InterruptedException ex) {
                     break;
                 }
