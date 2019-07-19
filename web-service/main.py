@@ -9,6 +9,7 @@ from flask import jsonify
 import spotipy
 import spotipy.oauth2 as oauth2
 import spotipy.util as util
+import ast
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -76,12 +77,6 @@ def index():
 
     return render_template('home.html', name=name, position=position)
 
-@app.route('/api/getmirror')
-def getMirror():
-    mirrorData = parseXml()
-    mirrorDataJson = json.dumps(mirrorData)
-    return mirrorDataJson
-
 
 def spotifyEstablishToken():
     token = util.prompt_for_user_token(
@@ -144,6 +139,47 @@ def removeModule(formDataName):
 
     createXML()
     emit('saved', configData)
+
+@app.route('/api/getmirror')
+def getMirror():
+    mirrorData = parseXml()
+    mirrorDataJson = json.dumps(mirrorData)
+    return mirrorDataJson
+
+# Test with: 
+# curl --data "module={'position':'topRight','name':'clock','key':' '}" http://192.168.1.7:8080/api/addmodule
+@app.route('/api/addmodule', methods = ['POST'])
+def addModuleWebService():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        module = data.get('module')
+        module_dict = ast.literal_eval(module)
+
+        global configData
+        # Replace module data set with new data set
+        configData = [module_dict if x['name'] == module_dict['name'] else x for x in configData]
+        createXML()
+
+        # TODO: Add error checking and return 200 or error HTTP response
+        return 'Module added/updated'
+
+# Test with:
+# curl --data "module=spotify" http://10.0.0.243:8080/api/removemodule
+@app.route('/api/removemodule', methods = ['POST'])
+def removeModuleWebService():
+    if request.method == 'POST':
+        data = request.form
+        module = data.get('module')
+
+        global configData
+        # Set module data position value to empty
+        for mod in configData:
+            if mod['name'] == module:
+                mod['position'] = '-'
+        createXML()
+
+        # TODO: Add error checking and return 200 or error HTTP response
+        return 'Module removed'
 
 
 # start the server
