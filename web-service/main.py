@@ -197,9 +197,9 @@ def generateQrCode():
     qr.add_data(webservice_url)
     qr.make(fit=True)
     img = qr.make_image(fill_color="white", back_color="black")
-    img.save("qr.png", "PNG")
+    img.save("static/images/qr.png", "PNG")
 
-    return "QR Code Generated"
+    return webservice_url + '/static/images/qr.png'
 
 
 # start the server
