@@ -10,6 +10,7 @@ import spotipy
 import spotipy.oauth2 as oauth2
 import spotipy.util as util
 import ast
+import qrcode
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -180,6 +181,25 @@ def removeModuleWebService():
 
         # TODO: Add error checking and return 200 or error HTTP response
         return 'Module removed'
+
+# Generates QR code in webservice root folder (qr.png)
+@app.route('/api/genqrcode')
+def generateQrCode():
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=1,
+    )
+    host = os.getenv('IP', 'localhost')
+    port = os.getenv('PORT', 8080)
+    webservice_url = 'http://' + str(host) + ':' + str(port)
+    qr.add_data(webservice_url)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="white", back_color="black")
+    img.save("qr.png", "PNG")
+
+    return "QR Code Generated"
 
 
 # start the server
