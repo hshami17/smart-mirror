@@ -28,7 +28,7 @@ public class Task {
     private String task;
     private String time;
     
-    public Task(Long task_id, String task, boolean completed){
+    public Task(Long task_id, String task){
         this.task_id = task_id;
         this.task = task;
         pullTime();   
@@ -70,6 +70,7 @@ public class Task {
             } else {
                 JsonObject task_reminder;
                 task_reminder = obj.getJsonObject(0);
+                
                 DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZoneUTC();
                 DateTime dt = dtf.parseDateTime(task_reminder.getString("date"));
                 Date date = dt.toDate();
