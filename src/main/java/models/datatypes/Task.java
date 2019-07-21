@@ -1,6 +1,7 @@
 package models.datatypes;
 
 import api_calls.RandomFamousQuoteAPI;
+import api_calls.WunderlistAPI;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -16,9 +17,6 @@ import javax.json.JsonReader;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import static utils.ConfigElements.wunderlistClientID;
-import static utils.ConfigElements.wunderlistKey;
-
 
 /**
  *
@@ -60,10 +58,7 @@ public class Task {
     public final void pullTime(){
         try{
             URLConnection connection = new URL("https://a.wunderlist.com/api/v1/reminders?task_id=" + this.task_id).openConnection();
-            connection.setDoOutput(true); // Triggers POST.
-            connection.setRequestProperty("X-Access-Token", wunderlistKey.get());
-            connection.setRequestProperty("X-Client-ID", wunderlistClientID.get());
-            connection.setRequestProperty("Accept", "application/json");
+            WunderlistAPI.putWunderlistHeader(connection);
 
             InputStream response = connection.getInputStream(); 
 
@@ -78,9 +73,11 @@ public class Task {
                 DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZoneUTC();
                 DateTime dt = dtf.parseDateTime(task_reminder.getString("date"));
                 Date date = dt.toDate();
-                SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
-                String time = formatter.format(Date.parse(date.toString()));
-                this.time = time;
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd");
+                SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+                String dateStr = dateFormat.format(Date.parse(date.toString()));
+                String time = timeFormat.format(Date.parse(date.toString()));
+                this.time = dateStr + " @ " + time;
             }
             
         } catch (IOException ex) {
