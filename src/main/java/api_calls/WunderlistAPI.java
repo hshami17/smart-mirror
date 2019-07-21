@@ -70,26 +70,13 @@ public class WunderlistAPI extends APIManager {
         tasksModel.clearTaskLists();
         for (int i=0; i < jsonArray.size(); i++){
             task = jsonArray.getJsonObject(i);
-            tasksModel.getTaskList().add(new Task(task.getJsonNumber("id").longValueExact(), task.getString("title"), task.getBoolean("completed")));
-//            if (task.containsKey("due_date")){
+            tasksModel.getTaskList().add(new Task(task.getJsonNumber("id").longValueExact(), task.getString("title")));
+            if (task.containsKey("due_date")){
                 // Check if the due date is today or tomorrow and add to appropriate list
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
                 DateTime dt = formatter.parseDateTime(task.getString("due_date"));
                 due_date.setTime(dt.toDate());
-                
-                boolean sameDay = today.get(Calendar.YEAR) == due_date.get(Calendar.YEAR) &&
-                                  today.get(Calendar.DAY_OF_YEAR) == due_date.get(Calendar.DAY_OF_YEAR);
-
-                boolean nextDay = tomorrow.get(Calendar.YEAR) == due_date.get(Calendar.YEAR) &&
-                                  tomorrow.get(Calendar.DAY_OF_YEAR) == due_date.get(Calendar.DAY_OF_YEAR);
-
-                if (sameDay){
-                    tasksModel.getTodayTaskList().add(new Task(task.getJsonNumber("id").longValueExact(), task.getString("title"), task.getBoolean("completed")));
-                } else if (nextDay) {
-                    tasksModel.getTomorrowTaskList().add(new Task(task.getJsonNumber("id").longValueExact(), task.getString("title"), task.getBoolean("completed")));
-                }
-
-//            }
+            }
         }
         
         System.out.println(tasksModel.getListName() + ":");
