@@ -1,6 +1,8 @@
 import os
 import argparse
 import json
+import requests
+import sys
 from flask import Flask, render_template, request, session, redirect
 from flask.ext.socketio import SocketIO, emit
 import socket
@@ -17,6 +19,7 @@ socketio = SocketIO(app)
 
 configData = []
 path = ''
+hue_bridge_ip = ''
 
 # For debugging errors
 # app.config.update(
@@ -200,6 +203,39 @@ def generateQrCode():
     img.save("static/images/qr.png", "PNG")
 
     return webservice_url + '/static/images/qr.png'
+
+# Gets status of Phillips motion sensor
+@app.route('/api/motionsensor')
+def get_sensor_state():
+    global hue_bridge_ip
+    if not hue_bridge_ip:
+        getHueBridgeIp()
+    
+    # TODO: Store this in mirror config XML & set via web service gui
+    username_key = '-ZFVSvRL8-j6vDJsnv8cRHI7r9fZTB5fS4GQaqK6'
+
+    # Ping Hue Bridge to check if it's up
+    if (os.system("ping -c 1 " + hue_bridge_ip) == 0):
+        print hue_bridge_ip + ' is up and running!'
+    else:
+        getHueBridgeIp()
+
+    try:
+        response = requests.get('http://' + hue_bridge_ip + '/api/' + username_key + '/sensors/3')
+        json_data = json.loads(response.text)
+        #return 'true' if json_data['state']['presence'] == True else 'false'
+        return jsonify(json_data)
+    except:
+        print "There was an error with the request ...",  sys.exc_info()[0]
+        return jsonify({})
+
+def getHueBridgeIp():
+    global hue_bridge_ip
+    hue_bridge_response = requests.get('https://discovery.meethue.com/')
+    json_data = json.loads(hue_bridge_response.text)
+    hue_bridge_ip = json_data[0]['internalipaddress']
+    print 'Hue Bridge IP has been set: ' + hue_bridge_ip
+
 
 
 # start the server
