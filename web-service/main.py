@@ -88,7 +88,8 @@ def spotifyEstablishToken():
             scope='user-read-currently-playing',
             client_id='9759a5611e3d4f78a079090e67696c91',
             client_secret='20785be11bfd4931bb6df63a2db88a75',
-            redirect_uri='http://localhost:8080/spotify-callback')
+            redirect_uri='http://localhost:8080/spotify-callback',
+            cache_path=os.getenv('HOME', ".") + "/.spotify-cache")
 
     spotify = spotipy.Spotify(auth=token)
 
@@ -214,10 +215,8 @@ def get_sensor_state():
     # TODO: Store this in mirror config XML & set via web service gui
     username_key = '-ZFVSvRL8-j6vDJsnv8cRHI7r9fZTB5fS4GQaqK6'
 
-    # Ping Hue Bridge to check if it's up
-    if (os.system("ping -c 1 " + hue_bridge_ip) == 0):
-        print hue_bridge_ip + ' is up and running!'
-    else:
+    # Ping Hue Bridge to check if it's up, if not then check for a new IP
+    if (os.system("ping -c 1 " + hue_bridge_ip + " > /dev/null") == 1):
         getHueBridgeIp()
 
     try:
