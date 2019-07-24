@@ -17,10 +17,14 @@ public abstract class APIManager implements PropertyChangeListener {
     private final AtomicLong lastPull = new AtomicLong(0);
     private final String PULL_PROP;
 
-    APIManager(long pullInterval, String pullProp) {
+    public APIManager(long pullInterval, String pullProp) {
         this.pullInterval = pullInterval;
         this.PULL_PROP = pullProp;
         PCS.INST.addPropertyChangeListener(PULL_PROP, this);
+    }
+    
+    public APIManager(long pullInterval) {
+        this(pullInterval, null);
     }
 
     private boolean doPull() {
@@ -32,7 +36,7 @@ public abstract class APIManager implements PropertyChangeListener {
 
         try {
             fetch();
-            module.update();
+            if (module != null) module.update();
         } catch (IOException ex) {
             System.out.println(ex);
             MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE " + module.getName().toString().replace("_", " ") + " API");
@@ -73,7 +77,7 @@ public abstract class APIManager implements PropertyChangeListener {
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(PULL_PROP)) {
+        if (PULL_PROP != null && evt.getPropertyName().equals(PULL_PROP)) {
             pullApi();
         }
     }
