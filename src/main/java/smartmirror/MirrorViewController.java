@@ -1,5 +1,7 @@
 package smartmirror;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
@@ -21,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import module.Module;
 import utils.Config;
+import utils.PCM;
+import utils.PCS;
 import utils.Position;
 
 /**
@@ -28,9 +33,9 @@ import utils.Position;
  *
  * @author hasan
  */
-public class MirrorViewController implements Initializable {
+public class MirrorViewController implements Initializable, PropertyChangeListener  {
     
-    public static boolean modulesHidden = false;
+    public static AtomicBoolean modulesHidden = new AtomicBoolean(false);
     private static final BlockingQueue<String> alerts = new LinkedBlockingQueue<>();
     private String lastAlertMsg = "";
     private long lastAlertTimestamp = 0;
@@ -71,6 +76,7 @@ public class MirrorViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        PCS.INST.addPropertyChangeListener(PCM.SHOW_HIDE_MIRROR, this);
         // Put spaces in the map
         spaces.put(Position.TOP, top);
         spaces.put(Position.TOPLEFT, topLeft);
@@ -92,7 +98,7 @@ public class MirrorViewController implements Initializable {
     
     @FXML
     private void hideShowButtonPressed(ActionEvent event){
-        toggleMirrorDisplay();
+        toggleMirrorDisplay(!modulesHidden.get());
     }
     
     public static void putAlert(String msg) {
@@ -156,22 +162,22 @@ public class MirrorViewController implements Initializable {
         }).start();
     }
     
-    private void toggleMirrorDisplay(){
-        Duration duration = new Duration(!modulesHidden ? 500 : 1000);
+    synchronized private void toggleMirrorDisplay(boolean showMirror){
+        Duration duration = new Duration(!showMirror ? 500 : 1000);
 
         FadeTransition sepFade = new FadeTransition(duration, separator);
-        sepFade.setFromValue(!modulesHidden ? 1.0 : 0.0);
-        sepFade.setToValue(!modulesHidden ? 0.0 : 1.0);
+        sepFade.setFromValue(!showMirror ? 1.0 : 0.0);
+        sepFade.setToValue(!showMirror ? 0.0 : 1.0);
 
         FadeTransition webLabelFade = new FadeTransition(duration, webServiceAddr);
-        webLabelFade.setFromValue(!modulesHidden ? 0.45 : 0.0);
-        webLabelFade.setToValue(!modulesHidden ? 0.0 : 0.45);
+        webLabelFade.setFromValue(!showMirror ? 0.45 : 0.0);
+        webLabelFade.setToValue(!showMirror ? 0.0 : 0.45);
 
         sepFade.play();
         webLabelFade.play();
 
         modulesOnMirror.forEach((module) -> {
-            if (modulesHidden){
+            if (showMirror){
                 module.fadeIn();
             }
             else{
@@ -184,9 +190,7 @@ public class MirrorViewController implements Initializable {
         buttonFadeInOut.setCycleCount(FadeTransition.INDEFINITE);
         buttonFadeInOut.setAutoReverse(true);
 
-        modulesHidden = !modulesHidden;
-
-        if (modulesHidden){
+        if (!showMirror){
             buttonFadeInOut.play();
         }
         else{
@@ -197,6 +201,8 @@ public class MirrorViewController implements Initializable {
             buttonFadeInOut.setAutoReverse(false);
             buttonFadeInOut.play();
         }
+        
+        modulesHidden.set(!showMirror);
     }
     
     void clearAllContainers(){
@@ -216,7 +222,7 @@ public class MirrorViewController implements Initializable {
                     Pane space = spaces.get(position);
                     space.getChildren().setAll(module);
                     modulesOnMirror.add(module);
-                    if (modulesHidden) {
+                    if (modulesHidden.get()) {
                         module.setOpacity(0);
                     }
                 }
@@ -225,5 +231,13 @@ public class MirrorViewController implements Initializable {
                 }
             }
         });
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(PCM.SHOW_HIDE_MIRROR)) {
+            boolean show = (boolean)evt.getNewValue();
+            Platform.runLater(() -> toggleMirrorDisplay(show));
+        }
     }
 }

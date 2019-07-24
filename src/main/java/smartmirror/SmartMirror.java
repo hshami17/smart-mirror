@@ -1,5 +1,6 @@
 package smartmirror;
 
+import api_calls.HueMotionSensorAPI;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javafx.application.Application;
@@ -62,6 +63,8 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         mirrorStage.setFullScreen(fullscreen);
         mirrorStage.setOnCloseRequest(e -> System.exit(0));
         mirrorStage.show();
+        
+        new HueMotionSensorAPI().start();
     }
     
     private void loadNewConfig(){
