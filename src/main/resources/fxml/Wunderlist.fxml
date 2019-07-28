@@ -12,7 +12,7 @@
    <children>
       <Pane fx:id="container" prefHeight="110.0" styleClass="mirror_pane">
          <children>
-            <VBox prefHeight="90.0">
+            <VBox prefHeight="90.0" spacing="10.0">
                <children>
                   <VBox fx:id="listTitleContainer">
                      <children>
@@ -21,7 +21,6 @@
                               <Font size="38.0" />
                            </font>
                         </Label>
-                        <Separator opacity="0.5" prefHeight="0.0" />
                      </children>
                   </VBox>
                   <VBox fx:id="taskList" prefHeight="57.0" />

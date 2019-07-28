@@ -10,8 +10,11 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import models.ModelManager;
@@ -73,14 +76,22 @@ public class WunderlistController implements Initializable, ModuleController {
     }
     
     private void addTask(Task task) {
-        Label title = new Label(task.getTask());
+        ImageView bullet = new ImageView(new Image("/images/bullet.png"));
+        bullet.setFitHeight(8);
+        bullet.setFitWidth(8);
+        Label title = new Label(task.getTask(), bullet);
+        title.setGraphicTextGap(10);
         title.getStyleClass().add("task-title");
 
         taskList.getChildren().add(title);
         if (!task.getDueDate().isEmpty()) {
             Label dueDate = new Label(task.getDueDate());
             dueDate.getStyleClass().add("task-time");
+            dueDate.setPadding(new Insets(0, 0, 8, 20));
             taskList.getChildren().add(dueDate);
+        }
+        else {
+            title.setPadding(new Insets(0, 0, 8, 0));
         }
     }
 
