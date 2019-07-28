@@ -8,27 +8,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="110.0" prefWidth="276.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.tasks.WunderlistController">
+<AnchorPane id="AnchorPane" prefHeight="110.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.wunderlist.WunderlistController">
    <children>
-      <Pane layoutX="-10.0" prefHeight="110.0" prefWidth="310.0" styleClass="mirror_pane">
+      <Pane fx:id="container" prefHeight="110.0" styleClass="mirror_pane">
          <children>
-            <VBox fx:id="container" layoutX="1.0" layoutY="24.0" prefHeight="103.0" prefWidth="303.0">
+            <VBox prefHeight="90.0" spacing="10.0">
                <children>
-                  <Label fx:id="todayTitle" styleClass="task-header" text="TODAY">
-                     <font>
-                        <Font size="38.0" />
-                     </font>
-                  </Label>
-                  <VBox fx:id="todayTasks" prefHeight="57.0" prefWidth="324.0" />
-                  <Label fx:id="tomorrowTitle" styleClass="task-header" text="TOMORROW">
-                     <font>
-                        <Font size="38.0" />
-                     </font>
-                     <padding>
-                        <Insets top="15.0" />
-                     </padding>
-                  </Label>
-                  <VBox fx:id="tomorrowTasks" prefHeight="182.0" prefWidth="324.0" />
+                  <VBox fx:id="listTitleContainer">
+                     <children>
+                        <Label fx:id="listTitle" styleClass="task-header" text="LIST TITLE">
+                           <font>
+                              <Font size="38.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="taskList" prefHeight="57.0" />
                </children>
                <padding>
                   <Insets left="13.0" />
