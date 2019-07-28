@@ -1,37 +1,17 @@
 package models.datatypes;
 
-import api_calls.RandomFamousQuoteAPI;
-import api_calls.WunderlistAPI;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 /**
  *
  * @author saadshami
  */
 public class Task {
    
-    private Long task_id;
+    private long task_id;
     private String task;
-    private String time;
+    private String dueDate = "";
     
-    public Task(Long task_id, String task){
-        this.task_id = task_id;
-        this.task = task;
-        pullTime();   
+    public Task(String task){
+        this.task = task;  
     }
    
     public void setId(Long id) {
@@ -42,53 +22,24 @@ public class Task {
         this.task = task;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+    
+    public long getId() {
+        return task_id;
     }
 
     public String getTask() {
         return task;
     }
-
-    public String getTime() {
-        return time;
-    }
     
-    // API call to pull time (time) for task
-    public final void pullTime(){
-        try{
-            URLConnection connection = new URL("https://a.wunderlist.com/api/v1/reminders?task_id=" + this.task_id).openConnection();
-            WunderlistAPI.putWunderlistHeader(connection);
-
-            InputStream response = connection.getInputStream(); 
-
-            JsonReader rdr = Json.createReader(response);   
-            JsonArray obj = rdr.readArray();
-
-            if (obj.isEmpty()){
-                setTime("");
-            } else {
-                JsonObject task_reminder;
-                task_reminder = obj.getJsonObject(0);
-                
-                DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZoneUTC();
-                DateTime dt = dtf.parseDateTime(task_reminder.getString("date"));
-                Date date = dt.toDate();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd");
-                SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
-                String dateStr = dateFormat.format(Date.parse(date.toString()));
-                String time = timeFormat.format(Date.parse(date.toString()));
-                this.time = dateStr + " @ " + time;
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(RandomFamousQuoteAPI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    public String getDueDate() {
+        return dueDate;
     }
     
     @Override
     public String toString(){
-        return "Time: " + time + "\n" + "Task: " + task;
+        return "Due: " + dueDate + "\n" + "Task: " + task;
     }
 }
