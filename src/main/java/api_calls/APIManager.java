@@ -75,6 +75,10 @@ public abstract class APIManager implements PropertyChangeListener {
         this.module = module;
     }
     
+    public boolean isRunning() {
+        return (apiThread != null);
+    }
+    
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (PULL_PROP != null && evt.getPropertyName().equals(PULL_PROP)) {

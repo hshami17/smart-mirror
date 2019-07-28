@@ -6,7 +6,7 @@ package utils;
  */
 public interface PCM {
     
-    static final String SHOW_HIDE_MIRROR = "show_hide_mirror";
+    static final String MINIMAL_MODE = "minimal_mode";
     
     static final String FADE_OUT_QUOTE = "fade_out_quote";
     static final String NEW_CONFIG = "new_config";

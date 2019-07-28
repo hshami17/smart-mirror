@@ -63,12 +63,12 @@ public class RandomFamousQuotesController implements Initializable, ModuleContro
     public void update() {
         Platform.runLater(() -> {
             quote.setText(model.getQuote());
-            if (!MirrorViewController.modulesHidden.get()) {
+//            if (!MirrorViewController.minimalModeActive.get()) {
                 FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), quote);
                 fadeIn.setFromValue(0.0);
                 fadeIn.setToValue(1.0);
                 fadeIn.play();
-            }
+//            }
         });
     }
 }

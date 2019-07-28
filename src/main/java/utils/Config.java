@@ -177,4 +177,8 @@ public class Config {
         }
         return null;
     }
+    
+    public static Module getModule(ModuleName moduleName) {
+        return modules.get(moduleName);
+    }
 }

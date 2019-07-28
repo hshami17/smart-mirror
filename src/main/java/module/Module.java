@@ -57,7 +57,7 @@ public class Module<T> extends Region {
             if (newValue){
                 if (hasModuleController()) moduleController().displayingModule();
                 if (hasApi()) api.start();
-                }
+            }
             else{
                 if (hasModuleController()) moduleController().removingModule();
                 if (hasApi()) api.stop();
@@ -93,6 +93,10 @@ public class Module<T> extends Region {
     
     public ModuleName getName(){
         return name;
+    }
+    
+    public boolean isApiRunning() {
+        return (hasApi() && api.isRunning());
     }
 
     public BooleanProperty onMirrorProperty(){
