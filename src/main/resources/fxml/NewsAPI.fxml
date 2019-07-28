@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="0.0" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.news.NewsAPIController">
+<AnchorPane id="AnchorPane" prefHeight="0.0" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.newsapi.NewsAPIController">
    <children>
       <Pane fx:id="newsContainer" layoutX="-3.0" layoutY="-1.0">
          <children>

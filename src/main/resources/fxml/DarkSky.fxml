@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="310.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.weather.DarkSkyController">
+<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="310.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.darksky.DarkSkyController">
    <children>
       <Pane fx:id="weatherModule" prefHeight="518.0" prefWidth="326.0">
          <children>
