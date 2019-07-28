@@ -13,7 +13,6 @@
     -fx-border-color: white;
     -fx-border-radius: 100;
     -fx-font: 23px "Microsoft Yi Baiti";
-    
 }
 
 .text-area {
@@ -75,7 +74,7 @@
 
 .task-title{
     -fx-font-size: 25;
-    -fx-padding: 10 0 0 0;
+    -fx-padding: 8 0 0 0;
 }
 
 .task-time{

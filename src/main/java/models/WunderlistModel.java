@@ -1,6 +1,8 @@
 package models;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import models.datatypes.Task;
 
 /**
@@ -10,15 +12,10 @@ import models.datatypes.Task;
 public class WunderlistModel {
     
     private String listName;
-    private final ArrayList<Task> taskList;
-    
-    private final ArrayList<Task> today_task_list;
-    private final ArrayList<Task> tomorrow_task_list;
+    private final ObservableList<Task> taskList;
     
     public WunderlistModel(){
-        taskList = new ArrayList<>();
-        today_task_list = new ArrayList<>();
-        tomorrow_task_list = new ArrayList<>();
+        taskList = FXCollections.observableArrayList();
     }
     
     public void setListName(String listName) {
@@ -29,22 +26,12 @@ public class WunderlistModel {
         return listName;
     }
     
-    public ArrayList<Task> getTaskList() {
+    public ObservableList<Task> getTaskList() {
         return taskList;
-    }
-    
-    public ArrayList<Task> getTodayTaskList() {
-        return today_task_list;
-    }
-
-    public ArrayList<Task> getTomorrowTaskList() {
-        return tomorrow_task_list;
     }
     
     public void clearTaskLists(){
         taskList.clear();
-        today_task_list.clear();
-        tomorrow_task_list.clear();
     }
     
     @Override

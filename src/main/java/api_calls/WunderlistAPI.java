@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.json.*;
 import models.ModelManager;
 import models.WunderlistModel;
@@ -30,7 +34,7 @@ public class WunderlistAPI extends APIManager {
         this.tasksModel = ModelManager.INST.getTasksModel();
     }
     
-    public static void putWunderlistHeader(URLConnection connection) {
+    private void putWunderlistHeader(URLConnection connection) {
         connection.setDoOutput(true); // Triggers POST.
         connection.setRequestProperty("X-Access-Token", wunderlistKey.get());
         connection.setRequestProperty("X-Client-ID", wunderlistClientID.get());
@@ -58,28 +62,23 @@ public class WunderlistAPI extends APIManager {
         rdr = Json.createReader(response);   
         JsonArray jsonArray = rdr.readArray();
 
-        JsonObject task;
-        Calendar today = Calendar.getInstance();
-        Calendar tomorrow = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0); 
-        tomorrow.set(Calendar.HOUR_OF_DAY, 0); 
-        tomorrow.add(Calendar.DATE, 1);
-
-        Calendar due_date = Calendar.getInstance();
+        JsonObject taskObj;
 
         tasksModel.clearTaskLists();
         for (int i=0; i < jsonArray.size(); i++){
-            task = jsonArray.getJsonObject(i);
-            tasksModel.getTaskList().add(new Task(task.getJsonNumber("id").longValueExact(), task.getString("title")));
-            if (task.containsKey("due_date")){
+            taskObj = jsonArray.getJsonObject(i); 
+            Task task = new Task(taskObj.getString("title"));
+            
+            if (taskObj.containsKey("due_date")){
                 // Check if the due date is today or tomorrow and add to appropriate list
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-                DateTime dt = formatter.parseDateTime(task.getString("due_date"));
-                due_date.setTime(dt.toDate());
+                DateTime dt = formatter.parseDateTime(taskObj.getString("due_date"));
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd");
+                String dueDate = dateFormat.format(dt.toDate());
+                task.setDueDate(dueDate);
             }
+            
+            tasksModel.getTaskList().add(task);
         }
-        
-        System.out.println(tasksModel.getListName() + ":");
-        System.out.println(tasksModel.toString());
     }
 }

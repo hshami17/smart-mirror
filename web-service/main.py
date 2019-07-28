@@ -83,6 +83,7 @@ def index():
 
 
 def spotifyEstablishToken():
+
     token = util.prompt_for_user_token(
             username='smartmirror-spotify',
             scope='user-read-currently-playing',
@@ -124,6 +125,7 @@ def addModule(formData):
 
     # Establish spotify token if not already exists.
     if (formData.get('name') == 'spotify'):
+        print 'ADDING SPOTIFY'
         spotifyEstablishToken()
 
     global configData
