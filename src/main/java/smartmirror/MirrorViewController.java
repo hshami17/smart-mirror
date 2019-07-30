@@ -36,7 +36,13 @@ public class MirrorViewController implements Initializable {
     private final List<Module> modulesOnMirror = new ArrayList<>();
     private final Map<Position, Pane> spaces = new HashMap<>();
     
-    // Module containers
+    
+    @FXML
+    private AnchorPane mirrorViewPane;
+    @FXML
+    private AnchorPane minimalViewPane;
+    
+    // Mirror view module containers
     @FXML
     private Pane topRight;
     @FXML
@@ -53,10 +59,14 @@ public class MirrorViewController implements Initializable {
     private TextArea alertPrompt;
     @FXML
     private Label webServiceAddr;
+    
+    // Minimal view module containers
     @FXML
-    private Separator separator;
+    private Pane minimalWeather;
     @FXML
-    private AnchorPane anchorPane;
+    private Pane minimalClock;
+    @FXML
+    private Pane minimalSpotify;
 
     /**
      * Initializes the controller class.
@@ -81,6 +91,11 @@ public class MirrorViewController implements Initializable {
             webAddress = "Web service not running";
         }
         webServiceAddr.setText(webAddress);
+        setupMinimalView();
+    }
+    
+    private void setupMinimalView() {
+        
     }
 
     public static void putAlert(String msg) {
@@ -144,7 +159,7 @@ public class MirrorViewController implements Initializable {
         }).start();
     }
         
-    void clearAllContainers(){
+    public void clearAllContainers(){
         Platform.runLater(() -> {
             spaces.forEach((k, space) -> {
                space.getChildren().clear();
@@ -153,7 +168,7 @@ public class MirrorViewController implements Initializable {
         });
     }
     
-    void placeModules(){
+    public void placeModules(){
         Platform.runLater(() -> {
             for (Position position : Position.values()) {
                 Module module = Config.getModuleAt(position);
@@ -161,14 +176,19 @@ public class MirrorViewController implements Initializable {
                     Pane space = spaces.get(position);
                     space.getChildren().setAll(module);
                     modulesOnMirror.add(module);
-//                    if (minimalModeActive.get()) {
-//                        module.setOpacity(0);
-//                    }
                 }
                 else {
                     modulesOnMirror.remove(module);
                 }
             }
         });
+    }
+    
+    public AnchorPane getMirrorPane() {
+        return mirrorViewPane;
+    }
+    
+    public AnchorPane getMinimalPane() {
+        return minimalViewPane;
     }
 }

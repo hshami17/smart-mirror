@@ -12,6 +12,7 @@ import models.ModelManager;
  * @author hasan
  */
 public interface ModuleController {
+    default void updateView(Object model){}
     default void update(){}
     default void setModel(ModelManager modelManager){}
     default void displayingModule(){}

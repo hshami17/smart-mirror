@@ -1,48 +1,31 @@
 package api_calls;
 
-import utils.PCS;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.ArrayList;
+import java.util.List;
 import module.Module;
 import smartmirror.MirrorViewController;
 
-public abstract class APIManager implements PropertyChangeListener {
+public abstract class APIManager {
     
-    protected Module module = null;
-    
+    protected final List<Module> modules = new ArrayList<>();
     private Thread apiThread = null;
     private final long pullInterval;
-    private final AtomicLong lastPull = new AtomicLong(0);
-    private final String PULL_PROP;
 
-    public APIManager(long pullInterval, String pullProp) {
-        this.pullInterval = pullInterval;
-        this.PULL_PROP = pullProp;
-        PCS.INST.addPropertyChangeListener(PULL_PROP, this);
-    }
-    
     public APIManager(long pullInterval) {
-        this(pullInterval, null);
+        this.pullInterval = pullInterval;
     }
 
-    private boolean doPull() {
-        return ((System.currentTimeMillis()) - lastPull.get() > pullInterval);
-    }
-    
-    private void pullApi() {
+    public void pullApi() {
         if (apiThread == null) return;
 
         try {
             fetch();
-            if (module != null) module.update();
-        } catch (IOException ex) {
+            modules.forEach((m) -> m.update());
+        } 
+        catch (IOException ex) {
             System.out.println(ex);
-            MirrorViewController.putAlert("THERE WAS AN ISSUE PULLING FROM THE " + module.getName().toString().replace("_", " ") + " API");
-        }
-        finally {
-            lastPull.set(System.currentTimeMillis());
+            MirrorViewController.putAlert("AN ERROR OCCURED PULLING AN API, CHECK THE LOG");
         }
     }
     
@@ -71,18 +54,15 @@ public abstract class APIManager implements PropertyChangeListener {
         apiThread = null;
     }
     
-    public void setModule(Module module) {
-        this.module = module;
+    public void addModuleSubscriber(Module module) {
+        modules.add(module);
     }
     
+    public void removeModuleSubscriber(Module module) {
+        modules.remove(module);
+    }
+
     public boolean isRunning() {
         return (apiThread != null);
-    }
-    
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (PULL_PROP != null && evt.getPropertyName().equals(PULL_PROP)) {
-            pullApi();
-        }
     }
 }

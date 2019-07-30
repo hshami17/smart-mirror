@@ -4,19 +4,19 @@ import api_calls.HueMotionSensorAPI;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import module.Module;
+import module.ModuleName;
 import utils.Config;
 import utils.PCM;
 import utils.PCS;
@@ -29,13 +29,10 @@ import utils.Watcher;
 public class SmartMirror extends Application implements PropertyChangeListener {
     
     private static boolean fullscreen = false;
-    
-    private Stage mirrorStage;
+    private final AtomicBoolean minimalModeActive = new AtomicBoolean(false);
     private MirrorViewController mirrorViewController;
-    private MinimalViewController minimalViewController;
     private Scene mirrorView;
-    private Scene minimalView;
-    
+  
     public static void main(String[] args) {
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
 
@@ -60,20 +57,17 @@ public class SmartMirror extends Application implements PropertyChangeListener {
 
     @Override
     public void start(Stage mirrorStage) throws Exception {
-        this.mirrorStage = mirrorStage;
         // Get mirror settings from XML
         Config.configureMirror();
         
+        // Load mirror view
         FXMLLoader loader = new FXMLLoader(SmartMirror.class.getResource("/fxml/MirrorView.fxml"));
         Parent mirrorRoot = loader.load();
         mirrorViewController = loader.getController();
-        
-        loader = new FXMLLoader(SmartMirror.class.getResource("/fxml/MinimalView.fxml"));
-        Parent minimalRoot = loader.load();
-        minimalViewController = loader.getController();
-        
         mirrorView = new Scene(mirrorRoot);
-        minimalView = new Scene(minimalRoot);
+        
+        mirrorViewController.getMirrorPane().setOpacity(1.0);
+        mirrorViewController.getMinimalPane().setOpacity(0.0);
 
         // Watcher to watch for config file changes
         PCS.INST.addPropertyChangeListener(PCM.NEW_CONFIG, this);
@@ -94,45 +88,36 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         mirrorStage.setOnCloseRequest(e -> System.exit(0));
         mirrorStage.show();
         
+        setupMinimalModules();
         PCS.INST.addPropertyChangeListener(PCM.MINIMAL_MODE, this);
-        new HueMotionSensorAPI().start();
+//        new HueMotionSensorAPI().start();
     }
     
-    AtomicBoolean doingTransition = new AtomicBoolean(false);
-    AtomicBoolean minimalModeActive = new AtomicBoolean(false);
+    private void setupMinimalModules() {
+        Module minimalDarkSky = Config.getModule(ModuleName.DARKSKY_MINIMAL);
+        Config.getModule(ModuleName.DARKSKY).getApi().addModuleSubscriber(minimalDarkSky);
+    }
+    
     synchronized private void goToMinimalMode(boolean minimalMode){
-        // Ignore if there is a current transition or we are in minimal mode already
-        if (doingTransition.get() || minimalMode == minimalModeActive.get()) {
+        // Ignore if we are in minimal mode already
+        if (minimalMode == minimalModeActive.get()) {
             return;
         }
         
-        Duration duration = new Duration(800);
-        FadeTransition fadeTransition = new FadeTransition(duration, (minimalMode ? mirrorView.getRoot() : minimalView.getRoot()));
-        fadeTransition.setFromValue(1.0);
-        fadeTransition.setToValue(0.0);
-        fadeTransition.play();
-
-        doingTransition.set(true);
+        Duration duration = new Duration(400);
+        Pane fadingOutPane = minimalMode ? mirrorViewController.getMirrorPane() : mirrorViewController.getMinimalPane();
+        Pane fadingInPane = minimalMode ? mirrorViewController.getMinimalPane() : mirrorViewController.getMirrorPane();
         
-        fadeTransition.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                new Thread(() -> {
-                    // Go to minimal mode or back to mirror mode after transition finished
-                    Platform.runLater(() -> {
-                        Scene currentScene = minimalMode ? minimalView : mirrorView;
-                        currentScene.getRoot().setOpacity(1.0);
-                        mirrorStage.setScene(currentScene);
-                    });
-                    try {
-                        Thread.sleep(1000);
-                        doingTransition.set(false);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }).start();
-            }
-        });
+        FadeTransition viewFadeOut = new FadeTransition(duration, fadingOutPane);
+        viewFadeOut.setFromValue(fadingOutPane.getOpacity());
+        viewFadeOut.setToValue(0.0);  
+        
+        FadeTransition viewFadeIn = new FadeTransition(duration, fadingInPane);
+        viewFadeIn.setFromValue(fadingInPane.getOpacity());
+        viewFadeIn.setToValue(1.0);
+        
+        viewFadeOut.setOnFinished(e -> viewFadeIn.play());        
+        viewFadeOut.play();
         
         minimalModeActive.set(minimalMode);
     }

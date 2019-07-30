@@ -24,13 +24,20 @@ public enum ModuleName {
     WUNDERLIST("/fxml/Wunderlist.fxml", new WunderlistAPI()),
     RANDOM_FAMOUS_QUOTE("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI()),
     RANDOM_USELESS_FACTS("/fxml/RandomUselessFacts.fxml", new RandomUselessFacts()),
-    SPOTIFY("/fxml/SpotifyPlayer.fxml", new SpotifyAPI());
+    SPOTIFY("/fxml/SpotifyPlayer.fxml", new SpotifyAPI()),
+    
+    // Minimal modules
+    DARKSKY_MINIMAL("/fxml/DarkSkyMinimal.fxml");
     
     private final String fxml;
     private final APIManager api;
     ModuleName(String fxml, APIManager api) {
         this.fxml = fxml;
         this.api = api;
+    }
+
+    ModuleName(String fxml) {
+        this(fxml, null);
     }
     
     public String getFxml() {
@@ -41,3 +48,4 @@ public enum ModuleName {
         return api;
     }
 }
+

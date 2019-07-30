@@ -23,7 +23,6 @@ public class HueMotionSensorAPI extends APIManager {
         super(500);
     }
     
-    boolean lastPresence = true;
     @Override
     protected void fetch() throws IOException {
         try {
@@ -37,13 +36,10 @@ public class HueMotionSensorAPI extends APIManager {
                 if (on) {
                     boolean presence = sensorData.getJsonObject("state").getBoolean("presence");
                     boolean minimalMode = !presence;
-                    System.out.println("Presence: " + presence + " MINIMAL MODE: " + minimalMode);
                     PCS.INST.firePropertyChange(PCM.MINIMAL_MODE, minimalMode);
-//                    lastPresence = presence;
                 }
-                else if (!lastPresence){
+                else {
                     PCS.INST.firePropertyChange(PCM.MINIMAL_MODE, false);
-                    lastPresence = true;
                 }
             }
         }

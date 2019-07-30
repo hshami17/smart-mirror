@@ -12,7 +12,6 @@ import models.NewsAPIModel;
 import static utils.ConfigElements.newsKey;
 import static utils.ConfigElements.newsSortBy;
 import static utils.ConfigElements.newsSource;
-import utils.PCM;
 
 /**
  *
@@ -23,7 +22,7 @@ public class NewsAPI extends APIManager {
     private final NewsAPIModel newsModel;
     
     public NewsAPI(){
-        super(300000, PCM.FETCH_NEWS);
+        super(300000);
         this.newsModel = ModelManager.INST.getNewsModel();
     }
 

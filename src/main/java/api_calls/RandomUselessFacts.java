@@ -12,7 +12,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import models.ModelManager;
-import utils.PCM;
 
 /**
  *
@@ -21,7 +20,7 @@ import utils.PCM;
 public class RandomUselessFacts extends APIManager {
     
     public RandomUselessFacts() {
-        super(60000, PCM.FETCH_RANDOM_FAMOUS_FACTS);
+        super(60000);
     }
 
     @Override

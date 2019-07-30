@@ -10,10 +10,8 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import models.ModelManager;
-import utils.ConfigElements;
 import static utils.ConfigElements.category;
 import static utils.ConfigElements.randomFamousQuoteKey;
-import utils.PCM;
 
 /**
  *
@@ -24,7 +22,7 @@ public class RandomFamousQuoteAPI extends APIManager {
     private final RandomFamousQuoteModel quoteModel;
 
     public RandomFamousQuoteAPI() {
-        super(60000, PCM.FETCH_RANDOM_FAMOUS_QUOTE);
+        super(60000);
         this.quoteModel = ModelManager.INST.getQuoteModel();
     }
 

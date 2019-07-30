@@ -11,6 +11,7 @@ import javafx.beans.value.ObservableValue;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import module.MinimalModules;
 import module.Module;
 import module.ModuleName;
 import org.w3c.dom.DOMException;
@@ -48,27 +49,24 @@ public class Config {
     
     public static void configureMirror(){
         try {
+            parseMirrorConfig();
             if (!initialized){
                 // Weather prop listeners
-                addPropertyListeners(PCM.FETCH_DARKSKY, 
+                addPropertyListeners(modules.get(ModuleName.DARKSKY), 
                         darkskyKey, 
                         zipcodeKey, 
                         zipcode);
                 // Quote prop listeners
-                addPropertyListeners(PCM.FETCH_RANDOM_FAMOUS_QUOTE, 
+                addPropertyListeners(modules.get(ModuleName.RANDOM_FAMOUS_QUOTE), 
                         randomFamousQuoteKey,
                         category);
                 // News prop listeners
-                addPropertyListeners(PCM.FETCH_NEWS,
+                addPropertyListeners(modules.get(ModuleName.NEWS),
                         newsKey,
                         newsSource,
                         newsSortBy);
                 
-                parseMirrorConfig();
                 initialized = true;
-            }
-            else {
-                parseMirrorConfig();
             }
         }
         catch (IOException ex){
@@ -82,11 +80,13 @@ public class Config {
     }
    
     
-    private static void addPropertyListeners(String propName, StringProperty... properties){
+    private static void addPropertyListeners(Module module, StringProperty... properties){
         for (StringProperty property : properties){
             property.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                 new Thread(() -> {
-                    PCS.INST.firePropertyChange(propName);
+                    if (module.hasApi()) {
+                        module.getApi().pullApi();
+                    }
                 }).start();
             }); 
         }
@@ -166,7 +166,15 @@ public class Config {
                     System.err.println(ex.toString());
                 }
             }
-        }        
+        }
+        
+        // Add minimal modules to map
+        if (!initialized) {
+            MinimalModules.getModules().forEach((minimalModule) -> {
+                Module module = new Module(minimalModule);
+                modules.put(minimalModule, module);
+            });
+        }
     }
 
     public static Module getModuleAt(Position position) {

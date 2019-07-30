@@ -13,8 +13,6 @@ import models.datatypes.Forecast;
 import static utils.ConfigElements.darkskyKey;
 import static utils.ConfigElements.zipcode;
 import static utils.ConfigElements.zipcodeKey;
-import utils.PCM;
-
 
 /**
  *
@@ -22,11 +20,11 @@ import utils.PCM;
  */
 public class DarkSkyAPI extends APIManager {
     
-    private final DarkSkyModel weatherModel;
+    private final DarkSkyModel darkSkyModel;
     
     public DarkSkyAPI() {
-        super(600000, PCM.FETCH_DARKSKY);
-        this.weatherModel = ModelManager.INST.getWeatherModel();
+        super(600000);
+        this.darkSkyModel = ModelManager.INST.getWeatherModel();
     }
 
     @Override
@@ -37,7 +35,7 @@ public class DarkSkyAPI extends APIManager {
         JsonReader rdr_zip_api = Json.createReader(is_zip_api);
         JsonObject obj_zip_api = rdr_zip_api.readObject();
 
-        weatherModel.setLocation(obj_zip_api.getString("city"), obj_zip_api.getString("state"));
+        darkSkyModel.setLocation(obj_zip_api.getString("city"), obj_zip_api.getString("state"));
 
 
         String lat = obj_zip_api.getJsonNumber("lat").toString();
@@ -50,54 +48,54 @@ public class DarkSkyAPI extends APIManager {
         JsonObject obj = rdr.readObject();
         JsonObject current = obj.getJsonObject("currently");
 
-        weatherModel.setCurrentTemp(current.getJsonNumber("temperature").intValue());
-        weatherModel.setCurrentDay(Forecast.getDay(current.getInt("time")));
-        weatherModel.setCurrentSummary(current.getString("summary"));
+        darkSkyModel.setCurrentTemp(current.getJsonNumber("temperature").intValue());
+        darkSkyModel.setCurrentDay(Forecast.getDay(current.getInt("time")));
+        darkSkyModel.setCurrentSummary(current.getString("summary"));
         switch (current.getString("icon")) {
             case "clear-day":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.CLEAR_DAY);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.CLEAR_DAY);
                 break;
             case "clear-night":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.CLEAR_NIGHT);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.CLEAR_NIGHT);
                 break;
             case "rain":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.RAIN);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.RAIN);
                 break;
             case "snow":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.SNOW);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.SNOW);
                 break;
             case "sleet":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.SLEET);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.SLEET);
                 break;
             case "wind":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.WIND);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.WIND);
                 break;
             case "fog":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.FOG);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.FOG);
                 break;
             case "cloudy":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.CLOUDY);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.CLOUDY);
                 break;
             case "partly-cloudy-day":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_DAY);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_DAY);
                 break;
             case "partly-cloudy-night":
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_NIGHT);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_NIGHT);
                 break;
             default:
-                weatherModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_DAY);
+                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_DAY);
                 break;
         }
 
         JsonObject week = obj.getJsonObject("daily");
 
-        weatherModel.setWeeklySummary(week.getString("summary"));
+        darkSkyModel.setWeeklySummary(week.getString("summary"));
 
         JsonArray weeklyForecast = week.getJsonArray("data");
 
-        weatherModel.getForecastList().clear();
+        darkSkyModel.getForecastList().clear();
         for (int i = 0; i < weeklyForecast.size(); i++) {
-            weatherModel.getForecastList().add(new Forecast(weeklyForecast.getJsonObject(i)));
+            darkSkyModel.getForecastList().add(new Forecast(weeklyForecast.getJsonObject(i)));
         }
     }
 }

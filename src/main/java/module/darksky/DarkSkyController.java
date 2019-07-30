@@ -59,7 +59,7 @@ public class DarkSkyController implements Initializable, ModuleController {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-    }    
+    }
     
     @Override
     public void update() {

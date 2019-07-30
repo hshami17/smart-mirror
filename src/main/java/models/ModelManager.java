@@ -5,6 +5,14 @@
  */
 package models;
 
+import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import module.ModuleController;
+import module.ModuleName;
+
 /**
  *
  * @author hasan
@@ -50,6 +58,6 @@ public class ModelManager {
     public SpotifyTrackModel getSpotifyTrackModel() {
         return spotifyTrackModel;
     }
-    
+        
     public static ModelManager INST = new ModelManager();
 }
