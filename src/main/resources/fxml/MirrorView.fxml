@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
@@ -10,9 +7,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="2000.0" prefWidth="762.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="smartmirror.MirrorViewController">
+<AnchorPane id="AnchorPane" prefHeight="2000.0" prefWidth="762.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="smartmirror.MirrorViewController">
    <children>
-      <AnchorPane fx:id="mirrorViewPane" prefHeight="2000.0" prefWidth="982.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="mirrorViewPane" opacity="0.0" prefHeight="2000.0" prefWidth="982.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
              <!-- TOP RIGHT CONTAINER -->
             <Pane fx:id="topRight" prefHeight="518.0" prefWidth="326.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="100.0" />
@@ -36,21 +33,21 @@
             <Pane fx:id="bottomRight" prefHeight="518.0" prefWidth="326.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="700.0" />
             <TextArea fx:id="alertPrompt" editable="false" prefHeight="212.0" prefWidth="240.0" styleClass="alert-prompt" text="ALERT PROMPT" wrapText="true" AnchorPane.leftAnchor="373.0" AnchorPane.rightAnchor="368.0" AnchorPane.topAnchor="411.0" />
          </children></AnchorPane>
-      <AnchorPane id="AnchorPane" fx:id="minimalViewPane" layoutX="10.0" layoutY="10.0" opacity="0.0" prefHeight="2000.0" prefWidth="982.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane id="AnchorPane" fx:id="minimalViewPane" layoutX="10.0" layoutY="10.0" prefHeight="2000.0" prefWidth="982.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" layoutX="180.0" layoutY="410.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="410.0">
+            <HBox alignment="CENTER" layoutX="180.0" layoutY="410.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="410.0">
                <children>
-                  <Pane fx:id="minimalClock" layoutX="180.0" layoutY="410.0" prefHeight="203.0" prefWidth="402.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="410.0" />
+                  <Pane fx:id="minimalClock" layoutX="180.0" layoutY="410.0" prefWidth="300.0" styleClass="mirror-pane" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="410.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="236.0" layoutY="636.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0" AnchorPane.topAnchor="636.0">
+            <HBox alignment="CENTER" layoutX="236.0" layoutY="636.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="636.0">
                <children>
-                  <Pane fx:id="minimalWeather" layoutX="236.0" layoutY="636.0" prefHeight="130.0" prefWidth="290.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0" AnchorPane.topAnchor="636.0" />
+                  <Pane fx:id="minimalWeather" layoutX="236.0" layoutY="636.0" styleClass="mirror-pane" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0" AnchorPane.topAnchor="636.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" layoutX="236.0" layoutY="1819.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0">
+            <HBox alignment="CENTER" layoutX="236.0" layoutY="1819.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Pane fx:id="minimalSpotify" layoutX="236.0" layoutY="1819.0" prefHeight="130.0" prefWidth="290.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0" />
+                  <Pane fx:id="minimalSpotify" layoutX="236.0" layoutY="1819.0" styleClass="mirror-pane" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0" />
                </children>
             </HBox>
          </children>

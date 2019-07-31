@@ -20,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import module.Module;
+import module.ModuleName;
 import utils.Config;
 import utils.Position;
 
@@ -95,7 +96,8 @@ public class MirrorViewController implements Initializable {
     }
     
     private void setupMinimalView() {
-        
+        minimalWeather.getChildren().add(Config.getModule(ModuleName.DARKSKY_MINIMAL));
+        minimalClock.getChildren().add(Config.getModule(ModuleName.CLOCK_MINIMAL));
     }
 
     public static void putAlert(String msg) {

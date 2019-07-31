@@ -27,7 +27,9 @@ public enum ModuleName {
     SPOTIFY("/fxml/SpotifyPlayer.fxml", new SpotifyAPI()),
     
     // Minimal modules
-    DARKSKY_MINIMAL("/fxml/DarkSkyMinimal.fxml");
+    DARKSKY_MINIMAL("/fxml/minimal/DarkSkyMinimal.fxml"),
+    CLOCK_MINIMAL("/fxml/minimal/ClockMinimal.fxml"),
+    SPOTIFY_MINIMAL("/fxml/minimal/SpotifyMinimal.fxml");
     
     private final String fxml;
     private final APIManager api;

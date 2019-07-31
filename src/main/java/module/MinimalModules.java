@@ -8,6 +8,7 @@ package module;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import static module.ModuleName.*;
 
 /**
  *
@@ -20,7 +21,9 @@ public class MinimalModules {
     static {
         minimalModules.addAll(
             Arrays.asList(
-                ModuleName.DARKSKY_MINIMAL
+                DARKSKY_MINIMAL,
+                CLOCK_MINIMAL,
+                SPOTIFY_MINIMAL
             )
         );
     }
