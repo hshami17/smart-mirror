@@ -13,6 +13,7 @@ import models.datatypes.Forecast;
 import static utils.ConfigElements.darkskyKey;
 import static utils.ConfigElements.zipcode;
 import static utils.ConfigElements.zipcodeKey;
+import models.DarkSkyModel.WeatherImage;
 
 /**
  *
@@ -53,37 +54,37 @@ public class DarkSkyAPI extends APIManager {
         darkSkyModel.setCurrentSummary(current.getString("summary"));
         switch (current.getString("icon")) {
             case "clear-day":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.CLEAR_DAY);
+                darkSkyModel.setCurrentIcon(WeatherImage.CLEAR_DAY);
                 break;
             case "clear-night":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.CLEAR_NIGHT);
+                darkSkyModel.setCurrentIcon(WeatherImage.CLEAR_NIGHT);
                 break;
             case "rain":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.RAIN);
+                darkSkyModel.setCurrentIcon(WeatherImage.RAIN);
                 break;
             case "snow":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.SNOW);
+                darkSkyModel.setCurrentIcon(WeatherImage.SNOW);
                 break;
             case "sleet":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.SLEET);
+                darkSkyModel.setCurrentIcon(WeatherImage.SLEET);
                 break;
             case "wind":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.WIND);
+                darkSkyModel.setCurrentIcon(WeatherImage.WIND);
                 break;
             case "fog":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.FOG);
+                darkSkyModel.setCurrentIcon(WeatherImage.FOG);
                 break;
             case "cloudy":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.CLOUDY);
+                darkSkyModel.setCurrentIcon(WeatherImage.CLOUDY);
                 break;
             case "partly-cloudy-day":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_DAY);
+                darkSkyModel.setCurrentIcon(WeatherImage.PARTLY_CLOUDY_DAY);
                 break;
             case "partly-cloudy-night":
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_NIGHT);
+                darkSkyModel.setCurrentIcon(WeatherImage.PARTLY_CLOUDY_NIGHT);
                 break;
             default:
-                darkSkyModel.setCurrentIcon(DarkSkyModel.Icon.PARTLY_CLOUDY_DAY);
+                darkSkyModel.setCurrentIcon(WeatherImage.PARTLY_CLOUDY_DAY);
                 break;
         }
 
@@ -97,5 +98,10 @@ public class DarkSkyAPI extends APIManager {
         for (int i = 0; i < weeklyForecast.size(); i++) {
             darkSkyModel.getForecastList().add(new Forecast(weeklyForecast.getJsonObject(i)));
         }
+    }
+    
+    @Override
+    public void stop() {
+        // Do not stop dark sky api because of minimal weather module
     }
 }

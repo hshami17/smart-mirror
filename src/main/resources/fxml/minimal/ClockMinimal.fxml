@@ -2,10 +2,15 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="239.0" prefWidth="323.0" style="-fx-background-color: blue;" stylesheets="@../../styles/mirror_style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+<AnchorPane id="AnchorPane" styleClass="mirror-pane" stylesheets="@../../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.clock.ClockMinimalController">
    <children>
-      <Label layoutX="84.0" layoutY="105.0" text="CLOCK MINIMAL" />
+      <VBox alignment="CENTER" layoutY="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="lblTime" alignment="CENTER" styleClass="digital-time-minimal" text="12:00 AM" />
+            <Label fx:id="lblDate" alignment="CENTER" styleClass="date-minimal" text="Thursday, Jan 1st 1970" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

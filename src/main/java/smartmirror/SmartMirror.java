@@ -88,14 +88,8 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         mirrorStage.setOnCloseRequest(e -> System.exit(0));
         mirrorStage.show();
         
-        setupMinimalModules();
         PCS.INST.addPropertyChangeListener(PCM.MINIMAL_MODE, this);
-//        new HueMotionSensorAPI().start();
-    }
-    
-    private void setupMinimalModules() {
-        Module minimalDarkSky = Config.getModule(ModuleName.DARKSKY_MINIMAL);
-        Config.getModule(ModuleName.DARKSKY).getApi().addModuleSubscriber(minimalDarkSky);
+        new HueMotionSensorAPI().start();
     }
     
     synchronized private void goToMinimalMode(boolean minimalMode){

@@ -7,13 +7,14 @@ package module.darksky;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import models.DarkSkyModel;
 import models.ModelManager;
-import module.Module;
 import module.ModuleController;
-import module.ModuleName;
-import utils.Config;
 
 /**
  *
@@ -21,14 +22,25 @@ import utils.Config;
  */
 public class DarkSkyMinimalController implements Initializable, ModuleController {
     
+    @FXML
+    private Label lblCurrentTemp;
+    @FXML
+    private ImageView imgWeatherIcon;
+    @FXML
+    private Label lblCurrentWeather;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        lblCurrentTemp.setText("60\u00b0");
     }
     
     @Override
     public void update() {
         DarkSkyModel darkSkyModel = ModelManager.INST.getWeatherModel();
-        System.out.println("GOT WEATHER UPDATE, TEMP IS: " + darkSkyModel.getCurrentTemp());
+        Platform.runLater(() -> {
+            lblCurrentTemp.setText(String.valueOf(darkSkyModel.getCurrentTemp()) + "\u00b0");
+            imgWeatherIcon.setImage(darkSkyModel.getCurrentIcon());
+            lblCurrentWeather.setText(darkSkyModel.getCurrentSummary());
+        });
     }
 }

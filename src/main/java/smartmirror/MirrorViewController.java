@@ -98,6 +98,7 @@ public class MirrorViewController implements Initializable {
     private void setupMinimalView() {
         minimalWeather.getChildren().add(Config.getModule(ModuleName.DARKSKY_MINIMAL));
         minimalClock.getChildren().add(Config.getModule(ModuleName.CLOCK_MINIMAL));
+        minimalSpotify.getChildren().add(Config.getModule(ModuleName.SPOTIFY_MINIMAL));
     }
 
     public static void putAlert(String msg) {

@@ -65,7 +65,7 @@ public class DarkSkyController implements Initializable, ModuleController {
     public void update() {
         Platform.runLater(() -> {
             temperature.setText(darkSkyModel.getCurrentTemp().toString() + "\u00b0");
-            weatherIcon.setImage(new Image(darkSkyModel.getCurrentIcon().getPath()));
+            weatherIcon.setImage(darkSkyModel.getCurrentIcon());
             location.setText(darkSkyModel.getLocation());
             dailySummary.setText(darkSkyModel.getCurrentSummary());
             weeklySummary.setText(darkSkyModel.getWeeklySummary());
@@ -81,7 +81,7 @@ public class DarkSkyController implements Initializable, ModuleController {
 
                 days.getChildren().add(day);
 
-                ImageView icon = new ImageView(forecast.getIcon().getPath());
+                ImageView icon = new ImageView(forecast.getIcon());
                 icon.setFitHeight(20);
                 icon.setFitWidth(20);
                 icon.setPreserveRatio(true);

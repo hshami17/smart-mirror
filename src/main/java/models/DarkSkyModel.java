@@ -3,6 +3,7 @@ package models;
 import models.datatypes.Forecast;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -12,7 +13,7 @@ public class DarkSkyModel {
     
     private String location;
     private Integer currentTemp;
-    private Icon currentIcon;
+    private Image currentIcon;
     private String currentSummary;
     private String weeklySummary;
     private String currentDay;
@@ -30,7 +31,7 @@ public class DarkSkyModel {
         return currentTemp;
     }
 
-    public Icon getCurrentIcon() {
+    public Image getCurrentIcon() {
         return currentIcon;
     }
 
@@ -58,7 +59,7 @@ public class DarkSkyModel {
         this.currentTemp = currentTemp;
     }
 
-    public void setCurrentIcon(Icon currentIcon) {
+    public void setCurrentIcon(Image currentIcon) {
         this.currentIcon = currentIcon;
     }
 
@@ -74,43 +75,17 @@ public class DarkSkyModel {
         this.currentDay = currentDay;
     }
     
-    @Override
-    public String toString(){
-        String test = "Location: " + location + "\n" + 
-                "Current Temp: " + currentTemp + "\n" +
-                "Current Icon: " + currentIcon + "\n" + 
-                "Current Summary: " + currentSummary + "\n" + 
-                "Current Day: " + currentDay + "\n\n";
-        for (Forecast value : forecastList){
-            test += "Day: " + value.getDay() + "\n";
-            test += "Icon: " + value.getIcon() + "\n";
-            test += "High: " + value.getHigh() + "\n";
-            test += "Low: " + value.getLow() + "\n\n";
-        }
-        return test;
-    }
-    
-    public enum Icon{
-        CLEAR_DAY("/images/clear_day.png"),
-        CLEAR_NIGHT("/images/clear_night.png"),
-        RAIN("/images/rain.png"),
-        SNOW("/images/snow.png"),
-        SLEET("/images/sleet.png"),
-        WIND("/images/wind.png"),
-        FOG("/images/fog.png"),
-        CLOUDY("/images/cloud.png"),
-        PARTLY_CLOUDY_DAY("/images/partly_cloudy_day.png"),
-        PARTLY_CLOUDY_NIGHT("/images/partly_cloudy_night.png"),
-        DEFAULT("/images/default.png");
-        
-        String path;
-        
-        Icon(String path){
-            this.path = path;
-        }
-        
-        public String getPath(){
-            return path;
-        }
+    public static class WeatherImage {
+        public static Image CLEAR_DAY = new Image("/images/clear_day.png");
+        public static Image CLEAR_NIGHT = new Image("/images/clear_night.png");
+        public static Image RAIN = new Image("/images/rain.png");
+        public static Image SNOW = new Image("/images/snow.png");
+        public static Image SLEET = new Image("/images/sleet.png");
+        public static Image WIND = new Image("/images/wind.png");
+        public static Image FOG = new Image("/images/fog.png");
+        public static Image CLOUDY = new Image("/images/cloud.png");
+        public static Image PARTLY_CLOUDY_DAY = new Image("/images/partly_cloudy_day.png");
+        public static Image PARTLY_CLOUDY_NIGHT = new Image("/images/partly_cloudy_night.png");
+//        public static Image DEFAULT = new Image("/images/default.png");
     }
 }

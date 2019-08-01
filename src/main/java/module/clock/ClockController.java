@@ -41,14 +41,8 @@ public class ClockController implements Initializable, ModuleController {
     private RotateTransition secondsTransition;
     private RotateTransition minuteTransition;
     private RotateTransition hourTransition;
-
-    /**
-     * Initializes the controller class.
-     * @param url
-     * @param rb
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    
+    public static void hookDateTimeControls(Label digitalTime, Label date) {
         // Digital time and date 
         Timeline dateTime = new Timeline(
             new KeyFrame(Duration.seconds(0), (ActionEvent actionEvent) -> {
@@ -78,22 +72,21 @@ public class ClockController implements Initializable, ModuleController {
                // String seconds = String.format(Locale.US, "%02d", time.get(Calendar.SECOND));
                 String amPm   = time.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
                 digitalTime.setText(hour + ":" + minute + " " + amPm);
-                if (birthday(month, dayNum)){
-                    bday.setVisible(true);
-                    bday.setText("Happy Birthday!");
-                }
-                else{
-                    bday.setVisible(false);
-                }
             }),
             new KeyFrame(Duration.seconds(1))
         );
         dateTime.setCycleCount(Animation.INDEFINITE);
         dateTime.play();
     }
-
-    private boolean birthday(String month, String day) {
-        return month.equals("Sep") && day.equals("13th");
+    
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        hookDateTimeControls(digitalTime, date);
     }
     
     private void buildAnalogClock(){

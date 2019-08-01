@@ -1,5 +1,6 @@
 package utils;
 
+import api_calls.APIManager;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -92,6 +93,13 @@ public class Config {
         }
     }
     
+    private static void hookMinimalModules() {
+        Module minimalDarkSky = modules.get(ModuleName.DARKSKY_MINIMAL);
+        APIManager darkSkyAPI = ModuleName.DARKSKY.getApi();
+        darkSkyAPI.addModuleSubscriber(minimalDarkSky);
+        darkSkyAPI.start();
+    }
+    
     private static void parseMirrorConfig() throws IOException, ParserConfigurationException,
                                             DOMException, SAXException{
         
@@ -103,6 +111,15 @@ public class Config {
         doc.getDocumentElement().normalize();
 
         NodeList moduleConfigs = doc.getElementsByTagName("module");
+        
+        // Add minimal modules to map
+        if (!initialized) {
+            MinimalModules.getModules().forEach((minimalModule) -> {
+                Module module = new Module(minimalModule);
+                modules.put(minimalModule, module);
+            });
+            hookMinimalModules();
+        }
         
         // Get API keys
         for (int i=0; i<moduleConfigs.getLength(); i++){
@@ -166,14 +183,6 @@ public class Config {
                     System.err.println(ex.toString());
                 }
             }
-        }
-        
-        // Add minimal modules to map
-        if (!initialized) {
-            MinimalModules.getModules().forEach((minimalModule) -> {
-                Module module = new Module(minimalModule);
-                modules.put(minimalModule, module);
-            });
         }
     }
 
