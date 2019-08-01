@@ -107,7 +107,8 @@ def spotifyCurrentTrack():
             scope='user-read-currently-playing',
             client_id='9759a5611e3d4f78a079090e67696c91',
             client_secret='20785be11bfd4931bb6df63a2db88a75',
-            redirect_uri='http://localhost:8080/spotify-callback')
+            redirect_uri='http://localhost:8080/spotify-callback',
+	    cache_path=os.getenv('HOME', ".") + "/.spotify-cache")
 
     spotify = spotipy.Spotify(auth=token)
 
