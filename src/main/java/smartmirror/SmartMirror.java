@@ -15,8 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import module.Module;
-import module.ModuleName;
 import utils.Config;
 import utils.PCM;
 import utils.PCS;
