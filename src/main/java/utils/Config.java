@@ -98,6 +98,10 @@ public class Config {
         APIManager darkSkyAPI = ModuleName.DARKSKY.getApi();
         darkSkyAPI.addModuleSubscriber(minimalDarkSky);
         darkSkyAPI.start();
+
+        Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
+        APIManager spotifyAPI = ModuleName.SPOTIFY.getApi();
+        spotifyAPI.addModuleSubscriber(minimalSpotify);
     }
     
     private static void parseMirrorConfig() throws IOException, ParserConfigurationException,
@@ -173,6 +177,11 @@ public class Config {
                     if (!initialized) {
                         Module module = new Module(moduleName);
                         modules.put(moduleName, module);
+                        
+                        if (moduleName == ModuleName.SPOTIFY) {
+                            Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
+                            minimalSpotify.visibleProperty().bind(module.onMirrorProperty());
+                        }
                     }
 
                     Module module = modules.get(moduleName);

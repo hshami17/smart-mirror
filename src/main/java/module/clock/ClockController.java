@@ -42,7 +42,7 @@ public class ClockController implements Initializable, ModuleController {
     private RotateTransition minuteTransition;
     private RotateTransition hourTransition;
     
-    public static void hookDateTimeControls(Label digitalTime, Label date) {
+    protected static void hookDateTimeControls(Label digitalTime, Label date) {
         // Digital time and date 
         Timeline dateTime = new Timeline(
             new KeyFrame(Duration.seconds(0), (ActionEvent actionEvent) -> {

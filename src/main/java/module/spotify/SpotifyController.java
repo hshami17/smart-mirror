@@ -46,8 +46,8 @@ public class SpotifyController implements Initializable, ModuleController {
     @FXML
     private ImageView imgPlayPause;
     
-    private final Image play = new Image("/images/play-icon.png");
-    private final Image pause = new Image("/images/pause-icon.png");
+    protected static final Image play = new Image("/images/play-icon.png");
+    protected static final Image pause = new Image("/images/pause-icon.png");
     
     private SpotifyTrackModel spotifyTrackModel;
     
@@ -80,21 +80,21 @@ public class SpotifyController implements Initializable, ModuleController {
 //        }).start();
     }
     
-    private double[] millisecondsToMinutesSeconds(long milliseconds) {
+    protected static double[] millisecondsToMinutesSeconds(long milliseconds) {
         double minutes = ((double)milliseconds / 1000) / 60;
         double seconds = (minutes - (int)minutes) * 60;
         
         return new double[]{minutes, seconds};
     }
     
-    private void setTrackLength(long trackLength) {
+    protected static void setTrackLength(long trackLength, Label lblTrackLength) {
         double[] trackMinSec = millisecondsToMinutesSeconds(trackLength);
         double minutes = trackMinSec[0];
         double seconds = trackMinSec[1];
         lblTrackLength.setText(String.format(Locale.US, "%02d", (int)minutes) + ":" + String.format(Locale.US, "%02d", (int)seconds));
     }
     
-    private void setTrackProgress(long trackProgress) {
+    protected static void setTrackProgress(long trackProgress, Label lblCurrentTime) {
         double[] currentMinSec = millisecondsToMinutesSeconds(trackProgress);
         double minutesCurr = currentMinSec[0];
         double secondsCurr = currentMinSec[1];
@@ -104,21 +104,19 @@ public class SpotifyController implements Initializable, ModuleController {
     @Override
     public void update() {
         Platform.runLater(() -> {
-            boolean isPlaying = spotifyTrackModel.isPlaying();
 //            if (isPlaying != trackPlaying.get()) {
 //                setTrackProgress(spotifyTrackModel.getTrackProgress());
 //                trackProgressSlider.setValue(spotifyTrackModel.getTrackProgress());
 //            }
-            setTrackProgress(spotifyTrackModel.getTrackProgress());
+            setTrackProgress(spotifyTrackModel.getTrackProgress(), lblCurrentTime);
             trackProgressSlider.setValue(spotifyTrackModel.getTrackProgress());
-            trackPlaying.set(isPlaying);
-            lblTrackStatus.setText(trackPlaying.get() ? "Playing" : "Paused");
-            imgPlayPause.setImage(trackPlaying.get() ? play : pause);
+            lblTrackStatus.setText(spotifyTrackModel.isPlaying() ? "PLAYING" : "PAUSED");
+            imgPlayPause.setImage(spotifyTrackModel.isPlaying() ? play : pause);
             lblAlbum.setText(spotifyTrackModel.getAlbum());
             lblArtist.setText(spotifyTrackModel.getArtist());
             lblTrack.setText(spotifyTrackModel.getTrackName());
             imgAlbumArt.setImage(spotifyTrackModel.getSongArt());
-            setTrackLength(spotifyTrackModel.getTrackLength());
+            setTrackLength(spotifyTrackModel.getTrackLength(), lblTrackLength);
             if (trackProgressSlider.getMax() != spotifyTrackModel.getTrackLength()) {
                 trackProgressSlider.setMax(spotifyTrackModel.getTrackLength());
             }

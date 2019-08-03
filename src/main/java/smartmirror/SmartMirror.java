@@ -96,7 +96,7 @@ public class SmartMirror extends Application implements PropertyChangeListener {
             return;
         }
         
-        Duration duration = new Duration(400);
+        Duration duration = new Duration(300);
         Pane fadingOutPane = minimalMode ? mirrorViewController.getMirrorPane() : mirrorViewController.getMinimalPane();
         Pane fadingInPane = minimalMode ? mirrorViewController.getMinimalPane() : mirrorViewController.getMirrorPane();
         
