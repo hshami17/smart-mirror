@@ -1,5 +1,8 @@
 package smartmirror;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +18,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -60,6 +65,8 @@ public class MirrorViewController implements Initializable {
     private TextArea alertPrompt;
     @FXML
     private Label webServiceAddr;
+    @FXML
+    private ImageView imgQrCode;
     
     // Minimal view module containers
     @FXML
@@ -92,7 +99,31 @@ public class MirrorViewController implements Initializable {
             webAddress = "Web service not running";
         }
         webServiceAddr.setText(webAddress);
+        setupQrCode();
         setupMinimalView();
+    }
+    
+    private void setupQrCode() {
+        String webAddress = System.getenv("WEBADDRESS");
+        if (webAddress != null && !webAddress.isEmpty()) {
+            try {
+                URL qrCodeUrl = new URL("http://" + webAddress + "/api/genqrcode");
+                InputStream qrCodeIn = qrCodeUrl.openStream();
+                byte[] stringBuff = new byte[255];
+                qrCodeIn.read(stringBuff);
+                String qrCodeImgUrl = new String(stringBuff);
+                Platform.runLater(() -> {
+                    imgQrCode.setImage(new Image(qrCodeImgUrl));
+                    imgQrCode.setOpacity(0.30);
+                });
+            } 
+            catch (MalformedURLException ex) {
+                Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+            catch (IOException ex) {
+                Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     private void setupMinimalView() {
