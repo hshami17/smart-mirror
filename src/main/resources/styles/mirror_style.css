@@ -127,3 +127,7 @@
 .track-label {
     -fx-font-size: 20;
 }
+
+.web-address {
+    -fx-font-size: 23;
+}
