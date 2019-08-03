@@ -9,7 +9,7 @@ package models;
  *
  * @author hasan
  */
-public class RandomUselessFactsModel {
+public class UselessFactsModel {
     private String uselessFact;
 
     public String getUselessFact() {
@@ -18,6 +18,5 @@ public class RandomUselessFactsModel {
 
     public void setUselessFact(String uselessFact) {
         this.uselessFact = uselessFact;
-        System.out.println("GOT: " + this.uselessFact);
     }
 }

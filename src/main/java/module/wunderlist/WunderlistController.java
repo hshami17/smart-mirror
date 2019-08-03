@@ -36,7 +36,6 @@ public class WunderlistController implements Initializable, ModuleController {
     @FXML
     private Pane container;
 
-    private WunderlistModel wunderlistModel;
     
     /**
      * Initializes the controller class.
@@ -47,12 +46,8 @@ public class WunderlistController implements Initializable, ModuleController {
     }    
 
     @Override
-    public void setModel(ModelManager modelManager) {
-        this.wunderlistModel = modelManager.getTasksModel();
-    }
-    
-    @Override
     public void update() {
+        WunderlistModel wunderlistModel = ModelManager.INST.getTasksModel();
         Platform.runLater(() -> {
             taskList.getChildren().clear();
             listTitle.setText(wunderlistModel.getListName().toUpperCase());

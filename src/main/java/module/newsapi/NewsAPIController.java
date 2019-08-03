@@ -63,11 +63,10 @@ public class NewsAPIController implements Initializable, ModuleController {
         
         // Auto scroll
         configureAutoScroll();
-        
-        // Scroll fade code provided by StackOverflow user: TM00
 //        configureScrollFade();
     }  
     
+    // Scroll fade code provided by StackOverflow user: TM00
     private final double FADE_THRESHOLD = 90;
     private void configureScrollFade() {
         newsModule.vvalueProperty().addListener(new ChangeListener<Number>() 
@@ -152,13 +151,6 @@ public class NewsAPIController implements Initializable, ModuleController {
             }
         }).start();
     }
-
-    private NewsAPIModel newsAPIModel;
-    
-    @Override
-    public void setModel(ModelManager modelManager) {
-        this.newsAPIModel = modelManager.getNewsModel();
-    }
     
     public void addPadding() {
         for(int i=0; i<2; i++) {
@@ -168,6 +160,7 @@ public class NewsAPIController implements Initializable, ModuleController {
     
     @Override
     public void update() {
+        NewsAPIModel newsAPIModel = ModelManager.INST.getNewsModel();
         Platform.runLater(() -> {
            newsList.getChildren().clear();
            currentHeadlines.clear();

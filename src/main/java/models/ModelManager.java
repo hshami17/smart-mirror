@@ -5,14 +5,6 @@
  */
 package models;
 
-import javafx.application.Platform;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import module.ModuleController;
-import module.ModuleName;
-
 /**
  *
  * @author hasan
@@ -20,7 +12,7 @@ import module.ModuleName;
 public class ModelManager {
     
     private final RandomFamousQuoteModel quoteOfDayModel;
-    private final RandomUselessFactsModel uselessFactModel;
+    private final UselessFactsModel uselessFactModel;
     private final DarkSkyModel weatherModel;
     private final NewsAPIModel newsModel;
     private final WunderlistModel tasksModel;
@@ -28,7 +20,7 @@ public class ModelManager {
     
     private ModelManager(){
         quoteOfDayModel = new RandomFamousQuoteModel();
-        uselessFactModel = new RandomUselessFactsModel();
+        uselessFactModel = new UselessFactsModel();
         weatherModel = new DarkSkyModel();
         newsModel = new NewsAPIModel();
         tasksModel = new WunderlistModel();
@@ -51,7 +43,7 @@ public class ModelManager {
         return tasksModel;
     }
     
-    public RandomUselessFactsModel getRandomUselessFactsModel() {
+    public UselessFactsModel getUselessFactsModel() {
         return uselessFactModel;
     }
     

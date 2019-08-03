@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -63,6 +62,7 @@ public class DarkSkyController implements Initializable, ModuleController {
     
     @Override
     public void update() {
+        DarkSkyModel darkSkyModel = ModelManager.INST.getWeatherModel();
         Platform.runLater(() -> {
             temperature.setText(darkSkyModel.getCurrentTemp().toString() + "\u00b0");
             weatherIcon.setImage(darkSkyModel.getCurrentIcon());
@@ -99,12 +99,5 @@ public class DarkSkyController implements Initializable, ModuleController {
                 lows.getChildren().add(low);
             });
         });
-    }
-    
-    private DarkSkyModel darkSkyModel;
-    
-    @Override
-    public void setModel(ModelManager modelManager) {
-        this.darkSkyModel = modelManager.getWeatherModel();
     }
 }
