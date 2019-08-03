@@ -1,37 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="2000.0" prefWidth="762.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="smartmirror.MirrorViewController">
+<AnchorPane id="AnchorPane" prefHeight="2000.0" prefWidth="762.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="smartmirror.MirrorViewController">
    <children>
-       <!-- TOP RIGHT CONTAINER -->
-      <Pane fx:id="topRight" layoutX="421.0" layoutY="102.0" prefHeight="518.0" prefWidth="326.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="102.0" />
-      <!-- BOTTOM LEFT CONTAINER -->
-      <Pane fx:id="bottomLeft" layoutX="22.0" layoutY="666.0" prefHeight="518.0" prefWidth="326.0" AnchorPane.leftAnchor="22.0" />
-      <Separator fx:id="separator" layoutX="14.0" layoutY="58.0" prefHeight="4.0" prefWidth="738.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0" />
-      <!-- QUOTE MODULE -->
-      <HBox fx:id="top" alignment="CENTER" prefHeight="30.0" prefWidth="967.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0" />
-      <!-- TOP LEFT CONTAINER -->
-      <Pane fx:id="topLeft" layoutX="16.0" layoutY="100.0" prefHeight="518.0" prefWidth="326.0" AnchorPane.leftAnchor="22.0" />
-      <!-- SHOW/HIDE MODULES BUTTON -->
-      <HBox alignment="CENTER" layoutX="8.0" layoutY="747.0" prefHeight="45.0" prefWidth="962.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0">
+      <AnchorPane fx:id="mirrorViewPane" opacity="0.0" prefHeight="2000.0" prefWidth="982.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="hideButton" layoutX="417.0" layoutY="747.0" mnemonicParsing="false" onAction="#hideShowButtonPressed" prefHeight="45.0" prefWidth="45.0" AnchorPane.bottomAnchor="27.0">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin></Button>
+             <!-- TOP RIGHT CONTAINER -->
+            <Pane fx:id="topRight" prefHeight="518.0" prefWidth="326.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="100.0" />
+            <!-- BOTTOM LEFT CONTAINER -->
+            <Pane fx:id="bottomLeft" prefHeight="518.0" prefWidth="326.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="700.0" />
+            <Separator prefHeight="4.0" prefWidth="738.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="60.0" />
+            <!-- QUOTE MODULE -->
+            <HBox fx:id="top" alignment="CENTER" prefHeight="30.0" prefWidth="967.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0" />
+            <!-- TOP LEFT CONTAINER -->
+            <Pane fx:id="topLeft" prefHeight="518.0" prefWidth="326.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="100.0" />
+            <!-- SHOW/HIDE MODULES BUTTON -->
+            <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="962.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+               <children>
+                  <Label fx:id="webServiceAddr" opacity="0.45" text="Web service address" />
+               </children>
+            </HBox>
+            
+            <!-- BOTTOM CONTAINER -->
+            <Pane fx:id="bottom" prefHeight="227.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+            <!-- BOTTOM RIGHT CONTAINER -->
+            <Pane fx:id="bottomRight" prefHeight="518.0" prefWidth="326.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="700.0" />
+            <TextArea fx:id="alertPrompt" editable="false" prefHeight="212.0" prefWidth="240.0" styleClass="alert-prompt" text="ALERT PROMPT" wrapText="true" AnchorPane.leftAnchor="373.0" AnchorPane.rightAnchor="368.0" AnchorPane.topAnchor="411.0" />
+         </children></AnchorPane>
+      <AnchorPane id="AnchorPane" fx:id="minimalViewPane" layoutX="10.0" layoutY="10.0" prefHeight="2000.0" prefWidth="982.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox layoutY="410.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="450.0">
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Pane fx:id="minimalClock" layoutX="180.0" layoutY="410.0" styleClass="mirror-pane" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="410.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Pane fx:id="minimalWeather" layoutX="236.0" layoutY="636.0" styleClass="mirror-pane" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0" AnchorPane.topAnchor="636.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" layoutX="236.0" layoutY="1819.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <Pane fx:id="minimalSpotify" layoutX="236.0" layoutY="1819.0" styleClass="mirror-pane" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0" />
+               </children>
+            </HBox>
          </children>
-      </HBox>
-      
-      <!-- BOTTOM CONTAINER -->
-      <Pane fx:id="bottom" layoutX="9.0" layoutY="1223.0" prefHeight="227.0" AnchorPane.bottomAnchor="119.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-      <!-- BOTTOM RIGHT CONTAINER -->
-      <Pane fx:id="bottomRight" layoutX="640.0" layoutY="666.0" prefHeight="518.0" prefWidth="326.0" AnchorPane.rightAnchor="22.0" />
-      <TextArea fx:id="alertPrompt" editable="false" layoutX="373.0" layoutY="411.0" prefHeight="212.0" prefWidth="240.0" styleClass="alert-prompt" text="ALERT PROMPT" wrapText="true" AnchorPane.leftAnchor="373.0" AnchorPane.rightAnchor="368.0" AnchorPane.topAnchor="411.0" />
-      <Label fx:id="webServiceAddr" layoutX="760.0" layoutY="1902.0" opacity="0.45" text="Web service address" AnchorPane.bottomAnchor="68.0" AnchorPane.rightAnchor="34.0" />
+      </AnchorPane>
    </children>
 </AnchorPane>

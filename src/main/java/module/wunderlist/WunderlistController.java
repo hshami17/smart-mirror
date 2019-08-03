@@ -35,7 +35,7 @@ public class WunderlistController implements Initializable, ModuleController {
     private VBox taskList;
     @FXML
     private Pane container;
-    
+
     private WunderlistModel wunderlistModel;
     
     /**
@@ -56,22 +56,24 @@ public class WunderlistController implements Initializable, ModuleController {
         Platform.runLater(() -> {
             taskList.getChildren().clear();
             listTitle.setText(wunderlistModel.getListName().toUpperCase());
-            
+
             if (wunderlistModel.getTaskList().isEmpty()){
                 Label message = new Label("Nothing to do ☺");
                 message.getStyleClass().add("task-title");
                 taskList.getChildren().addAll(message);
             }
+            else {
+                // Get tasks with due dates
+                wunderlistModel.getTaskList().filtered((task) -> !task.getDueDate().isEmpty()).forEach((task) -> {
+                    addTask(task);
+                });
 
-            // Get tasks with due dates
-            wunderlistModel.getTaskList().filtered((task) -> !task.getDueDate().isEmpty()).forEach((task) -> {
-                addTask(task);
-            });
-            
-            // Get tasks without due dates
-            wunderlistModel.getTaskList().filtered((task) -> task.getDueDate().isEmpty()).forEach((task) -> {
-                addTask(task);
-            });
+                // Get tasks without due dates
+                wunderlistModel.getTaskList().filtered((task) -> task.getDueDate().isEmpty()).forEach((task) -> {
+                    addTask(task);
+                });
+
+            }
         });
     }
     

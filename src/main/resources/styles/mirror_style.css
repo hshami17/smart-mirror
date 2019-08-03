@@ -56,12 +56,20 @@
     -fx-font-size: 70;
 }
 
+.temperature-minimal{
+    -fx-font-size: 60;
+}
+
 .location{
     -fx-font-size: 35;
 }
 
 .daily-summary{
     -fx-font-size: 42;
+}
+
+.daily-summary-minimal {
+    -fx-font-size: 40;
 }
 
 .forecast{
@@ -92,8 +100,16 @@
     -fx-font-size: 40;
 }
 
+.digital-time-minimal{
+    -fx-font-size: 85;
+}
+
 .date{
     -fx-font-size: 25;
+}
+
+.date-minimal {
+    -fx-font-size: 40;
 }
 
 .player-slider .thumb {

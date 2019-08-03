@@ -14,7 +14,6 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import models.ModelManager;
 import models.SpotifyTrackModel;
-import utils.PCM;
 
 /**
  *
@@ -26,7 +25,7 @@ public class SpotifyAPI extends APIManager {
     private String lastAlbumImageUrl = "";
     
     public SpotifyAPI() {
-        super(200, PCM.FETCH_SPOTIFY);
+        super(200);
         this.spotifyTrackModel = ModelManager.INST.getSpotifyTrackModel();
     }
 

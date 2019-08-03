@@ -39,7 +39,7 @@ public class Module<T> extends Region {
     private void init() {
         try {
             if (hasApi()) {
-                api.setModule(this);
+                api.addModuleSubscriber(this);
             }
             FXMLLoader loader = new FXMLLoader(Module.class.getResource(fxml));
             this.getChildren().setAll((Node) loader.load());
@@ -57,7 +57,7 @@ public class Module<T> extends Region {
             if (newValue){
                 if (hasModuleController()) moduleController().displayingModule();
                 if (hasApi()) api.start();
-                }
+            }
             else{
                 if (hasModuleController()) moduleController().removingModule();
                 if (hasApi()) api.stop();
@@ -94,6 +94,10 @@ public class Module<T> extends Region {
     public ModuleName getName(){
         return name;
     }
+    
+    public boolean isApiRunning() {
+        return (hasApi() && api.isRunning());
+    }
 
     public BooleanProperty onMirrorProperty(){
         return onMirror;
@@ -105,6 +109,10 @@ public class Module<T> extends Region {
     
     public boolean hasApi() {
         return api != null;
+    }
+    
+    public APIManager getApi() {
+        return api;
     }
     
     public boolean hasModuleController() {

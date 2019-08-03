@@ -8,7 +8,8 @@ package models.datatypes;
 import java.text.SimpleDateFormat;
 import javax.json.JsonObject;
 import java.util.Date;
-import models.DarkSkyModel.Icon;
+import javafx.scene.image.Image;
+import models.DarkSkyModel.WeatherImage;
 
 /**
  *
@@ -17,7 +18,7 @@ import models.DarkSkyModel.Icon;
 public class Forecast {
 
     private final String day;
-    private final Icon icon;
+    private final Image icon;
     private final Integer high;
     private final Integer low;
         
@@ -28,37 +29,37 @@ public class Forecast {
         low = weekData.getJsonNumber("temperatureMin").intValue();
         switch (weekData.getString("icon")){
             case "clear-day":
-                icon = Icon.CLEAR_DAY;
+                icon = WeatherImage.CLEAR_DAY;
                 break;
             case "clear-night":
-                icon = Icon.CLEAR_NIGHT;
+                icon = WeatherImage.CLEAR_NIGHT;
                 break;
             case "rain":
-                icon = Icon.RAIN;
+                icon = WeatherImage.RAIN;
                 break;
             case "snow":
-                icon = Icon.SNOW;
+                icon = WeatherImage.SNOW;
                 break;
             case "sleet":
-                icon = Icon.SLEET;
+                icon = WeatherImage.SLEET;
                 break;
             case "wind":
-                icon = Icon.WIND;
+                icon = WeatherImage.WIND;
                 break;
             case "fog":
-                icon = Icon.FOG;
+                icon = WeatherImage.FOG;
                 break;
             case "cloudy":
-                icon = Icon.CLOUDY;
+                icon = WeatherImage.CLOUDY;
                 break;
             case "partly-cloudy-day":
-                icon = Icon.PARTLY_CLOUDY_DAY;
+                icon = WeatherImage.PARTLY_CLOUDY_DAY;
                 break;
             case "partly-cloudy-night":
-                icon = Icon.PARTLY_CLOUDY_NIGHT;
+                icon = WeatherImage.PARTLY_CLOUDY_NIGHT;
                 break;
             default:
-                icon = Icon.DEFAULT;
+                icon = null;
                 break;   
         }
     }
@@ -74,7 +75,7 @@ public class Forecast {
         return day;
     }
 
-    public Icon getIcon() {
+    public Image getIcon() {
         return icon;
     }
 

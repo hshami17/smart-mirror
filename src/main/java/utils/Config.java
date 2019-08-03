@@ -1,5 +1,6 @@
 package utils;
 
+import api_calls.APIManager;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import module.MinimalModules;
 import module.Module;
 import module.ModuleName;
 import org.w3c.dom.DOMException;
@@ -48,27 +50,24 @@ public class Config {
     
     public static void configureMirror(){
         try {
+            parseMirrorConfig();
             if (!initialized){
                 // Weather prop listeners
-                addPropertyListeners(PCM.FETCH_DARKSKY, 
+                addPropertyListeners(modules.get(ModuleName.DARKSKY), 
                         darkskyKey, 
                         zipcodeKey, 
                         zipcode);
                 // Quote prop listeners
-                addPropertyListeners(PCM.FETCH_RANDOM_FAMOUS_QUOTE, 
+                addPropertyListeners(modules.get(ModuleName.RANDOM_FAMOUS_QUOTE), 
                         randomFamousQuoteKey,
                         category);
                 // News prop listeners
-                addPropertyListeners(PCM.FETCH_NEWS,
+                addPropertyListeners(modules.get(ModuleName.NEWS),
                         newsKey,
                         newsSource,
                         newsSortBy);
                 
-                parseMirrorConfig();
                 initialized = true;
-            }
-            else {
-                parseMirrorConfig();
             }
         }
         catch (IOException ex){
@@ -82,14 +81,27 @@ public class Config {
     }
    
     
-    private static void addPropertyListeners(String propName, StringProperty... properties){
+    private static void addPropertyListeners(Module module, StringProperty... properties){
         for (StringProperty property : properties){
             property.addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
                 new Thread(() -> {
-                    PCS.INST.firePropertyChange(propName);
+                    if (module.hasApi()) {
+                        module.getApi().pullApi();
+                    }
                 }).start();
             }); 
         }
+    }
+    
+    private static void hookMinimalModules() {
+        Module minimalDarkSky = modules.get(ModuleName.DARKSKY_MINIMAL);
+        APIManager darkSkyAPI = ModuleName.DARKSKY.getApi();
+        darkSkyAPI.addModuleSubscriber(minimalDarkSky);
+        darkSkyAPI.start();
+
+        Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
+        APIManager spotifyAPI = ModuleName.SPOTIFY.getApi();
+        spotifyAPI.addModuleSubscriber(minimalSpotify);
     }
     
     private static void parseMirrorConfig() throws IOException, ParserConfigurationException,
@@ -103,6 +115,15 @@ public class Config {
         doc.getDocumentElement().normalize();
 
         NodeList moduleConfigs = doc.getElementsByTagName("module");
+        
+        // Add minimal modules to map
+        if (!initialized) {
+            MinimalModules.getModules().forEach((minimalModule) -> {
+                Module module = new Module(minimalModule);
+                modules.put(minimalModule, module);
+            });
+            hookMinimalModules();
+        }
         
         // Get API keys
         for (int i=0; i<moduleConfigs.getLength(); i++){
@@ -156,6 +177,11 @@ public class Config {
                     if (!initialized) {
                         Module module = new Module(moduleName);
                         modules.put(moduleName, module);
+                        
+                        if (moduleName == ModuleName.SPOTIFY) {
+                            Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
+                            minimalSpotify.visibleProperty().bind(module.onMirrorProperty());
+                        }
                     }
 
                     Module module = modules.get(moduleName);
@@ -166,7 +192,7 @@ public class Config {
                     System.err.println(ex.toString());
                 }
             }
-        }        
+        }
     }
 
     public static Module getModuleAt(Position position) {
@@ -176,5 +202,9 @@ public class Config {
             }
         }
         return null;
+    }
+    
+    public static Module getModule(ModuleName moduleName) {
+        return modules.get(moduleName);
     }
 }

@@ -5,10 +5,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.json.*;
 import models.ModelManager;
 import models.WunderlistModel;
@@ -19,18 +15,17 @@ import org.joda.time.format.DateTimeFormatter;
 import static utils.ConfigElements.listID;
 import static utils.ConfigElements.wunderlistClientID;
 import static utils.ConfigElements.wunderlistKey;
-import utils.PCM;
 
 /**
  *
  * @author saadshami
  */
 public class WunderlistAPI extends APIManager {
-    
+
     private final WunderlistModel tasksModel;
     
     public WunderlistAPI(){
-        super(5000, PCM.FETCH_WUNDERLIST);
+        super(5000);
         this.tasksModel = ModelManager.INST.getTasksModel();
     }
     
