@@ -19,15 +19,13 @@ import static utils.ConfigElements.randomFamousQuoteKey;
  */
 public class RandomFamousQuoteAPI extends APIManager {
 
-    private final RandomFamousQuoteModel quoteModel;
-
     public RandomFamousQuoteAPI() {
         super(60000);
-        this.quoteModel = ModelManager.INST.getQuoteModel();
     }
 
     @Override
     synchronized protected void fetch() throws IOException {
+        RandomFamousQuoteModel quoteModel = ModelManager.INST.getQuoteModel();
         URLConnection connection = new URL("https://andruxnet-random-famous-quotes.p.mashape.com/?cat=" + category.get()).openConnection();
         connection.setDoOutput(true); // Triggers POST.
         connection.setRequestProperty("X-Mashape-Key", randomFamousQuoteKey.get());

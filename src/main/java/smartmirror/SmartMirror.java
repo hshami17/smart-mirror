@@ -66,6 +66,8 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         
         mirrorViewController.getMirrorPane().setOpacity(1.0);
         mirrorViewController.getMinimalPane().setOpacity(0.0);
+        mirrorViewController.getMirrorPane().setVisible(true);
+        mirrorViewController.getMinimalPane().setVisible(true);
 
         // Watcher to watch for config file changes
         PCS.INST.addPropertyChangeListener(PCM.NEW_CONFIG, this);

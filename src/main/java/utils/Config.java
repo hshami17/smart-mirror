@@ -97,7 +97,7 @@ public class Config {
         Module minimalDarkSky = modules.get(ModuleName.DARKSKY_MINIMAL);
         APIManager darkSkyAPI = ModuleName.DARKSKY.getApi();
         darkSkyAPI.addModuleSubscriber(minimalDarkSky);
-//        darkSkyAPI.start();
+        darkSkyAPI.start();
 
         Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
         APIManager spotifyAPI = ModuleName.SPOTIFY.getApi();

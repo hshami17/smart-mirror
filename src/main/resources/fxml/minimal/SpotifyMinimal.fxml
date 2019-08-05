@@ -53,7 +53,7 @@
                         <Label fx:id="lblTrack" styleClass="track-label" text="Track" />
                      </children>
                   </HBox>
-                  <VBox alignment="CENTER_RIGHT">
+                  <VBox alignment="CENTER">
                      <children>
                         <HBox alignment="CENTER_RIGHT" layoutX="154.0">
                            <children>

@@ -22,11 +22,8 @@ import static utils.ConfigElements.wunderlistKey;
  */
 public class WunderlistAPI extends APIManager {
 
-    private final WunderlistModel tasksModel;
-    
     public WunderlistAPI(){
         super(5000);
-        this.tasksModel = ModelManager.INST.getTasksModel();
     }
     
     private void putWunderlistHeader(URLConnection connection) {
@@ -39,6 +36,7 @@ public class WunderlistAPI extends APIManager {
     // Get all tasks from Wunderlist
     @Override
     synchronized protected void fetch() throws IOException {
+        WunderlistModel tasksModel = ModelManager.INST.getTasksModel();
         // Get the list name
         URLConnection connection = new URL("https://a.wunderlist.com/api/v1/lists/" + listID.get()).openConnection();
         putWunderlistHeader(connection);

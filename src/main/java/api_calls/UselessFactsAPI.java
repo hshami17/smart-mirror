@@ -12,6 +12,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import models.ModelManager;
+import models.UselessFactsModel;
 
 /**
  *
@@ -25,6 +26,7 @@ public class UselessFactsAPI extends APIManager {
 
     @Override
     synchronized protected void fetch() throws IOException {
+        UselessFactsModel uselessFactsModel = ModelManager.INST.getUselessFactsModel();
         URLConnection connection = new URL("https://uselessfacts.jsph.pl/random.json?language=en").openConnection();
         connection.setDoOutput(true);
 
@@ -32,6 +34,6 @@ public class UselessFactsAPI extends APIManager {
         JsonObject obj = rdr.readObject();
         
         String uselessFact = obj.getString("text");
-        ModelManager.INST.getUselessFactsModel().setUselessFact(uselessFact);
+        uselessFactsModel.setUselessFact(uselessFact);
     }
 }
