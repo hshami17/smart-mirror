@@ -28,6 +28,7 @@ esac
 # Set paths for the config file and Java watcher
 export CONFIGPATH=resources/mirror_config.xml
 export WATCHPATH=resources
+export HOSTNAME=$(hostname)
 
 # Path to JavaFX libraries
 if [ "$(whoami)" == "pi" ]
