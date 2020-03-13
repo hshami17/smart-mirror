@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.net.URL;
 import javax.json.Json;
 import javax.json.JsonObject;
+import utils.Config;
 import utils.PCM;
 import utils.PCS;
 
@@ -26,7 +27,7 @@ public class HueMotionSensorAPI extends APIManager {
     @Override
     protected void fetch() throws IOException {
         try {
-            String webaddress = System.getenv("WEBADDRESS");
+            String webaddress = Config.WEB_ADDRESS;
             if (webaddress != null && !webaddress.isEmpty()) {
                 URL hueMotionSensorDataUrl = new URL("http://" + webaddress + "/api/motionsensor");
                 InputStream inMotionSensor = hueMotionSensorDataUrl.openStream();

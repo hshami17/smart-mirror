@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
-import models.ModelManager;
 import utils.Position;
 
 
@@ -44,7 +43,6 @@ public class Module<T> extends Region {
             FXMLLoader loader = new FXMLLoader(Module.class.getResource(fxml));
             this.getChildren().setAll((Node) loader.load());
             controller = loader.getController();
-            if (hasModuleController()) moduleController().setModel(ModelManager.INST);
             addListeners();
         } 
         catch (IOException ex) {

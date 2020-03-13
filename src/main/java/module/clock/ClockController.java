@@ -180,4 +180,7 @@ public class ClockController implements Initializable, ModuleController {
             hourTransition.stop();
         });
     }
+
+    @Override
+    public void update() {}
 }

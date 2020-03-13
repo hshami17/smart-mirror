@@ -48,9 +48,7 @@ public class SpotifyController implements Initializable, ModuleController {
     
     protected static final Image play = new Image("/images/play-icon.png");
     protected static final Image pause = new Image("/images/pause-icon.png");
-    
-    private SpotifyTrackModel spotifyTrackModel;
-    
+
     // TODO: Temporary, just using for testing purposes 
     private final AtomicBoolean trackPlaying = new AtomicBoolean(true);
     
@@ -103,6 +101,7 @@ public class SpotifyController implements Initializable, ModuleController {
     
     @Override
     public void update() {
+        SpotifyTrackModel spotifyTrackModel = ModelManager.INST.getSpotifyTrackModel();
         Platform.runLater(() -> {
 //            if (isPlaying != trackPlaying.get()) {
 //                setTrackProgress(spotifyTrackModel.getTrackProgress());
@@ -121,10 +120,5 @@ public class SpotifyController implements Initializable, ModuleController {
                 trackProgressSlider.setMax(spotifyTrackModel.getTrackLength());
             }
         });
-    }
-    
-    @Override
-    public void setModel(ModelManager modelManager) {
-        this.spotifyTrackModel = modelManager.getSpotifyTrackModel();
     }
 }

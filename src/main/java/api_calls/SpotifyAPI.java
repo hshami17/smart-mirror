@@ -14,6 +14,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import models.ModelManager;
 import models.SpotifyTrackModel;
+import utils.Config;
 
 /**
  *
@@ -21,18 +22,17 @@ import models.SpotifyTrackModel;
  */
 public class SpotifyAPI extends APIManager {
     
-    private final SpotifyTrackModel spotifyTrackModel;
     private String lastAlbumImageUrl = "";
     
     public SpotifyAPI() {
         super(200);
-        this.spotifyTrackModel = ModelManager.INST.getSpotifyTrackModel();
     }
 
     @Override
     protected void fetch() throws IOException {
-        String webaddress = System.getenv("WEBADDRESS");
+        String webaddress = Config.WEB_ADDRESS;
         if (webaddress != null && !webaddress.isEmpty()) {
+            SpotifyTrackModel spotifyTrackModel = ModelManager.INST.getSpotifyTrackModel();
             try {
                 URL spotifyCurrentTrackUrl = new URL("http://" + webaddress + "/spotify-current-track");
                 InputStream inSpotifyApi = spotifyCurrentTrackUrl.openStream();

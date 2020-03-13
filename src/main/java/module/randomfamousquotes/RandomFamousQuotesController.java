@@ -8,10 +8,8 @@ import javafx.scene.control.Label;
 import javafx.util.Duration;
 import models.ModelManager;
 import models.RandomFamousQuoteModel;
-import smartmirror.MirrorViewController;
 import utils.PCM;
 import utils.PCS;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
@@ -27,17 +25,9 @@ public class RandomFamousQuotesController implements Initializable, ModuleContro
     @FXML
     private Label quote;
 
-    private RandomFamousQuoteModel model;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         PCS.INST.addPropertyChangeListener(PCM.FADE_OUT_QUOTE, this);
-    }
-
-
-    @Override
-    public void setModel(ModelManager modelManager) {
-        model = modelManager.getQuoteModel();
     }
 
     @Override
@@ -61,14 +51,13 @@ public class RandomFamousQuotesController implements Initializable, ModuleContro
     
     @Override
     public void update() {
+        RandomFamousQuoteModel quoteModel = ModelManager.INST.getQuoteModel();
         Platform.runLater(() -> {
-            quote.setText(model.getQuote());
-//            if (!MirrorViewController.minimalModeActive.get()) {
-                FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), quote);
-                fadeIn.setFromValue(0.0);
-                fadeIn.setToValue(1.0);
-                fadeIn.play();
-//            }
+            quote.setText(quoteModel.getQuote());
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), quote);
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+            fadeIn.play();
         });
     }
 }

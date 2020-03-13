@@ -11,6 +11,7 @@ public abstract class APIManager {
     protected final List<Module> modules = new ArrayList<>();
     private Thread apiThread = null;
     private final long pullInterval;
+    private long lastPull = 0;
 
     public APIManager(long pullInterval) {
         this.pullInterval = pullInterval;
@@ -36,7 +37,10 @@ public abstract class APIManager {
         
         apiThread = new Thread(() -> {
             while(true){
-                pullApi();
+                if ((System.currentTimeMillis() - lastPull) >= pullInterval) {
+                    pullApi();
+                }
+                lastPull = System.currentTimeMillis();
                 try {
                     Thread.sleep(pullInterval);
                 } catch (InterruptedException ex) {

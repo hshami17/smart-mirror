@@ -9,7 +9,7 @@ import api_calls.APIManager;
 import api_calls.DarkSkyAPI;
 import api_calls.NewsAPI;
 import api_calls.RandomFamousQuoteAPI;
-import api_calls.RandomUselessFacts;
+import api_calls.UselessFactsAPI;
 import api_calls.SpotifyAPI;
 import api_calls.WunderlistAPI;
 
@@ -19,11 +19,11 @@ import api_calls.WunderlistAPI;
  */
 public enum ModuleName {
     DARKSKY("/fxml/DarkSky.fxml", new DarkSkyAPI()),
-    CLOCK("/fxml/Clock.fxml", null),
+    CLOCK("/fxml/Clock.fxml"),
     NEWS("/fxml/NewsAPI.fxml", new NewsAPI()),
     WUNDERLIST("/fxml/Wunderlist.fxml", new WunderlistAPI()),
     RANDOM_FAMOUS_QUOTE("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI()),
-    RANDOM_USELESS_FACTS("/fxml/RandomUselessFacts.fxml", new RandomUselessFacts()),
+    USELESS_FACTS("/fxml/UselessFacts.fxml", new UselessFactsAPI()),
     SPOTIFY("/fxml/SpotifyPlayer.fxml", new SpotifyAPI()),
     
     // Minimal modules
@@ -33,6 +33,7 @@ public enum ModuleName {
     
     private final String fxml;
     private final APIManager api;
+    
     ModuleName(String fxml, APIManager api) {
         this.fxml = fxml;
         this.api = api;

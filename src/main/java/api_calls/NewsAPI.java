@@ -18,16 +18,14 @@ import static utils.ConfigElements.newsSource;
  * @author saadshami
  */
 public class NewsAPI extends APIManager {
-    
-    private final NewsAPIModel newsModel;
-    
+
     public NewsAPI(){
         super(300000);
-        this.newsModel = ModelManager.INST.getNewsModel();
     }
 
     @Override
     synchronized protected void fetch() throws IOException {
+        NewsAPIModel newsModel = ModelManager.INST.getNewsModel();
         URL news_api_url = new URL("https://newsapi.org/v1/articles?"
                 + "source=" + newsSource.get() + 
                 "&sort_by=" + newsSortBy.get() + 

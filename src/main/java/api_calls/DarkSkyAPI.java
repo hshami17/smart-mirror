@@ -20,16 +20,14 @@ import models.DarkSkyModel.WeatherImage;
  * @author hasan
  */
 public class DarkSkyAPI extends APIManager {
-    
-    private final DarkSkyModel darkSkyModel;
-    
+     
     public DarkSkyAPI() {
         super(600000);
-        this.darkSkyModel = ModelManager.INST.getWeatherModel();
     }
 
     @Override
     synchronized protected void fetch() throws IOException {
+        DarkSkyModel darkSkyModel = ModelManager.INST.getWeatherModel();
         URL zip_api_url = new URL("http://www.zipcodeapi.com/rest/" + zipcodeKey.get() + "/"
                 + "info.json/" + zipcode.get() + "/degrees");
         InputStream is_zip_api = zip_api_url.openStream();

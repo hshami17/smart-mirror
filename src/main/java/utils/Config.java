@@ -43,6 +43,7 @@ public class Config {
 
     private static final Map<ModuleName, Module> modules = new HashMap<>();
 
+    public static String WEB_ADDRESS;
     public static String CONFIG_PATH;
     public static String WATCH_PATH;
     
