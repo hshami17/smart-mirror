@@ -9,7 +9,13 @@ figlet -f big 'smart  mirror'
 export PORT=8080
 case $OSTYPE in
     linux*) # Linux
-		export IP=$(/sbin/ifconfig wlan0 | awk '/inet addr:/{print substr($2, 6)}')
+		if [ "$whoami" == "pi" ]
+		then
+			IFACE="wlan0"
+		else
+			IFACE="enp0s31f6"
+		fi
+		export IP=$(/sbin/ifconfig $IFACE | awk '/inet /{print substr($2, 1)}')
         export WEBADDRESS=$IP:$PORT
         ;;
     darwin*) # MacOS
@@ -22,6 +28,13 @@ esac
 # Set paths for the config file and Java watcher
 export CONFIGPATH=resources/mirror_config.xml
 export WATCHPATH=resources
+
+# Path to JavaFX libraries
+if [ "$whoami" == "pi" ]
+then
+	LOAD_FX="--module-path /home/pi/armv6hf-sdk/lib --add-modules javafx.controls,javafx.fxml"
+	echo "Loading JavaFX libraries on pi"
+fi
 
 # Get arguments
 for var in "$@"
@@ -40,7 +53,7 @@ do
 done
 
 echo "Debug messages in log.txt"
-java $sw -jar smart-mirror-1.0.jar $fullscreen &> log.txt &
+java $LOAD_FX $sw -jar smart-mirror-1.0.jar $fullscreen & #&> log.txt &
 cd web-service
 python main.py --path ../resources/mirror_config.xml
 
