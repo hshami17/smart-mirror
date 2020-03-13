@@ -5,3 +5,4 @@ src/main/resources/mirror_config.xml
 smartmirror.tar.gz
 smartmirror-env
 .cache-*
+go
