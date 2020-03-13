@@ -9,7 +9,7 @@ figlet -f big 'smart  mirror'
 export PORT=8080
 case $OSTYPE in
     linux*) # Linux
-		if [ "$whoami" == "pi" ]
+		if [ "$(whoami)" == "pi" ]
 		then
 			IFACE="wlan0"
 		else
@@ -30,7 +30,7 @@ export CONFIGPATH=resources/mirror_config.xml
 export WATCHPATH=resources
 
 # Path to JavaFX libraries
-if [ "$whoami" == "pi" ]
+if [ "$(whoami)" == "pi" ]
 then
 	LOAD_FX="--module-path /home/pi/armv6hf-sdk/lib --add-modules javafx.controls,javafx.fxml"
 	echo "Loading JavaFX libraries on pi"
