@@ -119,7 +119,9 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         mirrorStage.show();
         
         PCS.INST.addPropertyChangeListener(PCM.MINIMAL_MODE, this);
-        new HueMotionSensorAPI().start();
+        if (System.getenv("HOSTNAME").equals("raspberrypi")) {
+            new HueMotionSensorAPI().start();
+        }
     }
     
     synchronized private void goToMinimalMode(boolean minimalMode){
