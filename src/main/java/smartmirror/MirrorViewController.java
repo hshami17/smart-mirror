@@ -94,11 +94,8 @@ public class MirrorViewController implements Initializable {
         alertPrompt.setOpacity(0);
         alertProcessing();
         placeModules();
-        String webAddress = Config.WEB_ADDRESS;
-        if (webAddress == null || webAddress.isEmpty()){
-            webAddress = "Web service address not found";
-        }
-        webServiceAddr.setText(webAddress);
+        
+        webServiceAddr.setText(Config.WEB_ADDRESS);
         setupQrCode();
         setupMinimalView();
     }

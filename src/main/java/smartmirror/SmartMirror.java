@@ -41,14 +41,11 @@ public class SmartMirror extends Application implements PropertyChangeListener {
     public static void main(String[] args) {
         String configPath = System.getenv("CONFIGPATH");
         String watchPath = System.getenv("WATCHPATH");
+        String webAddress = System.getenv("WEBADDRESS");
         Config.CONFIG_PATH = configPath != null ? configPath : "src/main/resources/mirror_config.xml";
         Config.WATCH_PATH = watchPath != null ? watchPath : "src/main/resources";
-        String webAddress = getIpv4("wlan0");
-        if (!webAddress.isEmpty()) {
-            Config.WEB_ADDRESS = webAddress + ":8080";
-        }
-        System.out.println("GOT: " + Config.WEB_ADDRESS);
-        
+        Config.WEB_ADDRESS = webAddress != null ? webAddress : "Web service address not found";
+
         for (String arg : args) {
             switch (arg) {
                 case "-fullscreen":
