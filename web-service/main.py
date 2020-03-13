@@ -13,6 +13,7 @@ import spotipy.oauth2 as oauth2
 import spotipy.util as util
 import ast
 import qrcode
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -230,6 +231,41 @@ def get_sensor_state():
     except:
         print "There was an error with the request ...",  sys.exc_info()[0]
         return jsonify({})
+
+@app.route('/api/covid')
+def get_covid_stats():
+    totalCases = scrapeCovidStats()
+    json_data =  json.loads(totalCases)
+
+    return jsonify(json_data)
+
+
+def scrapeCovidStats():
+    URL = 'https://www.worldometers.info/coronavirus/'
+    page = requests.get(URL)
+
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    highLevelStats = soup.find_all('div', class_='maincounter-number')
+
+    totalNumbers = []
+    for stat in highLevelStats:
+        totalNum = stat.find('span').text
+        totalNumbers.append(totalNum)
+
+    totalNumbersDict = {'totalCases':0, 'totalDeaths':0, 'totalRecovered':0}
+    for n in range(len(totalNumbers)):
+        if n==0:
+            totalNumbersDict['totalCases'] = totalNumbers[n]
+        elif n==1:
+            totalNumbersDict['totalDeaths'] = totalNumbers[n]
+        else:
+            totalNumbersDict['totalRecovered'] = totalNumbers[n]
+
+    totalNumbersJson = json.dumps(totalNumbersDict, sort_keys=True)
+    return totalNumbersJson
+
+
 
 def getHueBridgeIp():
     global hue_bridge_ip
