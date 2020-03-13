@@ -3,7 +3,14 @@ package smartmirror;
 import api_calls.HueMotionSensorAPI;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -27,18 +34,21 @@ import utils.Watcher;
 public class SmartMirror extends Application implements PropertyChangeListener {
     
     private static boolean fullscreen = false;
-    private final AtomicBoolean minimalModeActive = new AtomicBoolean(false);
+    private AtomicBoolean minimalModeActive = null;
     private MirrorViewController mirrorViewController;
     private Scene mirrorView;
   
     public static void main(String[] args) {
-        System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
-
         String configPath = System.getenv("CONFIGPATH");
         String watchPath = System.getenv("WATCHPATH");
         Config.CONFIG_PATH = configPath != null ? configPath : "src/main/resources/mirror_config.xml";
         Config.WATCH_PATH = watchPath != null ? watchPath : "src/main/resources";
-
+        String webAddress = getIpv4("wlan0");
+        if (!webAddress.isEmpty()) {
+            Config.WEB_ADDRESS = webAddress + ":8080";
+        }
+        System.out.println("GOT: " + Config.WEB_ADDRESS);
+        
         for (String arg : args) {
             switch (arg) {
                 case "-fullscreen":
@@ -51,6 +61,29 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         }
 
         launch(args);
+    }
+    
+    private static String getIpv4(String interfaceName) {
+        try {
+            NetworkInterface networkInterface = NetworkInterface.getByName(interfaceName);
+            if (networkInterface == null) {
+                return "";
+            }
+            String ipv4Addr;
+            Enumeration<InetAddress> addrs = networkInterface.getInetAddresses();
+            InetAddress curr = addrs.nextElement();
+            while (addrs.hasMoreElements()) {
+                curr = addrs.nextElement();
+                if (curr instanceof Inet4Address && !curr.isLoopbackAddress()) {
+                    ipv4Addr = curr.toString().replace("/", "").trim();
+                    return ipv4Addr;
+                }
+            }
+            return "";
+        } catch (SocketException ex) {
+            Logger.getLogger(SmartMirror.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
     }
 
     @Override
@@ -93,8 +126,11 @@ public class SmartMirror extends Application implements PropertyChangeListener {
     }
     
     synchronized private void goToMinimalMode(boolean minimalMode){
-        // Ignore if we are in minimal mode already
-        if (minimalMode == minimalModeActive.get()) {
+        if (minimalModeActive == null) {
+            minimalModeActive = new AtomicBoolean();
+        }
+        else if (minimalMode == minimalModeActive.get()) {
+            // Ignore if we are in minimal mode already
             return;
         }
         

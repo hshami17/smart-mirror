@@ -94,9 +94,9 @@ public class MirrorViewController implements Initializable {
         alertPrompt.setOpacity(0);
         alertProcessing();
         placeModules();
-        String webAddress = System.getenv("WEBADDRESS");
+        String webAddress = Config.WEB_ADDRESS;
         if (webAddress == null || webAddress.isEmpty()){
-            webAddress = "Web service not running";
+            webAddress = "Web service address not found";
         }
         webServiceAddr.setText(webAddress);
         setupQrCode();
@@ -104,7 +104,7 @@ public class MirrorViewController implements Initializable {
     }
     
     private void setupQrCode() {
-        String webAddress = System.getenv("WEBADDRESS");
+        String webAddress = Config.WEB_ADDRESS;
         if (webAddress != null && !webAddress.isEmpty()) {
             try {
                 URL qrCodeUrl = new URL("http://" + webAddress + "/api/genqrcode");

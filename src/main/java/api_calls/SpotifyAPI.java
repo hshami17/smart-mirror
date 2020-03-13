@@ -14,6 +14,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import models.ModelManager;
 import models.SpotifyTrackModel;
+import utils.Config;
 
 /**
  *
@@ -29,7 +30,7 @@ public class SpotifyAPI extends APIManager {
 
     @Override
     protected void fetch() throws IOException {
-        String webaddress = System.getenv("WEBADDRESS");
+        String webaddress = Config.WEB_ADDRESS;
         if (webaddress != null && !webaddress.isEmpty()) {
             SpotifyTrackModel spotifyTrackModel = ModelManager.INST.getSpotifyTrackModel();
             try {
