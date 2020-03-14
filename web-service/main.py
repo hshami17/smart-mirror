@@ -235,12 +235,17 @@ def get_sensor_state():
 @app.route('/api/covid')
 def get_covid_stats():
     totalCases = scrapeCovidStats()
-    json_data =  json.loads(totalCases)
+    print totalCases
+
+    json_data = json.loads(totalCases)
 
     return jsonify(json_data)
 
 
 def scrapeCovidStats():
+
+    # World Stats
+
     URL = 'https://www.worldometers.info/coronavirus/'
     page = requests.get(URL)
 
@@ -253,7 +258,7 @@ def scrapeCovidStats():
         totalNum = stat.find('span').text
         totalNumbers.append(totalNum)
 
-    totalNumbersDict = {'totalCases':0, 'totalDeaths':0, 'totalRecovered':0}
+    totalNumbersDict = {'totalCases':0, 'totalDeaths':0, 'totalRecovered':0, 'totalUsCases':0, 'totalUsDeaths':0, 'totalUsRecovered':0}
     for n in range(len(totalNumbers)):
         if n==0:
             totalNumbersDict['totalCases'] = totalNumbers[n]
@@ -262,8 +267,33 @@ def scrapeCovidStats():
         else:
             totalNumbersDict['totalRecovered'] = totalNumbers[n]
 
-    totalNumbersJson = json.dumps(totalNumbersDict, sort_keys=True)
-    return totalNumbersJson
+
+    # US Stats
+
+    URL = 'https://www.worldometers.info/coronavirus/country/us/'
+    page = requests.get(URL)
+
+    soupUs = BeautifulSoup(page.content, 'html.parser')
+
+    highLevelUsStats = soupUs.find_all('div', class_='maincounter-number')
+
+    totalUsNumbers = []
+    for stat in highLevelUsStats:
+        totalNum = stat.find('span').text
+        totalUsNumbers.append(totalNum)
+
+    for n in range(len(totalUsNumbers)):
+        if n==0:
+            totalNumbersDict['totalUsCases'] = totalUsNumbers[n]
+        elif n==1:
+            totalNumbersDict['totalUsDeaths'] = totalUsNumbers[n]
+        else:
+            totalNumbersDict['totalUsRecovered'] = totalUsNumbers[n]
+
+    allStatsJson = json.dumps(totalNumbersDict, sort_keys=True)
+
+    return allStatsJson
+
 
 
 
