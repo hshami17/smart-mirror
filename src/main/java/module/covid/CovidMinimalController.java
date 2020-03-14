@@ -7,6 +7,7 @@ package module.covid;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -44,12 +45,13 @@ public class CovidMinimalController implements Initializable, ModuleController {
     @Override
     public void update() {
         CovidModel covidModel = ModelManager.INST.getCovidModel();
-        
-        lblTotalCases.setText(covidModel.getTotalCases());
-        lblTotalDeaths.setText(covidModel.getTotalDeaths());
-        lblTotalRecovered.setText(covidModel.getTotalRecovered());
-        lblUSACases.setText(covidModel.getTotalCasesUSA());
-        lblUSADeaths.setText(covidModel.getTotalDeathsUSA());
-        lblUSARecovered.setText(covidModel.getTotalRecoveredUSA());
+        Platform.runLater(() -> {
+            lblTotalCases.setText(covidModel.getTotalCases());
+            lblTotalDeaths.setText(covidModel.getTotalDeaths());
+            lblTotalRecovered.setText(covidModel.getTotalRecovered());
+            lblUSACases.setText(covidModel.getTotalCasesUSA());
+            lblUSADeaths.setText(covidModel.getTotalDeathsUSA());
+            lblUSARecovered.setText(covidModel.getTotalRecoveredUSA());
+        });
     }
 }
