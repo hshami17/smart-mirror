@@ -6,6 +6,10 @@
 package module.covid;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -33,6 +37,8 @@ public class CovidController implements Initializable, ModuleController {
     private Label lblUSADeaths;
     @FXML
     private Label lblUSARecovered;
+    @FXML
+    private Label lblLastUpdated;
 
     /**
      * Initializes the controller class.
@@ -52,7 +58,9 @@ public class CovidController implements Initializable, ModuleController {
             lblTotalRecovered.setText(covidModel.getTotalRecovered());
             lblUSACases.setText(covidModel.getTotalCasesUSA());
             lblUSADeaths.setText(covidModel.getTotalDeathsUSA());
-            lblUSARecovered.setText(covidModel.getTotalRecoveredUSA());
+            lblUSARecovered.setText(covidModel.getTotalRecoveredUSA());      
+            LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("America/New_York"));
+            lblLastUpdated.setText(dateTime.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")));
         });
     }
 }

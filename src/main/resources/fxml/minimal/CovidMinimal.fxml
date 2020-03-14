@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="AnchorPane" styleClass="mirror-pane" stylesheets="@../../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.covid.CovidMinimalController">
@@ -21,19 +22,19 @@
                         <VBox alignment="CENTER">
                            <children>
                               <Label text="TOTAL CASES" />
-                              <Label fx:id="lblTotalCases" text="XXXXXX" />
+                              <Label fx:id="lblTotalCases" text="-" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
                               <Label styleClass="label-red" text="DEATHS" />
-                              <Label fx:id="lblTotalDeaths" styleClass="label-red" text="XXXXXX" />
+                              <Label fx:id="lblTotalDeaths" styleClass="label-red" text="-" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
                               <Label styleClass="label-green" text="RECOVERED" />
-                              <Label fx:id="lblTotalRecovered" styleClass="label-green" text="XXXXXX" />
+                              <Label fx:id="lblTotalRecovered" styleClass="label-green" text="-" />
                            </children>
                         </VBox>
                      </children>
@@ -52,25 +53,31 @@
                         <VBox alignment="CENTER">
                            <children>
                               <Label text="TOTAL CASES" />
-                              <Label fx:id="lblUSACases" text="XXXXXX" />
+                              <Label fx:id="lblUSACases" text="-" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
                               <Label styleClass="label-red" text="DEATHS" />
-                              <Label fx:id="lblUSADeaths" styleClass="label-red" text="XXXXXX" />
+                              <Label fx:id="lblUSADeaths" styleClass="label-red" text="-" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
                               <Label styleClass="label-green" text="RECOVERED" />
-                              <Label fx:id="lblUSARecovered" styleClass="label-green" text="XXXXXX" />
+                              <Label fx:id="lblUSARecovered" styleClass="label-green" text="-" />
                            </children>
                         </VBox>
                      </children>
                   </VBox>
                </children>
             </VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label prefHeight="25.0" prefWidth="105.0" styleClass="timestamp" text="Last Updated:" />
+                  <Label fx:id="lblLastUpdated" styleClass="timestamp" text="dd/mm/yyyy XX:XX XX" />
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

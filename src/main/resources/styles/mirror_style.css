@@ -59,6 +59,10 @@
     -fx-border-color: white;
 }
 
+.covid .timestamp {
+    -fx-font-size: 20;
+}
+
 .covid .label-red {
     -fx-text-fill: red;
 }

@@ -8,7 +8,7 @@
 
 <AnchorPane id="AnchorPane" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.covid.CovidController">
    <children>
-      <VBox layoutX="262.0" layoutY="35.0" spacing="25.0" styleClass="covid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="262.0" layoutY="35.0" spacing="20.0" styleClass="covid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox spacing="8.0">
                <children>
@@ -22,19 +22,19 @@
                         <HBox spacing="5.0">
                            <children>
                               <Label text="TOTAL CASES -" />
-                              <Label fx:id="lblTotalCases" text="XXXXXX" />
+                              <Label fx:id="lblTotalCases" />
                            </children>
                         </HBox>
                         <HBox spacing="5.0">
                            <children>
                               <Label styleClass="label-red" text="DEATHS -" />
-                              <Label fx:id="lblTotalDeaths" styleClass="label-red" text="XXXXXX" />
+                              <Label fx:id="lblTotalDeaths" styleClass="label-red" />
                            </children>
                         </HBox>
                         <HBox spacing="5.0">
                            <children>
                               <Label styleClass="label-green" text="RECOVERED -" />
-                              <Label fx:id="lblTotalRecovered" styleClass="label-green" text="XXXXXX" />
+                              <Label fx:id="lblTotalRecovered" styleClass="label-green" />
                            </children>
                         </HBox>
                      </children>
@@ -53,25 +53,31 @@
                         <HBox spacing="5.0">
                            <children>
                               <Label text="TOTAL CASES -" />
-                              <Label fx:id="lblUSACases" text="XXXXXX" />
+                              <Label fx:id="lblUSACases" />
                            </children>
                         </HBox>
                         <HBox spacing="5.0">
                            <children>
                               <Label styleClass="label-red" text="DEATHS -" />
-                              <Label fx:id="lblUSADeaths" styleClass="label-red" text="XXXXXX" />
+                              <Label fx:id="lblUSADeaths" styleClass="label-red" />
                            </children>
                         </HBox>
                         <HBox spacing="5.0">
                            <children>
                               <Label styleClass="label-green" text="RECOVERED -" />
-                              <Label fx:id="lblUSARecovered" styleClass="label-green" text="XXXXXX" />
+                              <Label fx:id="lblUSARecovered" styleClass="label-green" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                </children>
             </VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label prefHeight="25.0" prefWidth="105.0" styleClass="timestamp" text="Last Updated:" />
+                  <Label fx:id="lblLastUpdated" styleClass="timestamp" text="dd/mm/yyyy XX:XX XX" />
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
