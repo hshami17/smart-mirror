@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.covid.CovidController">
+   <children>
+      <VBox layoutX="262.0" layoutY="35.0" spacing="25.0" styleClass="covid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox spacing="8.0">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label styleClass="title" text="COVID-19 OUTBREAK" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <HBox spacing="5.0">
+                           <children>
+                              <Label text="TOTAL CASES -" />
+                              <Label fx:id="lblTotalCases" text="XXXXXX" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="5.0">
+                           <children>
+                              <Label styleClass="label-red" text="DEATHS -" />
+                              <Label fx:id="lblTotalDeaths" styleClass="label-red" text="XXXXXX" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="5.0">
+                           <children>
+                              <Label styleClass="label-green" text="RECOVERED -" />
+                              <Label fx:id="lblTotalRecovered" styleClass="label-green" text="XXXXXX" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox spacing="5.0">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label styleClass="heading" text="UNITED STATES" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <HBox spacing="5.0">
+                           <children>
+                              <Label text="TOTAL CASES -" />
+                              <Label fx:id="lblUSACases" text="XXXXXX" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="5.0">
+                           <children>
+                              <Label styleClass="label-red" text="DEATHS -" />
+                              <Label fx:id="lblUSADeaths" styleClass="label-red" text="XXXXXX" />
+                           </children>
+                        </HBox>
+                        <HBox spacing="5.0">
+                           <children>
+                              <Label styleClass="label-green" text="RECOVERED -" />
+                              <Label fx:id="lblUSARecovered" styleClass="label-green" text="XXXXXX" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

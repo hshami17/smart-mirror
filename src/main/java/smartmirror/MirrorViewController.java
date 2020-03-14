@@ -75,6 +75,8 @@ public class MirrorViewController implements Initializable {
     private Pane minimalClock;
     @FXML
     private Pane minimalSpotify;
+    @FXML
+    private Pane minimalCovid;
 
     /**
      * Initializes the controller class.
@@ -127,6 +129,7 @@ public class MirrorViewController implements Initializable {
         minimalWeather.getChildren().add(Config.getModule(ModuleName.DARKSKY_MINIMAL));
         minimalClock.getChildren().add(Config.getModule(ModuleName.CLOCK_MINIMAL));
         minimalSpotify.getChildren().add(Config.getModule(ModuleName.SPOTIFY_MINIMAL));
+        minimalCovid.getChildren().add(Config.getModule(ModuleName.COVID_MINIMAL));
     }
 
     public static void putAlert(String msg) {
@@ -151,7 +154,7 @@ public class MirrorViewController implements Initializable {
                    
                     // Avoid same alerts being spammed
                     if (!(message.equals(lastAlertMsg) && (timestamp - lastAlertTimestamp) < 10)) { 
-                        displayAlert(message);
+//                        displayAlert(message);
                     }
                     lastAlertTimestamp = timestamp;
                     lastAlertMsg = message;  
@@ -212,6 +215,14 @@ public class MirrorViewController implements Initializable {
                     modulesOnMirror.remove(module);
                 }
             }
+            
+            // Force COVID module to botttom left
+//            Pane bottomLeft = spaces.get(Position.BOTTOMLEFT);
+//            bottomLeft.getChildren().clear();
+//            Module covid = Config.getModule(ModuleName.COVID);
+//            covid.setPosition(Position.BOTTOMLEFT);
+//            bottomLeft.getChildren().add(covid);
+            
         });
     }
     

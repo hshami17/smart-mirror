@@ -103,6 +103,10 @@ public class Config {
         Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
         APIManager spotifyAPI = ModuleName.SPOTIFY.getApi();
         spotifyAPI.addModuleSubscriber(minimalSpotify);
+        
+        Module minimalCovid = modules.get(ModuleName.COVID_MINIMAL);
+        APIManager covidAPI = ModuleName.COVID.getApi();
+        covidAPI.addModuleSubscriber(minimalCovid);
     }
     
     private static void parseMirrorConfig() throws IOException, ParserConfigurationException,
@@ -179,9 +183,15 @@ public class Config {
                         Module module = new Module(moduleName);
                         modules.put(moduleName, module);
                         
-                        if (moduleName == ModuleName.SPOTIFY) {
-                            Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
-                            minimalSpotify.visibleProperty().bind(module.onMirrorProperty());
+                        switch (moduleName) {
+                            case SPOTIFY:
+                                Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
+                                minimalSpotify.visibleProperty().bind(module.onMirrorProperty());
+                                break;
+                            case COVID:
+                                Module minimalCovid = modules.get(ModuleName.COVID_MINIMAL);
+                                minimalCovid.visibleProperty().bind(module.onMirrorProperty());
+                                break;
                         }
                     }
 

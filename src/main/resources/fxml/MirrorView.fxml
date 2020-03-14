@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
@@ -11,7 +12,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="2000.0" prefWidth="762.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="smartmirror.MirrorViewController">
    <children>
-      <AnchorPane fx:id="mirrorViewPane" prefHeight="2000.0" prefWidth="912.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="mirrorViewPane" prefHeight="2000.0" prefWidth="912.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
              <!-- TOP RIGHT CONTAINER -->
             <Pane fx:id="topRight" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="100.0" />
@@ -36,18 +37,27 @@
             <TextArea fx:id="alertPrompt" editable="false" layoutX="281.0" layoutY="600.0" prefHeight="200.0" prefWidth="200.0" styleClass="alert-prompt" text="ALERT" wrapText="true" AnchorPane.bottomAnchor="1200.0" AnchorPane.leftAnchor="281.0" AnchorPane.rightAnchor="281.0" AnchorPane.topAnchor="600.0" />
             <ImageView fx:id="imgQrCode" fitHeight="90.0" fitWidth="90.0" layoutX="712.0" layoutY="1896.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
          </children></AnchorPane>
-      <AnchorPane id="AnchorPane" fx:id="minimalViewPane" layoutX="10.0" layoutY="10.0" opacity="0.0" prefHeight="2000.0" prefWidth="982.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane id="AnchorPane" fx:id="minimalViewPane" layoutX="10.0" layoutY="10.0" opacity="0.0" prefHeight="2000.0" prefWidth="982.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox layoutY="410.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="450.0">
+            <VBox layoutY="410.0" spacing="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="450.0">
                <children>
-                  <HBox alignment="CENTER">
+                  <VBox spacing="10.0">
                      <children>
-                        <Pane fx:id="minimalClock" layoutX="180.0" layoutY="410.0" styleClass="mirror-pane" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="410.0" />
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Pane fx:id="minimalClock" layoutX="180.0" layoutY="410.0" styleClass="mirror-pane" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="410.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Pane fx:id="minimalWeather" layoutX="236.0" layoutY="636.0" styleClass="mirror-pane" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0" AnchorPane.topAnchor="636.0" />
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </VBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Pane fx:id="minimalWeather" layoutX="236.0" layoutY="636.0" styleClass="mirror-pane" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="236.0" AnchorPane.topAnchor="636.0" />
+                        <Pane fx:id="minimalCovid" />
                      </children>
                   </HBox>
                </children>
@@ -60,4 +70,7 @@
          </children>
       </AnchorPane>
    </children>
+   <cursor>
+      <Cursor fx:constant="NONE" />
+   </cursor>
 </AnchorPane>

@@ -48,6 +48,25 @@
     -fx-font: 25px "Microsoft Yi Baiti";
 }
 
+.covid .title {
+    -fx-font-size: 30;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: white;
+}
+
+.covid .heading {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: white;
+}
+
+.covid .label-red {
+    -fx-text-fill: red;
+}
+
+.covid .label-green {
+    -fx-text-fill: #1beb00;
+}
+
 .quote-of-day{
     -fx-font-size: 25;
 }

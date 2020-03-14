@@ -17,6 +17,7 @@ public class ModelManager {
     private final NewsAPIModel newsModel;
     private final WunderlistModel tasksModel;
     private final SpotifyTrackModel spotifyTrackModel;
+    private final CovidModel covidModel;
     
     private ModelManager(){
         quoteOfDayModel = new RandomFamousQuoteModel();
@@ -25,6 +26,7 @@ public class ModelManager {
         newsModel = new NewsAPIModel();
         tasksModel = new WunderlistModel();
         spotifyTrackModel = new SpotifyTrackModel();
+        covidModel = new CovidModel();
     }
     
     public RandomFamousQuoteModel getQuoteModel(){
@@ -49,6 +51,10 @@ public class ModelManager {
     
     public SpotifyTrackModel getSpotifyTrackModel() {
         return spotifyTrackModel;
+    }
+    
+    public CovidModel getCovidModel() {
+        return covidModel;
     }
         
     public static ModelManager INST = new ModelManager();

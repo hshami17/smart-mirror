@@ -23,7 +23,8 @@ public class MinimalModules {
             Arrays.asList(
                 DARKSKY_MINIMAL,
                 CLOCK_MINIMAL,
-                SPOTIFY_MINIMAL
+                SPOTIFY_MINIMAL,
+                COVID_MINIMAL
             )
         );
     }
