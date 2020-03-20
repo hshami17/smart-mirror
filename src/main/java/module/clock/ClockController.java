@@ -1,7 +1,10 @@
 package module.clock;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -46,12 +49,14 @@ public class ClockController implements Initializable, ModuleController {
         // Digital time and date 
         Timeline dateTime = new Timeline(
             new KeyFrame(Duration.seconds(0), (ActionEvent actionEvent) -> {
-                Calendar time = Calendar.getInstance();
+                // Get current date/time
+                LocalDateTime currentTime = LocalDateTime.now();
+                
                 // Build date string
-                String day = time.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
-                String month = time.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH);
-                String dayNum = String.valueOf(time.get(Calendar.DAY_OF_MONTH));
-                String year = String.valueOf(time.get(Calendar.YEAR));
+                String day = currentTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+                String month = currentTime.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+                String dayNum = String.format(Locale.US, "%02d", currentTime.getDayOfMonth());
+                String year = String.valueOf(currentTime.getYear());
                 if (dayNum.endsWith("1") && !dayNum.equals("11")){
                     dayNum = dayNum + "st";
                 }
@@ -64,14 +69,9 @@ public class ClockController implements Initializable, ModuleController {
                 else{
                     dayNum = dayNum + "th";
                 }
-                date.setText(day + ", " + month + " " + dayNum + " " + year);
                 
-                // Build time string
-                String hour   = time.get(Calendar.HOUR) == 0 ? "12" : time.get(Calendar.HOUR) + "";
-                String minute = String.format(Locale.US, "%02d", time.get(Calendar.MINUTE));
-               // String seconds = String.format(Locale.US, "%02d", time.get(Calendar.SECOND));
-                String amPm   = time.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
-                digitalTime.setText(hour + ":" + minute + " " + amPm);
+                date.setText(day + ", " + month + " " + dayNum + " " + year);
+                digitalTime.setText(currentTime.format(DateTimeFormatter.ofPattern("h:mm a")));
             }),
             new KeyFrame(Duration.seconds(1))
         );
@@ -111,17 +111,18 @@ public class ClockController implements Initializable, ModuleController {
         ImageView centerPoint = new ImageView(new Image("/images/clock/clockCenterPoint.png"));
         centerPoint.setFitHeight(300);
         centerPoint.setFitWidth(300);
-
+        
+        LocalDateTime currentTime = LocalDateTime.now();
         secondsTransition = createRotateTransition(Duration.seconds(60),
-                secondsHand, getSecondAngle(LocalTime.now()));
+                secondsHand, getSecondAngle(currentTime));
         secondsTransition.play();
 
         minuteTransition = createRotateTransition(Duration.minutes(60), minuteHand,
-                getMinuteAngle(LocalTime.now()));
+                getMinuteAngle(currentTime));
         minuteTransition.play();
 
         hourTransition = createRotateTransition(Duration.hours(12), hourHand,
-                getHourAngle(LocalTime.now()));
+                getHourAngle(currentTime));
         hourTransition.play();
 
         analogClock.getChildren().addAll(
@@ -148,21 +149,21 @@ public class ClockController implements Initializable, ModuleController {
     /*
     * @author TAKAHASHI,Toru
     */
-    private double getHourAngle(LocalTime time) {
+    private double getHourAngle(LocalDateTime time) {
         return (time.getHour() % 12 + time.getMinute() / 60d + time.getSecond() / (60d * 60d)) * 360 / 12;
     }
 
     /*
     * @author TAKAHASHI,Toru
     */
-    private double getMinuteAngle(LocalTime time) {
+    private double getMinuteAngle(LocalDateTime time) {
         return (time.getMinute() + time.getSecond() / 60d) * 360 / 60;
     }
     
     /*
     * @author TAKAHASHI,Toru
     */
-    private double getSecondAngle(LocalTime time) {
+    private double getSecondAngle(LocalDateTime time) {
         return time.getSecond() * 360 / 60;
     }
     

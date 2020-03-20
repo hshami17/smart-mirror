@@ -30,13 +30,21 @@ public class CovidController implements Initializable, ModuleController {
     @FXML
     private Label lblTotalDeaths;
     @FXML
+    private Label lblTotalDeathRate;
+    @FXML
     private Label lblTotalRecovered;
+    @FXML
+    private Label lblTotalRecoveryRate;
     @FXML
     private Label lblUSACases;
     @FXML
     private Label lblUSADeaths;
     @FXML
+    private Label lblUSADeathRate;
+    @FXML
     private Label lblUSARecovered;
+    @FXML
+    private Label lblUSARecoveryRate;
     @FXML
     private Label lblLastUpdated;
 
@@ -61,6 +69,32 @@ public class CovidController implements Initializable, ModuleController {
             lblUSARecovered.setText(covidModel.getTotalRecoveredUSA());      
             LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("America/New_York"));
             lblLastUpdated.setText(dateTime.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a")));
+            
+            try {
+                // World
+                double totalDeaths = Double.valueOf(covidModel.getTotalDeaths().replaceAll(",", ""));
+                double totalRecovered = Double.valueOf(covidModel.getTotalRecovered().replaceAll(",", ""));
+                double totalOutcomes = totalDeaths + totalRecovered;
+                
+                double totalDeathRate = (totalDeaths / totalOutcomes) * 100;
+                double totalRecoveryRate = (totalRecovered / totalOutcomes) * 100;
+
+                // United States
+                double totalDeathsUSA = Double.valueOf(covidModel.getTotalDeathsUSA().replaceAll(",", ""));
+                double totalRecoveredUSA = Double.valueOf(covidModel.getTotalRecoveredUSA().replaceAll(",", ""));
+                double totalOutcomesUSA = totalDeathsUSA + totalRecoveredUSA;
+                
+                double totalDeathRateUSA = (totalDeathsUSA / totalOutcomesUSA) * 100;
+                double totalRecoveryRateUSA = (totalRecoveredUSA / totalOutcomesUSA) * 100;
+                
+                lblTotalDeaths.setText(lblTotalDeaths.getText() + " (" + String.format("%.2f", totalDeathRate) + "%" + ")");
+                lblTotalRecovered.setText(lblTotalRecovered.getText() + " (" + String.format("%.2f", totalRecoveryRate) + "%" + ")");
+                lblUSADeaths.setText(lblUSADeaths.getText() + " (" + String.format("%.2f", totalDeathRateUSA) + "%" + ")");
+                lblUSARecovered.setText(lblUSARecovered.getText() + " (" + String.format("%.2f", totalRecoveryRateUSA) + "%" + ")");
+            }
+            catch (NumberFormatException ex) {
+                
+            }
         });
     }
 }
