@@ -42,12 +42,12 @@ public class CovidAPI extends APIManager {
                 String totalDeathsUSA = covidData.getJsonString("totalUsDeaths").getString();
                 String totalRecoveredUSA = covidData.getJsonString("totalUsRecovered").getString();
                 
-                covidModel.setTotalCases(totalCases);
-                covidModel.setTotalDeaths(totalDeaths);
-                covidModel.setTotalRecovered(totalRecovered);
-                covidModel.setTotalCasesUSA(totalCasesUSA);
-                covidModel.setTotalDeathsUSA(totalDeathsUSA);
-                covidModel.setTotalRecoveredUSA(totalRecoveredUSA);
+                covidModel.setTotalCases(totalCases.trim());
+                covidModel.setTotalDeaths(totalDeaths.trim());
+                covidModel.setTotalRecovered(totalRecovered.trim());
+                covidModel.setTotalCasesUSA(totalCasesUSA.trim());
+                covidModel.setTotalDeathsUSA(totalDeathsUSA.trim());
+                covidModel.setTotalRecoveredUSA(totalRecoveredUSA.trim());
             }
             catch (ClassCastException | NullPointerException ex) {}
         }

@@ -1,72 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="518.0" prefWidth="310.0" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.darksky.DarkSkyController">
+<AnchorPane id="AnchorPane" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.darksky.DarkSkyController">
    <children>
-      <Pane fx:id="weatherModule" prefHeight="518.0" prefWidth="326.0">
+      <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <GridPane layoutY="2.0" prefHeight="516.0" prefWidth="326.0">
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
                <children>
-                  <Label fx:id="temperature" styleClass="temperature" text="000o" textFill="WHITE" GridPane.valignment="CENTER">
+                  <Label fx:id="temperature" styleClass="temperature" text="00" textFill="WHITE">
                      <font>
                         <Font size="58.0" />
                      </font>
-                     <GridPane.margin>
-                        <Insets left="13.0" />
-                     </GridPane.margin>
                   </Label>
-                  <ImageView fx:id="weatherIcon" fitHeight="102.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.valignment="TOP" />
-                  <TextArea fx:id="weeklySummary" editable="false" focusTraversable="false" prefHeight="92.0" prefWidth="326.0" text="Weekly description" wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="3">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </TextArea>
-                  <Label fx:id="dailySummary" prefHeight="12.0" prefWidth="290.0" styleClass="daily-summary" text="Weather description" textFill="WHITE" GridPane.columnSpan="2" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="13.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <HBox fx:id="forecastList" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
-                     <children>
-                        <VBox fx:id="days" prefHeight="227.0" prefWidth="49.0" spacing="5.0" />
-                        <VBox fx:id="icons" prefHeight="227.0" prefWidth="67.0" spacing="8.0" />
-                        <VBox fx:id="highs" prefHeight="227.0" prefWidth="36.0" spacing="5.0" />
-                        <VBox fx:id="lows" prefHeight="227.0" prefWidth="36.0" spacing="5.0" />
-                     </children>
-                     <GridPane.margin>
-                        <Insets left="13.0" />
-                     </GridPane.margin>
-                  </HBox>
-                  <Label fx:id="location" styleClass="location" text="Location" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                     <padding>
-                        <Insets left="13.0" />
-                     </padding>
-                  </Label>
+                  <ImageView fx:id="weatherIcon" fitHeight="102.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" />
                </children>
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.36257934570312" minWidth="10.0" prefWidth="159.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="185.45614624023438" minWidth="10.0" prefWidth="167.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints maxHeight="116.73098754882812" minHeight="10.0" prefHeight="109.66667175292969" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="177.50877380371094" minHeight="10.0" prefHeight="44.33332824707031" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="177.50877380371094" minHeight="10.0" prefHeight="60.66667175292969" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="208.5262908935547" minHeight="10.0" prefHeight="95.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="251.66665649414062" minHeight="10.0" prefHeight="207.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
+            </HBox>
+            <Label fx:id="location" styleClass="location" text="Location" />
+            <Label fx:id="dailySummary" styleClass="daily-summary" text="Weather description" textFill="WHITE">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="weeklySummary" prefWidth="295.0" text="Week Summary" wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            <HBox fx:id="forecastList" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox fx:id="days" prefHeight="227.0" prefWidth="49.0" spacing="5.0" />
+                  <VBox fx:id="icons" prefHeight="227.0" prefWidth="67.0" spacing="8.0" />
+                  <VBox fx:id="highs" prefHeight="227.0" prefWidth="36.0" spacing="5.0" />
+                  <VBox fx:id="lows" prefHeight="227.0" prefWidth="36.0" spacing="5.0" />
+               </children>
+            </HBox>
          </children>
-      </Pane>
+      </VBox>
    </children>
 </AnchorPane>

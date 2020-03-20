@@ -28,13 +28,11 @@ import module.ModuleController;
 public class DarkSkyController implements Initializable, ModuleController {
 
     @FXML
-    private Pane weatherModule;
-    @FXML
     private Label temperature;
     @FXML
     private ImageView weatherIcon;
     @FXML
-    private TextArea weeklySummary;
+    private Label weeklySummary;
     @FXML
     private Label dailySummary;
     @FXML
