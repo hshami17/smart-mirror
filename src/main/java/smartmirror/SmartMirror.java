@@ -33,6 +33,7 @@ import utils.Watcher;
  */
 public class SmartMirror extends Application implements PropertyChangeListener {
     
+    public static Stage mirrorStage = null;
     private static boolean fullscreen = false;
     private AtomicBoolean minimalModeActive = null;
     private MirrorViewController mirrorViewController;
@@ -117,6 +118,8 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         mirrorStage.setFullScreen(fullscreen);
         mirrorStage.setOnCloseRequest(e -> System.exit(0));
         mirrorStage.show();
+        
+        SmartMirror.mirrorStage = mirrorStage;
         
         PCS.INST.addPropertyChangeListener(PCM.MINIMAL_MODE, this);
         if (System.getenv("HOSTNAME").equals("raspberrypi")) {

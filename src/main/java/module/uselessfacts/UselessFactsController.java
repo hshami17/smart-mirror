@@ -12,11 +12,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import models.ModelManager;
 import models.UselessFactsModel;
 import module.ModuleController;
+import smartmirror.SmartMirror;
 
 /**
  *
@@ -25,9 +25,9 @@ import module.ModuleController;
 public class UselessFactsController implements Initializable, ModuleController {
     
     @FXML
-    private HBox hbxContainer;
-    @FXML
     private Label lblUselessFact;
+    
+    private boolean init = false;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -36,6 +36,12 @@ public class UselessFactsController implements Initializable, ModuleController {
     
     @Override
     public void update() {
+        if (!init) {
+            Platform.runLater(() -> {
+                lblUselessFact.maxWidthProperty().bind(SmartMirror.mirrorStage.widthProperty());
+                init = true;
+            });
+        }
         UselessFactsModel uselessFactsModel = ModelManager.INST.getUselessFactsModel();
         Platform.runLater(() -> {
             lblUselessFact.setText(uselessFactsModel.getUselessFact());
