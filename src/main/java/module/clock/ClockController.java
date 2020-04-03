@@ -55,7 +55,7 @@ public class ClockController implements Initializable, ModuleController {
                 // Build date string
                 String day = currentTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
                 String month = currentTime.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
-                String dayNum = String.format(Locale.US, "%02d", currentTime.getDayOfMonth());
+                String dayNum = String.valueOf(currentTime.getDayOfMonth());
                 String year = String.valueOf(currentTime.getYear());
                 if (dayNum.endsWith("1") && !dayNum.equals("11")){
                     dayNum = dayNum + "st";
