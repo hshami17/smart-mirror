@@ -5,6 +5,6 @@
 
 <AnchorPane id="AnchorPane" styleClass="mirror-pane" stylesheets="@../styles/mirror_style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="module.uselessfacts.UselessFactsController">
    <children>
-      <Label fx:id="lblUselessFact" alignment="CENTER" maxWidth="1000.0" text="This is a useless fact." wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Label fx:id="lblUselessFact" alignment="CENTER" maxWidth="1000.0" text="This is a useless fact." textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>
