@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -41,6 +43,8 @@ public class MirrorViewController implements Initializable {
     private long lastAlertTimestamp = 0;
     private final List<Module> modulesOnMirror = new ArrayList<>();
     private final Map<Position, Pane> spaces = new HashMap<>();
+    
+    private final double MAX_TOP_CONTAINER_HEIGHT = 61.0;
     
     
     @FXML
@@ -100,6 +104,19 @@ public class MirrorViewController implements Initializable {
         webServiceAddr.setText(Config.WEB_ADDRESS);
         setupQrCode();
         setupMinimalView();
+        
+        // Make sure top container does not overlap modules below it
+        top.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.doubleValue() > MAX_TOP_CONTAINER_HEIGHT) {
+                    Module module = Config.getModuleAt(Position.TOP);
+                    if (module != null) {
+                        module.getApi().pullApi();
+                    }
+                }
+            }
+        });
     }
     
     private void setupQrCode() {
