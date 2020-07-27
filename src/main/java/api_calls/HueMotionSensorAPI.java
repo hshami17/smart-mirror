@@ -44,6 +44,8 @@ public class HueMotionSensorAPI extends APIManager {
                 }
             }
         }
-        catch (NullPointerException ex) {}
+        catch (Exception ex) {
+            PCS.INST.firePropertyChange(PCM.MINIMAL_MODE, false);
+        }
     }
 }
