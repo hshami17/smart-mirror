@@ -6,3 +6,5 @@ smartmirror.tar.gz
 smartmirror-env
 .cache-*
 go
+web-service/run
+web-service/.idea/
