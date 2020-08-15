@@ -14,7 +14,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" spacing="15.0">
                <children>
-                  <Label fx:id="temperature" styleClass="temperature" text="00" textFill="WHITE">
+                  <Label fx:id="temperature" styleClass="temperature" text="--" textFill="WHITE">
                      <font>
                         <Font size="58.0" />
                      </font>
@@ -22,13 +22,13 @@
                   <ImageView fx:id="weatherIcon" fitHeight="102.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <Label fx:id="location" styleClass="location" text="Location" />
-            <Label fx:id="dailySummary" styleClass="daily-summary" text="Weather description" textFill="WHITE">
+            <Label fx:id="location" styleClass="location" text="-------------" />
+            <Label fx:id="dailySummary" styleClass="daily-summary" text="No Weather Data" textFill="WHITE">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <Label fx:id="weeklySummary" prefWidth="295.0" text="Week Summary" wrapText="true">
+            <Label fx:id="weeklySummary" prefWidth="295.0" wrapText="true">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
