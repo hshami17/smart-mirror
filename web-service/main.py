@@ -4,7 +4,7 @@ import json
 import requests
 import sys
 from flask import Flask, render_template, request, session, redirect
-from flask.ext.socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit
 import socket
 import xml.etree.ElementTree as ET
 from flask import jsonify
@@ -95,7 +95,7 @@ def spotifyEstablishToken():
 
     spotify = spotipy.Spotify(auth=token)
 
-    print "Spotify Token Created: " + token
+    print("Spotify Token Created: " + token)
 
 @app.route('/spotify-callback')
 def spotifyCallback():
@@ -127,7 +127,7 @@ def addModule(formData):
 
     # Establish spotify token if not already exists.
     if (formData.get('name') == 'spotify'):
-        print 'ADDING SPOTIFY'
+        print("ADDING SPOTIFY")
         spotifyEstablishToken()
 
     global configData
@@ -229,17 +229,18 @@ def get_sensor_state():
         #return 'true' if json_data['state']['presence'] == True else 'false'
         return jsonify(json_data)
     except:
-        print "There was an error with the request ...",  sys.exc_info()[0]
+        print("There was an error with the request ...",  sys.exc_info()[0])
         return jsonify({})
 
 @app.route('/api/covid')
 def get_covid_stats():
-    totalCases = scrapeCovidStats()
-    print totalCases
-
-    json_data = json.loads(totalCases)
-
-    return jsonify(json_data)
+    try:
+        totalCases = scrapeCovidStats()
+        json_data = json.loads(totalCases)
+        return jsonify(json_data)
+    except Exception as ex:
+        print(ex)
+        return jsonify({})
 
 
 def scrapeCovidStats():
@@ -248,7 +249,6 @@ def scrapeCovidStats():
 
     URL = 'https://www.worldometers.info/coronavirus/'
     page = requests.get(URL)
-
     soup = BeautifulSoup(page.content, 'html.parser')
 
     highLevelStats = soup.find_all('div', class_='maincounter-number')
@@ -302,7 +302,7 @@ def getHueBridgeIp():
     hue_bridge_response = requests.get('https://discovery.meethue.com/')
     json_data = json.loads(hue_bridge_response.text)
     hue_bridge_ip = json_data[0]['internalipaddress']
-    print 'Hue Bridge IP has been set: ' + hue_bridge_ip
+    print("Hue Bridge IP has been set: " + hue_bridge_ip)
 
 
 
@@ -312,8 +312,8 @@ if __name__ == "__main__":
     parser.add_argument('--path', action="store", dest="path", default='../src/main/resources/mirror_config.xml')
     given_args = parser.parse_args()
     path = given_args.path
-    print 'PATH IS: ' + path
+    print("PATH IS: " + path)
     host = os.getenv('IP', 'localhost')
     port = os.getenv('PORT', 8080)
-    print('WEB SERVICE RUNNING ON: ' + host + ':' + str(port))
+    print("WEB SERVICE RUNNING ON: " + host + ":" + str(port))
     socketio.run(app, host=host, port=int(port), debug=False)
