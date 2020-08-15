@@ -113,6 +113,21 @@ def getFitbitData():
 
     return jsonify(fitbit_data)
 
+@app.route('/fitbit-data')
+def getFitbitData():
+    # Using python-fitbit module:  https://python-fitbit.readthedocs.io/en/latest/
+    authd_client = fitbit.Fitbit('22BW7V', '5df0f4a242aed6c34274f7a8b170d12b',
+                                 access_token=fitbit_access_token,
+                                 refresh_token=fitbit_refresh_token,
+                                 refresh_cb=refreshFitbitToken,
+                                 expires_at=10)
+
+    fitbit_data = {}
+    fitbit_data['activity'] = authd_client.activities()
+    fitbit_data['body'] = authd_client.body()
+
+    return jsonify(fitbit_data)
+
 def spotifyEstablishToken():
     spotifyInfo = getModuleInfo('spotify')
     token = util.prompt_for_user_token(
@@ -349,4 +364,3 @@ if __name__ == "__main__":
     port = os.getenv('PORT', 8080)
     print("WEB SERVICE RUNNING ON: " + host + ":" + str(port))
     socketio.run(app, host=host, port=int(port), debug=False)
-
