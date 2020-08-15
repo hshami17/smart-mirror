@@ -37,7 +37,7 @@ public class SpotifyAPI extends APIManager {
                 URL spotifyCurrentTrackUrl = new URL("http://" + webaddress + "/spotify-current-track");
                 InputStream inSpotifyApi = spotifyCurrentTrackUrl.openStream();
                 JsonObject objSpotifyApi = Json.createReader(inSpotifyApi).readObject();
-
+                
                 JsonObject itemObj = objSpotifyApi.getJsonObject("item");
 
                 boolean isPlaying = objSpotifyApi.getBoolean("is_playing");

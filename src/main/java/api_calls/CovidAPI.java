@@ -31,8 +31,8 @@ public class CovidAPI extends APIManager {
             CovidModel covidModel = ModelManager.INST.getCovidModel();
             try {
                 URL covidDataUrl = new URL("http://" + webaddress + "/api/covid");
-                InputStream inMotionSensor = covidDataUrl.openStream();
-                JsonObject covidData = Json.createReader(inMotionSensor).readObject();
+                InputStream inCovidData = covidDataUrl.openStream();
+                JsonObject covidData = Json.createReader(inCovidData).readObject();
                 
                 String totalCases = covidData.getJsonString("totalCases").getString();
                 String totalDeaths = covidData.getJsonString("totalDeaths").getString();

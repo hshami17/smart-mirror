@@ -16,13 +16,13 @@ public class SpotifyTrackModel {
     private String artist;
     private String album;
     private String trackName;
-    private Image songArt;
+    private Image songArt = new Image("/images/default-album-art.jpg");
     private long trackLength;
     private long trackProgress;
     private boolean playing;
     
     public SpotifyTrackModel() {
-        
+   
     }
     
     public String getArtist() {
