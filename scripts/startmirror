@@ -56,6 +56,6 @@ done
 echo "Debug messages in log.txt"
 java $LOAD_FX $sw -jar smart-mirror-1.0.jar $fullscreen & #&> log.txt &
 cd web-service
-python main.py --path ../resources/mirror_config.xml
+python3 main.py --path ../resources/mirror_config.xml
 
 
