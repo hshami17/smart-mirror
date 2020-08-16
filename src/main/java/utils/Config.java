@@ -1,6 +1,6 @@
 package utils;
 
-import api_calls.APIManager;
+import api_calls.API;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import module.MinimalModules;
 import module.Module;
-import module.ModuleName;
+import module.MirrorModule;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -41,7 +41,7 @@ import static utils.ConfigElements.zipcodeKey;
  */
 public class Config {
 
-    private static final Map<ModuleName, Module> modules = new HashMap<>();
+    private static final Map<MirrorModule, Module> modules = new HashMap<>();
 
     public static String WEB_ADDRESS;
     public static String CONFIG_PATH;
@@ -54,16 +54,16 @@ public class Config {
             parseMirrorConfig();
             if (!initialized){
                 // Weather prop listeners
-                addPropertyListeners(modules.get(ModuleName.DARKSKY), 
+                addPropertyListeners(modules.get(MirrorModule.DARKSKY), 
                         darkskyKey, 
                         zipcodeKey, 
                         zipcode);
                 // Quote prop listeners
-                addPropertyListeners(modules.get(ModuleName.RANDOM_FAMOUS_QUOTE), 
+                addPropertyListeners(modules.get(MirrorModule.RANDOM_FAMOUS_QUOTE), 
                         randomFamousQuoteKey,
                         category);
                 // News prop listeners
-                addPropertyListeners(modules.get(ModuleName.NEWS),
+                addPropertyListeners(modules.get(MirrorModule.NEWS),
                         newsKey,
                         newsSource,
                         newsSortBy);
@@ -95,17 +95,17 @@ public class Config {
     }
     
     private static void hookMinimalModules() {
-        Module minimalDarkSky = modules.get(ModuleName.DARKSKY_MINIMAL);
-        APIManager darkSkyAPI = ModuleName.DARKSKY.getApi();
+        Module minimalDarkSky = modules.get(MirrorModule.DARKSKY_MINIMAL);
+        API darkSkyAPI = MirrorModule.DARKSKY.getApi();
         darkSkyAPI.addModuleSubscriber(minimalDarkSky);
         darkSkyAPI.start();
 
-        Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
-        APIManager spotifyAPI = ModuleName.SPOTIFY.getApi();
+        Module minimalSpotify = modules.get(MirrorModule.SPOTIFY_MINIMAL);
+        API spotifyAPI = MirrorModule.SPOTIFY.getApi();
         spotifyAPI.addModuleSubscriber(minimalSpotify);
         
-        Module minimalCovid = modules.get(ModuleName.COVID_MINIMAL);
-        APIManager covidAPI = ModuleName.COVID.getApi();
+        Module minimalCovid = modules.get(MirrorModule.COVID_MINIMAL);
+        API covidAPI = MirrorModule.COVID.getApi();
         covidAPI.addModuleSubscriber(minimalCovid);
     }
     
@@ -141,7 +141,7 @@ public class Config {
                 String positionXml = modElement.getElementsByTagName("position").item(0).getTextContent().toUpperCase();
                 
                 try {
-                    ModuleName moduleName = ModuleName.valueOf(moduleNameXml);
+                    MirrorModule moduleName = MirrorModule.valueOf(moduleNameXml);
                     Position position;
                     if (!positionXml.equals("-")) {
                         position = Position.valueOf(positionXml);
@@ -149,7 +149,8 @@ public class Config {
                     else {
                         position = Position.NONE;
                     }
-                
+                    
+                    // ******** READ IN KEYS FROM CONFIG FILE *********
                     switch (moduleName){
                         case DARKSKY:
                             darkskyKey.setValue(apiKey);
@@ -178,18 +179,19 @@ public class Config {
                                     .item(0).getTextContent());
                             break;
                     }
-
+                    
                     if (!initialized) {
                         Module module = new Module(moduleName);
                         modules.put(moduleName, module);
                         
+                        // ******** BIND VISIBLE STATE OF MINIMAL MODULES *********
                         switch (moduleName) {
                             case SPOTIFY:
-                                Module minimalSpotify = modules.get(ModuleName.SPOTIFY_MINIMAL);
+                                Module minimalSpotify = modules.get(MirrorModule.SPOTIFY_MINIMAL);
                                 minimalSpotify.visibleProperty().bind(module.onMirrorProperty());
                                 break;
                             case COVID:
-                                Module minimalCovid = modules.get(ModuleName.COVID_MINIMAL);
+                                Module minimalCovid = modules.get(MirrorModule.COVID_MINIMAL);
                                 minimalCovid.visibleProperty().bind(module.onMirrorProperty());
                                 break;
                         }
@@ -207,7 +209,7 @@ public class Config {
     }
 
     public static Module getModuleAt(Position position) {
-        for (Map.Entry<ModuleName, Module> entry : modules.entrySet()) {
+        for (Map.Entry<MirrorModule, Module> entry : modules.entrySet()) {
             if (entry.getValue().getPosition() == position) {
                 return entry.getValue();
             }
@@ -215,7 +217,7 @@ public class Config {
         return null;
     }
     
-    public static Module getModule(ModuleName moduleName) {
+    public static Module getModule(MirrorModule moduleName) {
         return modules.get(moduleName);
     }
 }
