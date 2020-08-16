@@ -8,7 +8,7 @@ package module;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import static module.ModuleName.*;
+import static module.MirrorModule.*;
 
 /**
  *
@@ -16,7 +16,7 @@ import static module.ModuleName.*;
  */
 public class MinimalModules {
     
-    private static final List<ModuleName> minimalModules = new ArrayList<>();
+    private static final List<MirrorModule> minimalModules = new ArrayList<>();
     
     static {
         minimalModules.addAll(
@@ -29,7 +29,7 @@ public class MinimalModules {
         );
     }
     
-    public static List<ModuleName> getModules() {
+    public static List<MirrorModule> getModules() {
         return minimalModules;
     }
 }

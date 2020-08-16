@@ -18,7 +18,7 @@ import api_calls.Wunderlist;
  *
  * @author hasan
  */
-public enum ModuleName {
+public enum MirrorModule {
     DARKSKY("/fxml/DarkSky.fxml", new DarkSky()),
     CLOCK("/fxml/Clock.fxml"),
     NEWS("/fxml/NewsAPI.fxml", new News()),
@@ -37,12 +37,12 @@ public enum ModuleName {
     private final String fxml;
     private final API api;
     
-    ModuleName(String fxml, API api) {
+    MirrorModule(String fxml, API api) {
         this.fxml = fxml;
         this.api = api;
     }
 
-    ModuleName(String fxml) {
+    MirrorModule(String fxml) {
         this(fxml, null);
     }
     

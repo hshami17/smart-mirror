@@ -24,14 +24,14 @@ public class Module<T> extends Region {
     private T controller;
     private final String fxml;
     private final API api;
-    private final ModuleName name;
+    private final MirrorModule module;
     private final BooleanProperty onMirror = new SimpleBooleanProperty(false);
     private Position position = Position.NONE;
     
-    public Module(ModuleName name) {
-        this.fxml = name.getFxml();
-        this.api = name.getApi();
-        this.name = name;
+    public Module(MirrorModule module) {
+        this.fxml = module.getFxml();
+        this.api = module.getApi();
+        this.module = module;
         init();
     }
     
@@ -89,8 +89,8 @@ public class Module<T> extends Region {
         moduleController().update();
     }
     
-    public ModuleName getName(){
-        return name;
+    public MirrorModule getName(){
+        return module;
     }
     
     public boolean isApiRunning() {
