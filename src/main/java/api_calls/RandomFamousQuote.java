@@ -17,9 +17,9 @@ import static utils.ConfigElements.randomFamousQuoteKey;
  *
  * @author saadshami
  */
-public class RandomFamousQuoteAPI extends APIManager {
+public class RandomFamousQuote extends API {
 
-    public RandomFamousQuoteAPI() {
+    public RandomFamousQuote() {
         super(60000);
     }
 

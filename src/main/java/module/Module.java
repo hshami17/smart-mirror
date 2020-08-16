@@ -1,6 +1,6 @@
 package module;
 
-import api_calls.APIManager;
+import api_calls.API;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +23,7 @@ public class Module<T> extends Region {
 
     private T controller;
     private final String fxml;
-    private final APIManager api;
+    private final API api;
     private final ModuleName name;
     private final BooleanProperty onMirror = new SimpleBooleanProperty(false);
     private Position position = Position.NONE;
@@ -109,7 +109,7 @@ public class Module<T> extends Region {
         return api != null;
     }
     
-    public APIManager getApi() {
+    public API getApi() {
         return api;
     }
     

@@ -18,9 +18,9 @@ import utils.PCS;
  *
  * @author hasan
  */
-public class HueMotionSensorAPI extends APIManager {
+public class HueMotionSensor extends API {
 
-    public HueMotionSensorAPI() {
+    public HueMotionSensor() {
         super(500);
     }
     

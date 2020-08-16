@@ -18,9 +18,9 @@ import utils.Config;
  *
  * @author hasan
  */
-public class CovidAPI extends APIManager {
+public class Covid extends API {
     
-    public CovidAPI() {
+    public Covid() {
         super(600000);
     }
     

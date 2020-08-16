@@ -20,9 +20,9 @@ import static utils.ConfigElements.wunderlistKey;
  *
  * @author saadshami
  */
-public class WunderlistAPI extends APIManager {
+public class Wunderlist extends API {
 
-    public WunderlistAPI(){
+    public Wunderlist(){
         super(5000);
     }
     

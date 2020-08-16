@@ -6,14 +6,14 @@ import java.util.List;
 import module.Module;
 import smartmirror.MirrorViewController;
 
-public abstract class APIManager {
+public abstract class API {
     
     protected final List<Module> modules = new ArrayList<>();
     private Thread apiThread = null;
     private final long pullInterval;
     private long lastPull = 0;
 
-    public APIManager(long pullInterval) {
+    public API(long pullInterval) {
         this.pullInterval = pullInterval;
     }
 

@@ -5,28 +5,28 @@
  */
 package module;
 
-import api_calls.APIManager;
-import api_calls.CovidAPI;
-import api_calls.DarkSkyAPI;
-import api_calls.NewsAPI;
-import api_calls.RandomFamousQuoteAPI;
-import api_calls.UselessFactsAPI;
-import api_calls.SpotifyAPI;
-import api_calls.WunderlistAPI;
+import api_calls.API;
+import api_calls.Covid;
+import api_calls.DarkSky;
+import api_calls.News;
+import api_calls.RandomFamousQuote;
+import api_calls.UselessFacts;
+import api_calls.Spotify;
+import api_calls.Wunderlist;
 
 /**
  *
  * @author hasan
  */
 public enum ModuleName {
-    DARKSKY("/fxml/DarkSky.fxml", new DarkSkyAPI()),
+    DARKSKY("/fxml/DarkSky.fxml", new DarkSky()),
     CLOCK("/fxml/Clock.fxml"),
-    NEWS("/fxml/NewsAPI.fxml", new NewsAPI()),
-    WUNDERLIST("/fxml/Wunderlist.fxml", new WunderlistAPI()),
-    RANDOM_FAMOUS_QUOTE("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI()),
-    USELESS_FACTS("/fxml/UselessFacts.fxml", new UselessFactsAPI()),
-    SPOTIFY("/fxml/SpotifyPlayer.fxml", new SpotifyAPI()),
-    COVID("/fxml/Covid.fxml", new CovidAPI()),
+    NEWS("/fxml/NewsAPI.fxml", new News()),
+    WUNDERLIST("/fxml/Wunderlist.fxml", new Wunderlist()),
+    RANDOM_FAMOUS_QUOTE("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuote()),
+    USELESS_FACTS("/fxml/UselessFacts.fxml", new UselessFacts()),
+    SPOTIFY("/fxml/SpotifyPlayer.fxml", new Spotify()),
+    COVID("/fxml/Covid.fxml", new Covid()),
     
     // Minimal modules
     DARKSKY_MINIMAL("/fxml/minimal/DarkSkyMinimal.fxml"),
@@ -35,9 +35,9 @@ public enum ModuleName {
     COVID_MINIMAL("/fxml/minimal/CovidMinimal.fxml");
     
     private final String fxml;
-    private final APIManager api;
+    private final API api;
     
-    ModuleName(String fxml, APIManager api) {
+    ModuleName(String fxml, API api) {
         this.fxml = fxml;
         this.api = api;
     }
@@ -50,7 +50,7 @@ public enum ModuleName {
         return fxml;
     }
     
-    public APIManager getApi() {
+    public API getApi() {
         return api;
     }
 }
