@@ -17,9 +17,9 @@ import static utils.ConfigElements.newsSource;
  *
  * @author saadshami
  */
-public class News extends API {
+public class NewsAPI extends API {
 
-    public News(){
+    public NewsAPI(){
         super(300000);
     }
 

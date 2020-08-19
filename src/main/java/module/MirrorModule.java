@@ -6,27 +6,27 @@
 package module;
 
 import api_calls.API;
-import api_calls.Covid;
-import api_calls.DarkSky;
-import api_calls.News;
-import api_calls.RandomFamousQuote;
-import api_calls.UselessFacts;
-import api_calls.Spotify;
-import api_calls.Wunderlist;
+import api_calls.CovidAPI;
+import api_calls.DarkSkyAPI;
+import api_calls.NewsAPI;
+import api_calls.RandomFamousQuoteAPI;
+import api_calls.UselessFactsAPI;
+import api_calls.SpotifyAPI;
+import api_calls.WunderlistAPI;
 
 /**
  *
  * @author hasan
  */
 public enum MirrorModule {
-    DARKSKY("/fxml/DarkSky.fxml", new DarkSky()),
+    DARKSKY("/fxml/DarkSky.fxml", new DarkSkyAPI()),
     CLOCK("/fxml/Clock.fxml"),
-    NEWS("/fxml/NewsAPI.fxml", new News()),
-    WUNDERLIST("/fxml/Wunderlist.fxml", new Wunderlist()),
-    RANDOM_FAMOUS_QUOTE("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuote()),
-    USELESS_FACTS("/fxml/UselessFacts.fxml", new UselessFacts()),
-    SPOTIFY("/fxml/SpotifyPlayer.fxml", new Spotify()),
-    COVID("/fxml/Covid.fxml", new Covid()),
+    NEWS("/fxml/NewsAPI.fxml", new NewsAPI()),
+    WUNDERLIST("/fxml/Wunderlist.fxml", new WunderlistAPI()),
+    RANDOM_FAMOUS_QUOTE("/fxml/RandomFamousQuotes.fxml", new RandomFamousQuoteAPI()),
+    USELESS_FACTS("/fxml/UselessFacts.fxml", new UselessFactsAPI()),
+    SPOTIFY("/fxml/SpotifyPlayer.fxml", new SpotifyAPI()),
+    COVID("/fxml/Covid.fxml", new CovidAPI()),
     
     // Minimal modules
     DARKSKY_MINIMAL("/fxml/minimal/DarkSkyMinimal.fxml"),

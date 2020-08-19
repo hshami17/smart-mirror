@@ -19,9 +19,9 @@ import models.DarkSkyModel.WeatherImage;
  *
  * @author hasan
  */
-public class DarkSky extends API {
+public class DarkSkyAPI extends API {
      
-    public DarkSky() {
+    public DarkSkyAPI() {
         super(600000);
     }
 

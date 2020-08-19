@@ -20,11 +20,11 @@ import utils.Config;
  *
  * @author hasan
  */
-public class Spotify extends API {
+public class SpotifyAPI extends API {
     
     private String lastAlbumImageUrl = "";
     
-    public Spotify() {
+    public SpotifyAPI() {
         super(200);
     }
 

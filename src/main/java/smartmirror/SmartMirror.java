@@ -1,6 +1,6 @@
 package smartmirror;
 
-import api_calls.HueMotionSensor;
+import api_calls.HueMotionSensorAPI;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.Inet4Address;
@@ -123,7 +123,7 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         
         PCS.INST.addPropertyChangeListener(PCM.MINIMAL_MODE, this);
         if (System.getenv("HOSTNAME").equals("raspberrypi")) {
-            new HueMotionSensor().start();
+            new HueMotionSensorAPI().start();
         }
     }
     

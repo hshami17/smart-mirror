@@ -18,9 +18,9 @@ import models.UselessFactsModel;
  *
  * @author hasan
  */
-public class UselessFacts extends API {
+public class UselessFactsAPI extends API {
     
-    public UselessFacts() {
+    public UselessFactsAPI() {
         super(30000);
     }
 
