@@ -343,4 +343,3 @@ if __name__ == "__main__":
     port = os.getenv('PORT', 8080)
     print("WEB SERVICE RUNNING ON: " + host + ":" + str(port))
     socketio.run(app, host=host, port=int(port), debug=False)
-
