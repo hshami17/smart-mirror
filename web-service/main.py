@@ -32,16 +32,20 @@ def makeConnection():
     print("CONNECTED")
     # print('Running on: ' + socket.gethostbyname(socket.gethostname()) + ':8080')
     # TODO: add logic if no config XML exists yet
-    setConfigData()
     emit('start', configData)
-
 
 def setConfigData():
     """
     Set the global configData using the current config XML
     """
+    print ('CONFIG DATA SET')
     global configData
     configData = parseXml()
+
+def getModuleInfo(name):
+    for module in configData:
+	    if module['name'] == name:
+	        return module
 
 def parseXml():
     data = []
@@ -84,12 +88,12 @@ def index():
 
 
 def spotifyEstablishToken():
-
+    spotifyInfo = getModuleInfo('spotify')
     token = util.prompt_for_user_token(
             username='smartmirror-spotify',
             scope='user-read-currently-playing',
-            client_id='9759a5611e3d4f78a079090e67696c91',
-            client_secret='20785be11bfd4931bb6df63a2db88a75',
+            client_id=spotifyInfo['client-id'],
+            client_secret=spotifyInfo['client-secret'],
             redirect_uri='http://localhost:8080/spotify-callback',
             cache_path=os.getenv('HOME', ".") + "/.spotify-cache")
 
@@ -103,11 +107,12 @@ def spotifyCallback():
 
 @app.route('/spotify-current-track')
 def spotifyCurrentTrack():
+    spotifyInfo = getModuleInfo('spotify')
     token = util.prompt_for_user_token(
             username='smartmirror-spotify',
             scope='user-read-currently-playing',
-            client_id='9759a5611e3d4f78a079090e67696c91',
-            client_secret='20785be11bfd4931bb6df63a2db88a75',
+            client_id=spotifyInfo['client-id'],
+            client_secret=spotifyInfo['client-secret'],
             redirect_uri='http://localhost:8080/spotify-callback',
 	    cache_path=os.getenv('HOME', ".") + "/.spotify-cache")
 
@@ -216,8 +221,8 @@ def get_sensor_state():
     if not hue_bridge_ip:
         getHueBridgeIp()
     
-    # TODO: Store this in mirror config XML & set via web service gui
-    username_key = '-ZFVSvRL8-j6vDJsnv8cRHI7r9fZTB5fS4GQaqK6'
+    hueInfo = getModuleInfo('hue')
+    username_key = hueInfo['key']
 
     # Ping Hue Bridge to check if it's up, if not then check for a new IP
     if (os.system("ping -c 1 " + hue_bridge_ip + " > /dev/null") == 1):
@@ -313,6 +318,7 @@ if __name__ == "__main__":
     given_args = parser.parse_args()
     path = given_args.path
     print("PATH IS: " + path)
+    setConfigData()
     host = os.getenv('IP', 'localhost')
     port = os.getenv('PORT', 8080)
     print("WEB SERVICE RUNNING ON: " + host + ":" + str(port))

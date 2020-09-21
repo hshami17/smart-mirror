@@ -135,7 +135,11 @@ public class Config {
             Node moduleNode = moduleConfigs.item(i);
             if (moduleNode.getNodeType() == Node.ELEMENT_NODE){
                 Element modElement = (Element) moduleNode;
-                String apiKey = modElement.getElementsByTagName("key").item(0).getTextContent();
+                NodeList apiKeyNodeList = modElement.getElementsByTagName("key");
+                String apiKey = "";
+                if (apiKeyNodeList.item(0) != null) {
+                    apiKey = apiKeyNodeList.item(0).getTextContent();
+                }
                 
                 String moduleNameXml = modElement.getAttribute("name").replace("-", "_").toUpperCase();
                 String positionXml = modElement.getElementsByTagName("position").item(0).getTextContent().toUpperCase();
@@ -201,7 +205,7 @@ public class Config {
                     module.setPosition(position);
                 }
                 catch (IllegalArgumentException ex) {
-                    System.err.println("ERROR IN CONFIG: " + moduleNameXml);
+                    System.err.println("[JAVA] ERROR IN CONFIG: " + moduleNameXml);
                     System.err.println(ex.toString());
                 }
             }
