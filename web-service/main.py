@@ -15,6 +15,7 @@ import ast
 import qrcode
 from bs4 import BeautifulSoup
 from pythonfitbit import fitbit
+from datetime import datetime
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -23,10 +24,7 @@ configData = []
 path = ''
 hue_bridge_ip = ''
 
-fitbit_access_token = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkJXN1YiLCJzdWIiOiI4UUw4UFYiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2N \
-lc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJhY3QgcnNldCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNTk3NTYyNzYwLCJpYXQiOjE \
-1OTc1MzM5NjB9.0Zb1su1QbrF5RoLpoN_zWYIN5gOQNItvI1kjGYXrKUU'
-fitbit_refresh_token = '470cd46750f473a1cfbda2c993510afcbf28c3c3b76a515df749e125d76480e3'
+fitbit_token_expiry = datetime.now().timestamp()
 
 #For debugging errors
 app.config.update(
@@ -93,20 +91,24 @@ def index():
     return render_template('home.html', name=name, position=position)
 
 def refreshFitbitToken(token_dict):
-    global fitbit_access_token
-    global fitbit_refresh_token
-    fitbit_access_token = token_dict['access_token']
-    fitbit_refresh_token = token_dict['refresh_token']
-
+    fitbit_info = getModuleInfo('fitbit')
+    fitbit_info['access-token'] = token_dict['access_token']
+    fitbit_info['refresh-token'] = token_dict['refresh_token']
+    global fitbit_token_expiry 
+    fitbit_token_expiry = token_dict['expires_at']
+    createXML()
+    
 @app.route('/fitbit-data')
 def getFitbitData():
     fitbit_info = getModuleInfo('fitbit')
+
+    global fitbit_token_expiry
     # Using python-fitbit module:  https://python-fitbit.readthedocs.io/en/latest/
     authd_client = fitbit.Fitbit(fitbit_info['client-id'], fitbit_info['client-secret'],
-                                 access_token=fitbit_access_token,
-                                 refresh_token=fitbit_refresh_token,
+                                 access_token=fitbit_info['access-token'],
+                                 refresh_token=fitbit_info['refresh-token'],
                                  refresh_cb=refreshFitbitToken,
-                                 expires_at=10)
+                                 expires_at=fitbit_token_expiry)
 
     fitbit_data = {}
     fitbit_data['activity'] = authd_client.activities()
