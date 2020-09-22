@@ -8,3 +8,4 @@ smartmirror-env
 go
 web-service/run
 web-service/.idea/
+deploy
