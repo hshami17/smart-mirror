@@ -100,8 +100,9 @@ def refreshFitbitToken(token_dict):
 
 @app.route('/fitbit-data')
 def getFitbitData():
+    fitbit_info = getModuleInfo('fitbit')
     # Using python-fitbit module:  https://python-fitbit.readthedocs.io/en/latest/
-    authd_client = fitbit.Fitbit('22BW7V', '5df0f4a242aed6c34274f7a8b170d12b',
+    authd_client = fitbit.Fitbit(fitbit_info['client-id'], fitbit_info['client-secret'],
                                  access_token=fitbit_access_token,
                                  refresh_token=fitbit_refresh_token,
                                  refresh_cb=refreshFitbitToken,
