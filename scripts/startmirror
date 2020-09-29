@@ -26,8 +26,8 @@ case $OSTYPE in
 esac
 
 # Set paths for the config file and Java watcher
-export CONFIGPATH=resources/mirror_config.xml
-export WATCHPATH=resources
+export CONFIGPATH=$HOME/.mirror_config.xml
+export WATCHPATH=$HOME
 export HOSTNAME=$(hostname)
 
 # Path to JavaFX libraries
@@ -54,9 +54,8 @@ do
 done
 
 echo "Debug messages in log.txt"
+java $LOAD_FX $sw -jar smart-mirror-1.0.jar $fullscreen &
 cd web-service
-python3 main.py --path ../resources/mirror_config.xml &
-cd ..
-java $LOAD_FX $sw -jar smart-mirror-1.0.jar $fullscreen #&> log.txt
+python3 main.py --path $CONFIGPATH
 
 
