@@ -9,8 +9,7 @@ import socket
 import xml.etree.ElementTree as ET
 from flask import jsonify
 import spotipy
-import spotipy.oauth2 as oauth2
-import spotipy.util as util
+from spotipy.oauth2 import SpotifyOAuth
 import ast
 import qrcode
 from bs4 import BeautifulSoup
@@ -20,9 +19,14 @@ from datetime import datetime
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+host = ""
+port = 0
 configData = []
 path = ''
 hue_bridge_ip = ''
+
+spotify = ""
+scope = "user-read-currently-playing"
 
 fitbit_token_expiry = datetime.now().timestamp()
 
@@ -48,8 +52,8 @@ def setConfigData():
 
 def getModuleInfo(name):
     for module in configData:
-	    if module['name'] == name:
-	        return module
+        if module['name'] == name:
+            return module
 
 def parseXml():
     data = []
@@ -91,6 +95,7 @@ def index():
     return render_template('home.html', name=name, position=position)
 
 def refreshFitbitToken(token_dict):
+    print("Refreshing Fitbit tokens..")
     fitbit_info = getModuleInfo('fitbit')
     fitbit_info['access-token'] = token_dict['access_token']
     fitbit_info['refresh-token'] = token_dict['refresh_token']
@@ -118,34 +123,26 @@ def getFitbitData():
 
 def spotifyEstablishToken():
     spotifyInfo = getModuleInfo('spotify')
-    token = util.prompt_for_user_token(
-            username='smartmirror-spotify',
-            scope='user-read-currently-playing',
-            client_id=spotifyInfo['client-id'],
-            client_secret=spotifyInfo['client-secret'],
-            redirect_uri='http://localhost:8080/spotify-callback',
-            cache_path=os.getenv('HOME', ".") + "/.spotify-cache")
 
-    spotify = spotipy.Spotify(auth=token)
+    global spotify
+    spotify = spotipy.Spotify(auth_manager=SpotifyOAuth(
+        client_id=spotifyInfo['client-id'],
+        client_secret=spotifyInfo['client-secret'],
+        redirect_uri="http://localhost:9090",
+        cache_path=os.getenv('HOME') + "/.spotify-cache",
+        scope=scope)
+    )
+    print ("Spotify successfully authenticated")
 
-    print("Spotify Token Created: " + token)
-
-@app.route('/spotify-callback')
-def spotifyCallback():
-    return 'Spotify Authenticated!'
+# @app.route('/spotify-callback')
+# def spotifyCallback():
+#     return 'Spotify Authenticated!'
 
 @app.route('/spotify-current-track')
 def spotifyCurrentTrack():
-    spotifyInfo = getModuleInfo('spotify')
-    token = util.prompt_for_user_token(
-            username='smartmirror-spotify',
-            scope='user-read-currently-playing',
-            client_id=spotifyInfo['client-id'],
-            client_secret=spotifyInfo['client-secret'],
-            redirect_uri='http://localhost:8080/spotify-callback',
-	    cache_path=os.getenv('HOME', ".") + "/.spotify-cache")
-
-    spotify = spotipy.Spotify(auth=token)
+    global spotify
+    if spotify == "":
+        spotifyEstablishToken()
 
     currently_playing_track = spotify.current_user_playing_track()
 
@@ -160,8 +157,7 @@ def addModule(formData):
     #print(configData)
 
     # Establish spotify token if not already exists.
-    if (formData.get('name') == 'spotify'):
-        print("ADDING SPOTIFY")
+    if formData.get('name') == 'spotify' and not spotify:
         spotifyEstablishToken()
 
     global configData

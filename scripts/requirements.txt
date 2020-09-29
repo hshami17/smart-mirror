@@ -10,3 +10,4 @@ qrcode==6.1
 backports.functools-lru-cache==1.6.1
 soupsieve==1.9.5
 beautifulsoup4==4.8.2
+spotipy==2.16.0
