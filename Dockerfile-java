@@ -1,0 +1,13 @@
+FROM openjdk:14-alpine
+
+
+COPY . /usr/src/smartmirror
+RUN apk add maven
+
+WORKDIR /usr/src/smartmirror
+
+RUN mvn install
+CMD ["java", "-jar", "target/smart-mirror-1.0.jar"]
+
+
+
