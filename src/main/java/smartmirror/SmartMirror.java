@@ -1,5 +1,6 @@
 package smartmirror;
 
+import api_calls.FitbitAPI;
 import api_calls.HueMotionSensorAPI;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -43,8 +44,8 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         String configPath = System.getenv("CONFIGPATH");
         String watchPath = System.getenv("WATCHPATH");
         String webAddress = System.getenv("WEBADDRESS");
-        Config.CONFIG_PATH = configPath != null ? configPath : "src/main/resources/mirror_config.xml";
-        Config.WATCH_PATH = watchPath != null ? watchPath : "src/main/resources";
+        Config.CONFIG_PATH = configPath != null ? configPath : System.getenv("HOME") + "/.mirror_config.xml";
+        Config.WATCH_PATH = watchPath != null ? watchPath : System.getenv("HOME");
         Config.WEB_ADDRESS = webAddress != null ? webAddress : "Web service address not found";
 
         for (String arg : args) {
@@ -121,8 +122,10 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         
         SmartMirror.mirrorStage = mirrorStage;
         
+//        new FitbitAPI().start();
+        
         PCS.INST.addPropertyChangeListener(PCM.MINIMAL_MODE, this);
-        if (System.getenv("HOSTNAME").equals("raspberrypi")) {
+        if (System.getenv("HOSTNAME") != null && System.getenv("HOSTNAME").equals("raspberrypi")) {
             new HueMotionSensorAPI().start();
         }
     }
