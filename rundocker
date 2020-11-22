@@ -1,0 +1,10 @@
+#!/bin/bash
+
+docker run \
+    --net=host \
+    --env="DISPLAY" \
+    java-test
+    #--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    #--volume="/etc/X11:/etc/X11:rw" \
+    #java-test 
+
