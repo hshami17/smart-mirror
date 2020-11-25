@@ -44,8 +44,8 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         String configPath = System.getenv("CONFIGPATH");
         String watchPath = System.getenv("WATCHPATH");
         String webAddress = System.getenv("WEBADDRESS");
-        Config.CONFIG_PATH = configPath != null ? configPath : System.getenv("HOME") + "/.mirror_config.xml";
-        Config.WATCH_PATH = watchPath != null ? watchPath : System.getenv("HOME");
+        Config.CONFIG_PATH = configPath != null ? configPath : System.getenv("HOME") + "/.mirror/mirror_config.xml";
+        Config.WATCH_PATH = watchPath != null ? watchPath : System.getenv("HOME") + "/.mirror";
         Config.WEB_ADDRESS = webAddress != null ? webAddress : "Web service address not found";
 
         for (String arg : args) {
