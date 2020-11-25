@@ -129,7 +129,7 @@ def spotifyEstablishToken():
         client_id=spotifyInfo['client-id'],
         client_secret=spotifyInfo['client-secret'],
         redirect_uri="http://localhost:9090",
-        cache_path=os.getenv('HOME') + "/.spotify-cache",
+        cache_path=os.getenv('HOME') + "/.mirror/.spotify-cache",
         scope=scope)
     )
     print ("Spotify successfully authenticated")

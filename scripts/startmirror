@@ -31,11 +31,7 @@ export WATCHPATH=$HOME
 export HOSTNAME=$(hostname)
 
 # Path to JavaFX libraries
-if [ "$(whoami)" == "pi" ]
-then
-	LOAD_FX="--module-path /home/pi/armv6hf-sdk/lib --add-modules javafx.controls,javafx.fxml"
-	echo "Loading JavaFX libraries on pi"
-fi
+LOAD_FX="--module-path /usr/share/openjfx/lib --add-modules javafx.controls,javafx.fxml"
 
 # Get arguments
 for var in "$@"

@@ -1,10 +1,20 @@
 #!/bin/bash
 
+MIRROR_DIR=$HOME/.mirror
+
+docker kill web
+
+docker run -d \
+    --name="mirror" \
+    --volume="$MIRROR_DIR:/root/.mirror/:rw" \
+    --rm \
+    java
+    
 docker run \
+    --name="web" \
     --net=host \
-    --env="DISPLAY" \
-    java-test
-    #--volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-    #--volume="/etc/X11:/etc/X11:rw" \
-    #java-test 
+    --volume="$MIRROR_DIR:/root/.mirror:rw" \
+    --rm \
+    web
+
 

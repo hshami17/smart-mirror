@@ -1,0 +1,10 @@
+FROM python
+
+COPY web-service/ /web-service
+COPY scripts/requirements.txt /web-service
+
+RUN pip3 install -r /web-service/requirements.txt
+
+WORKDIR .
+
+CMD python3 web-service/main.py --path /root/.mirror/mirror_config.xml
