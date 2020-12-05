@@ -1,16 +1,13 @@
 FROM debian:latest
 
-ARG stdout=/dev/null
-
 WORKDIR /usr/src/smartmirror
 
 COPY pom.xml .
 COPY src ./src
 
-RUN apt-get update 1> $stdout
-RUN apt-get install -y default-jdk 1> $stdout
-RUN apt-get install -y maven 1> $stdout
+RUN apt-get update
+RUN apt-get install -y default-jdk
+RUN apt-get install -y maven
+RUN mvn install
 
-RUN mvn install 1> $stdout
-
-CMD cp -rv target/smart-mirror-1.0.jar target/lib /root/.mirror
+CMD cp -rv target/smart-mirror-1.0.jar target/lib /mirror/.root
