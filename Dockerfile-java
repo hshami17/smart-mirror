@@ -6,16 +6,9 @@ WORKDIR /usr/src/smartmirror
 
 COPY pom.xml .
 COPY src ./src
-#COPY web-service ./web-service
-#COPY .mirror_config.xml /root
 
 RUN apt-get update 1> $stdout
 RUN apt-get install -y default-jdk 1> $stdout
-#RUN apt-get install -y openjfx 1> $stdout
-#RUN apt-get install -y xauth 1> $stdout
-#RUN apt-get install -y xorg 1> $stdout
-#RUN apt-get install -y openbox 1> $stdout
-#RUN apt-get install -y libglu1-mesa-dev freeglut3-dev mesa-common-dev 1> $stdout
 RUN apt-get install -y maven 1> $stdout
 
 RUN mvn install 1> $stdout
