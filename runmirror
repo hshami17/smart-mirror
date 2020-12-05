@@ -1,0 +1,2 @@
+docker-compose up -d --build
+java --module-path $HOME/.mirror/lib/ --add-modules javafx.controls,javafx.fxml -jar $HOME/.mirror/smart-mirror-1.0.jar
