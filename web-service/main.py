@@ -344,7 +344,4 @@ if __name__ == "__main__":
     path = given_args.path
     print("PATH IS: " + path)
     setConfigData()
-    host = os.getenv('IP', '0.0.0.0')
-    port = os.getenv('PORT', 8080)
-    print("WEB SERVICE RUNNING ON: " + host + ":" + str(port))
-    socketio.run(app, host=host, port=int(port), debug=False)
+    socketio.run(app, host='0.0.0.0', port=8080, debug=False)

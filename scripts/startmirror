@@ -28,7 +28,6 @@ esac
 # Set paths for the config file and Java watcher
 export CONFIGPATH=$HOME/.mirror_config.xml
 export WATCHPATH=$HOME
-export HOSTNAME=$(hostname)
 
 # Path to JavaFX libraries
 LOAD_FX="--module-path $HOME/.mirror/lib/ --add-modules javafx.controls,javafx.fxml"
