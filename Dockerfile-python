@@ -5,6 +5,6 @@ COPY requirements.txt /web-service
 
 RUN pip3 install -r /web-service/requirements.txt
 
-WORKDIR .
+WORKDIR ./web-service
 
-CMD python3 web-service/main.py --path /root/.mirror/mirror_config.xml
+CMD python3 main.py --path /root/.mirror/mirror_config.xml
