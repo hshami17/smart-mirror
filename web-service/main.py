@@ -229,9 +229,7 @@ def generateQrCode():
         box_size=10,
         border=1,
     )
-    host = os.getenv('IP', 'localhost')
-    port = os.getenv('PORT', 8080)
-    webservice_url = 'http://' + str(host) + ':' + str(port)
+    webservice_url = 'http://0.0.0.0:8080'
     qr.add_data(webservice_url)
     qr.make(fit=True)
     img = qr.make_image(fill_color="white", back_color="black")
