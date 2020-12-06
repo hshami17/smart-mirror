@@ -1,17 +1,9 @@
 package smartmirror;
 
-import api_calls.FitbitAPI;
 import api_calls.HueMotionSensorAPI;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -47,7 +39,7 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         Config.CONFIG_PATH = configPath != null ? configPath : System.getenv("HOME") + "/.mirror/mirror_config.xml";
         Config.WATCH_PATH = watchPath != null ? watchPath : System.getenv("HOME") + "/.mirror";
         Config.WEB_ADDRESS = webAddress != null ? webAddress : "Web service address not found";
-
+        
         for (String arg : args) {
             switch (arg) {
                 case "-fullscreen":
@@ -62,28 +54,19 @@ public class SmartMirror extends Application implements PropertyChangeListener {
         launch(args);
     }
     
-    private static String getIpv4(String interfaceName) {
-        try {
-            NetworkInterface networkInterface = NetworkInterface.getByName(interfaceName);
-            if (networkInterface == null) {
-                return "";
-            }
-            String ipv4Addr;
-            Enumeration<InetAddress> addrs = networkInterface.getInetAddresses();
-            InetAddress curr = addrs.nextElement();
-            while (addrs.hasMoreElements()) {
-                curr = addrs.nextElement();
-                if (curr instanceof Inet4Address && !curr.isLoopbackAddress()) {
-                    ipv4Addr = curr.toString().replace("/", "").trim();
-                    return ipv4Addr;
-                }
-            }
-            return "";
-        } catch (SocketException ex) {
-            Logger.getLogger(SmartMirror.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
-        }
-    }
+//    private static String getWebAddress() {
+//        try {
+//            String webaddress = new ProcessExecutor()
+//                    .command("cat", "src/main/resources/webaddr")
+//                    .readOutput(true)
+//                    .execute()
+//                    .outputUTF8();
+//            return webaddress.trim();
+//        } catch (IOException | InterruptedException | TimeoutException | InvalidExitValueException ex) {
+//            Logger.getLogger(SmartMirror.class.getName()).log(Level.SEVERE, null, ex);
+//            return null;
+//        }
+//    }
 
     @Override
     public void start(Stage mirrorStage) throws Exception {
