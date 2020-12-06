@@ -1,8 +1,7 @@
 #!/bin/bash
 
 export WEBADDRESS=$(ip route get 1.1.1.1 | grep -oP 'src \K\S+'):8080
-export CONFIGPATH=$HOME/.mirror/mirror_config.xml
-export WATCHPATH=$HOME/.mirror/
+export CONFIGPATH_PY=/root/.mirror/mirror_config.xml
 
 # Build and run python and java containers
 docker-compose up -d --build
@@ -22,5 +21,8 @@ do
 		*)
 	esac
 done
+
+export CONFIGPATH=$HOME/.mirror/mirror_config.xml
+export WATCHPATH=$HOME/.mirror/
 
 java $sw --module-path $HOME/.mirror/lib/ --add-modules javafx.controls,javafx.fxml -jar $HOME/.mirror/smart-mirror-1.0.jar $FULLSCREEN

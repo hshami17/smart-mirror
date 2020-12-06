@@ -343,10 +343,7 @@ def getHueBridgeIp():
 
 # start the server
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description = 'Smart Mirror Web Service')
-    parser.add_argument('--path', action="store", dest="path", default='../src/main/resources/mirror_config.xml')
-    given_args = parser.parse_args()
-    path = given_args.path
-    print("PATH IS: " + path)
+    path = os.getenv("CONFIGPATH_PY")
+    print("CONFIG PATH IS: " + path)
     setConfigData()
     socketio.run(app, host='0.0.0.0', port=8080, debug=False)

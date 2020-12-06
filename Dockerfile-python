@@ -7,4 +7,4 @@ RUN pip3 install -r /web-service/requirements.txt
 
 WORKDIR ./web-service
 
-CMD python3 main.py --path /root/.mirror/mirror_config.xml
+CMD python3 main.py
