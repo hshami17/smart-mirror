@@ -230,8 +230,8 @@ def generateQrCode():
         box_size=10,
         border=1,
     )
-    ip = getNicIP()
-    webservice_url = 'http://' + ip + ':8080'
+    web_addr = os.getenv("WEBADDRESS")
+    webservice_url = 'http://' + web_addr
     qr.add_data(webservice_url)
     qr.make(fit=True)
     img = qr.make_image(fill_color="white", back_color="black")
