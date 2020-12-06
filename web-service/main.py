@@ -15,6 +15,7 @@ import qrcode
 from bs4 import BeautifulSoup
 from pythonfitbit import fitbit
 from datetime import datetime
+import netifaces as ni
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -229,7 +230,8 @@ def generateQrCode():
         box_size=10,
         border=1,
     )
-    webservice_url = 'http://0.0.0.0:8080'
+    ip = getNicIP()
+    webservice_url = 'http://' + ip + ':8080'
     qr.add_data(webservice_url)
     qr.make(fit=True)
     img = qr.make_image(fill_color="white", back_color="black")
@@ -324,6 +326,12 @@ def scrapeCovidStats():
 
 
 
+def getNicIP():
+    gateways = ni.gateways()
+    iface = gateways['default'][ni.AF_INET][1]
+    ip = ni.ifaddresses(iface)[ni.AF_INET][0]['addr']
+    return ip
+    
 
 def getHueBridgeIp():
     global hue_bridge_ip
@@ -331,7 +339,6 @@ def getHueBridgeIp():
     json_data = json.loads(hue_bridge_response.text)
     hue_bridge_ip = json_data[0]['internalipaddress']
     print("Hue Bridge IP has been set: " + hue_bridge_ip)
-
 
 
 # start the server

@@ -3,28 +3,8 @@
 # Build and run python and java containers
 docker-compose up -d --build
 
-# Get machine IP for web service access
-export PORT=8080
-case $OSTYPE in
-    linux*) # Linux
-		if [ "$(whoami)" == "pi" ]
-		then
-			IFACE="wlan0"
-		else
-			IFACE="enp0s31f6"
-		fi
-		export IP=$(/sbin/ifconfig $IFACE | awk '/inet /{print substr($2, 1)}')
-        export WEBADDRESS=$IP:$PORT
-        ;;
-    darwin*) # MacOS
-		export IP=$(/sbin/ifconfig en0 | awk '/inet /{print substr($2, 1)}')
-        export WEBADDRESS=$IP:$PORT
-        ;;
-    *)
-esac
-echo "Web Address: $WEBADDRESS"
-
-# Set paths for the config file and Java watcher
+# Set paths for the web address, config file, and Java watcher
+export WEBADDRESS=$(ip route get 1.1.1.1 | grep -oP 'src \K\S+')
 export CONFIGPATH=$HOME/.mirror/mirror_config.xml
 export WATCHPATH=$HOME/.mirror/
 
