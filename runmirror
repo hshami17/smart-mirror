@@ -25,4 +25,12 @@ done
 export CONFIGPATH=$HOME/.mirror/mirror_config.xml
 export WATCHPATH=$HOME/.mirror/
 
-java $sw --module-path $HOME/.mirror/lib/ --add-modules javafx.controls,javafx.fxml -jar $HOME/.mirror/smart-mirror-1.0.jar $FULLSCREEN
+if [ -d /usr/share/openjfx ]
+then
+    JFXLIB=/usr/share/openjfx/lib
+    echo "Using OpenJFX libraries"
+else
+    JFXLIB=$HOME/.mirror/lib  
+fi
+
+java $sw --module-path $JFXLIB --add-modules javafx.controls,javafx.fxml -jar $HOME/.mirror/smart-mirror-1.0.jar $FULLSCREEN
