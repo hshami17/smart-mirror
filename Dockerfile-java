@@ -1,0 +1,11 @@
+FROM debian:latest
+
+COPY pom.xml .
+COPY src ./src
+
+RUN apt-get update
+RUN apt-get install -y default-jdk
+RUN apt-get install -y maven
+RUN mvn install
+
+CMD cp -rv target/smart-mirror-1.0.jar target/lib /root/.mirror/

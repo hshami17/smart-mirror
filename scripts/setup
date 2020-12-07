@@ -1,14 +1,10 @@
 #!/bin/bash
 
-if [ "$EUID" -ne 0 ]
-then
-	echo "Please run setup with sudo or as root"
-	exit 1
-fi
+apt-get update
+apt-get install -y default-jdk
+apt-get install -y openjfx
+apt-get install -y git
 
-apt-get install python-dev
-apt-get install figlet
-
-pip3 install -r requirements.txt
-
-
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+apt-get install -y docker-compose

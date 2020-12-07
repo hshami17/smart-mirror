@@ -102,7 +102,7 @@ public class MirrorViewController implements Initializable {
         placeModules();
         
         webServiceAddr.setText(Config.WEB_ADDRESS);
-        setupQrCode();
+        getQrCode();
         setupMinimalView();
         
         // Make sure top container does not overlap modules below it
@@ -119,15 +119,15 @@ public class MirrorViewController implements Initializable {
         });
     }
     
-    private void setupQrCode() {
+    private void getQrCode() {
         String webAddress = Config.WEB_ADDRESS;
         if (webAddress != null && !webAddress.isEmpty()) {
             try {
-                URL qrCodeUrl = new URL("http://" + webAddress + "/api/genqrcode");
-                InputStream qrCodeIn = qrCodeUrl.openStream();
-                byte[] stringBuff = new byte[255];
-                qrCodeIn.read(stringBuff);
-                String qrCodeImgUrl = new String(stringBuff);
+                URL qrCodeGenUrl = new URL("http://" + webAddress + "/api/genqrcode");
+                InputStream qrCodeIn = qrCodeGenUrl.openStream();
+                byte[] imgUrlBytes = new byte[64];
+                qrCodeIn.read(imgUrlBytes);
+                String qrCodeImgUrl = new String(imgUrlBytes);
                 Platform.runLater(() -> {
                     imgQrCode.setImage(new Image(qrCodeImgUrl));
                     imgQrCode.setOpacity(0.30);

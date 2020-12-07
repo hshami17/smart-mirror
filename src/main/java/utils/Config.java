@@ -205,8 +205,7 @@ public class Config {
                     module.setPosition(position);
                 }
                 catch (IllegalArgumentException ex) {
-                    System.err.println("[JAVA] ERROR IN CONFIG: " + moduleNameXml);
-                    System.err.println(ex.toString());
+                    System.err.println("[JAVA] Module not found in enum or is ignored: " + moduleNameXml);
                 }
             }
         }

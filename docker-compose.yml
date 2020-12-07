@@ -1,0 +1,21 @@
+version: "2.4"
+
+services:
+    webapp:
+        build:
+            dockerfile: Dockerfile-python
+            context: .
+        ports:
+            - "8080:8080"
+        environment:
+            - WEBADDRESS
+            - CONFIGPATH_PY
+        volumes:
+            - $HOME/.mirror:/root/.mirror:rw
+    
+    mirror:
+        build:
+            dockerfile: Dockerfile-java
+            context: .
+        volumes:
+            - $HOME/.mirror:/root/.mirror:rw

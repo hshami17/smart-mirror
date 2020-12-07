@@ -9,23 +9,32 @@ import socket
 import xml.etree.ElementTree as ET
 from flask import jsonify
 import spotipy
-import spotipy.oauth2 as oauth2
-import spotipy.util as util
+from spotipy.oauth2 import SpotifyOAuth
 import ast
 import qrcode
 from bs4 import BeautifulSoup
+from pythonfitbit import fitbit
+from datetime import datetime
+import netifaces as ni
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+host = ""
+port = 0
 configData = []
 path = ''
 hue_bridge_ip = ''
 
-# For debugging errors
-# app.config.update(
-#     PROPAGATE_EXCEPTIONS = True
-# )
+spotify = ""
+scope = "user-read-currently-playing"
+
+fitbit_token_expiry = datetime.now().timestamp()
+
+#For debugging errors
+app.config.update(
+    PROPAGATE_EXCEPTIONS = True
+)
 
 @socketio.on('connect', namespace='/')
 def makeConnection():
@@ -44,8 +53,8 @@ def setConfigData():
 
 def getModuleInfo(name):
     for module in configData:
-	    if module['name'] == name:
-	        return module
+        if module['name'] == name:
+            return module
 
 def parseXml():
     data = []
@@ -86,37 +95,55 @@ def index():
 
     return render_template('home.html', name=name, position=position)
 
+def refreshFitbitToken(token_dict):
+    print("Refreshing Fitbit tokens..")
+    fitbit_info = getModuleInfo('fitbit')
+    fitbit_info['access-token'] = token_dict['access_token']
+    fitbit_info['refresh-token'] = token_dict['refresh_token']
+    global fitbit_token_expiry 
+    fitbit_token_expiry = token_dict['expires_at']
+    createXML()
+    
+@app.route('/fitbit-data')
+def getFitbitData():
+    fitbit_info = getModuleInfo('fitbit')
+
+    global fitbit_token_expiry
+    # Using python-fitbit module:  https://python-fitbit.readthedocs.io/en/latest/
+    authd_client = fitbit.Fitbit(fitbit_info['client-id'], fitbit_info['client-secret'],
+                                 access_token=fitbit_info['access-token'],
+                                 refresh_token=fitbit_info['refresh-token'],
+                                 refresh_cb=refreshFitbitToken,
+                                 expires_at=fitbit_token_expiry)
+
+    fitbit_data = {}
+    fitbit_data['activity'] = authd_client.activities()
+    fitbit_data['body'] = authd_client.body()
+
+    return jsonify(fitbit_data)
 
 def spotifyEstablishToken():
     spotifyInfo = getModuleInfo('spotify')
-    token = util.prompt_for_user_token(
-            username='smartmirror-spotify',
-            scope='user-read-currently-playing',
-            client_id=spotifyInfo['client-id'],
-            client_secret=spotifyInfo['client-secret'],
-            redirect_uri='http://localhost:8080/spotify-callback',
-            cache_path=os.getenv('HOME', ".") + "/.spotify-cache")
 
-    spotify = spotipy.Spotify(auth=token)
+    global spotify
+    spotify = spotipy.Spotify(auth_manager=SpotifyOAuth(
+        client_id=spotifyInfo['client-id'],
+        client_secret=spotifyInfo['client-secret'],
+        redirect_uri="http://localhost:9090",
+        cache_path=os.getenv('HOME') + "/.mirror/.spotify-cache",
+        scope=scope)
+    )
+    print ("Spotify successfully authenticated")
 
-    print("Spotify Token Created: " + token)
-
-@app.route('/spotify-callback')
-def spotifyCallback():
-    return 'Spotify Authenticated!'
+# @app.route('/spotify-callback')
+# def spotifyCallback():
+#     return 'Spotify Authenticated!'
 
 @app.route('/spotify-current-track')
 def spotifyCurrentTrack():
-    spotifyInfo = getModuleInfo('spotify')
-    token = util.prompt_for_user_token(
-            username='smartmirror-spotify',
-            scope='user-read-currently-playing',
-            client_id=spotifyInfo['client-id'],
-            client_secret=spotifyInfo['client-secret'],
-            redirect_uri='http://localhost:8080/spotify-callback',
-	    cache_path=os.getenv('HOME', ".") + "/.spotify-cache")
-
-    spotify = spotipy.Spotify(auth=token)
+    global spotify
+    if spotify == "":
+        spotifyEstablishToken()
 
     currently_playing_track = spotify.current_user_playing_track()
 
@@ -131,8 +158,7 @@ def addModule(formData):
     #print(configData)
 
     # Establish spotify token if not already exists.
-    if (formData.get('name') == 'spotify'):
-        print("ADDING SPOTIFY")
+    if formData.get('name') == 'spotify' and not spotify:
         spotifyEstablishToken()
 
     global configData
@@ -204,9 +230,8 @@ def generateQrCode():
         box_size=10,
         border=1,
     )
-    host = os.getenv('IP', 'localhost')
-    port = os.getenv('PORT', 8080)
-    webservice_url = 'http://' + str(host) + ':' + str(port)
+    web_addr = os.getenv("WEBADDRESS")
+    webservice_url = 'http://' + web_addr
     qr.add_data(webservice_url)
     qr.make(fit=True)
     img = qr.make_image(fill_color="white", back_color="black")
@@ -301,6 +326,12 @@ def scrapeCovidStats():
 
 
 
+def getNicIP():
+    gateways = ni.gateways()
+    iface = gateways['default'][ni.AF_INET][1]
+    ip = ni.ifaddresses(iface)[ni.AF_INET][0]['addr']
+    return ip
+    
 
 def getHueBridgeIp():
     global hue_bridge_ip
@@ -310,16 +341,9 @@ def getHueBridgeIp():
     print("Hue Bridge IP has been set: " + hue_bridge_ip)
 
 
-
 # start the server
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description = 'Smart Mirror Web Service')
-    parser.add_argument('--path', action="store", dest="path", default='../src/main/resources/mirror_config.xml')
-    given_args = parser.parse_args()
-    path = given_args.path
-    print("PATH IS: " + path)
+    path = os.getenv("CONFIGPATH_PY")
+    print("CONFIG PATH IS: " + path)
     setConfigData()
-    host = os.getenv('IP', 'localhost')
-    port = os.getenv('PORT', 8080)
-    print("WEB SERVICE RUNNING ON: " + host + ":" + str(port))
-    socketio.run(app, host=host, port=int(port), debug=False)
+    socketio.run(app, host='0.0.0.0', port=8080, debug=False)

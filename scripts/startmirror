@@ -26,16 +26,11 @@ case $OSTYPE in
 esac
 
 # Set paths for the config file and Java watcher
-export CONFIGPATH=resources/mirror_config.xml
-export WATCHPATH=resources
-export HOSTNAME=$(hostname)
+export CONFIGPATH=$HOME/.mirror_config.xml
+export WATCHPATH=$HOME
 
 # Path to JavaFX libraries
-if [ "$(whoami)" == "pi" ]
-then
-	LOAD_FX="--module-path /home/pi/armv6hf-sdk/lib --add-modules javafx.controls,javafx.fxml"
-	echo "Loading JavaFX libraries on pi"
-fi
+LOAD_FX="--module-path $HOME/.mirror/lib/ --add-modules javafx.controls,javafx.fxml"
 
 # Get arguments
 for var in "$@"
@@ -54,9 +49,8 @@ do
 done
 
 echo "Debug messages in log.txt"
+java $LOAD_FX $sw -jar smart-mirror-1.0.jar $fullscreen &
 cd web-service
-python3 main.py --path ../resources/mirror_config.xml &
-cd ..
-java $LOAD_FX $sw -jar smart-mirror-1.0.jar $fullscreen #&> log.txt
+python3 main.py --path $CONFIGPATH
 
 
