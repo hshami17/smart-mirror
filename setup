@@ -3,7 +3,6 @@
 apt-get update
 apt-get install -y default-jdk
 apt-get install -y openjfx
-apt-get install -y git
 
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
