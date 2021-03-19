@@ -33,6 +33,7 @@ public class NewsAPI extends API {
         InputStream is_news_api = news_api_url.openStream();
         JsonReader rdr_news_api = Json.createReader(is_news_api);   
         JsonObject obj_news_api = rdr_news_api.readObject();
+        rdr_news_api.close();
 
         JsonArray articles = obj_news_api.getJsonArray("articles");
 

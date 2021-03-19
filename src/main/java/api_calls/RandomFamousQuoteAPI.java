@@ -31,12 +31,11 @@ public class RandomFamousQuoteAPI extends API {
         connection.setRequestProperty("X-Mashape-Key", randomFamousQuoteKey.get());
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         connection.setRequestProperty("Accept", "application/json");
-
-        //OutputStream output = connection.getOutputStream();
         InputStream response = connection.getInputStream();
 
         JsonReader rdr = Json.createReader(response);   
         JsonArray arr = rdr.readArray();
+        rdr.close();
         if (!arr.isEmpty()) {
             JsonObject obj = arr.getJsonObject(0);
 

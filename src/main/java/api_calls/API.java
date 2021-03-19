@@ -13,7 +13,7 @@ public abstract class API {
     private final long pullInterval;
     private long lastPull = 0;
 
-    public API(long pullInterval) {
+    protected API(long pullInterval) {
         this.pullInterval = pullInterval;
     }
 

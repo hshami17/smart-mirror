@@ -33,6 +33,7 @@ public class DarkSkyAPI extends API {
         InputStream is_zip_api = zip_api_url.openStream();
         JsonReader rdr_zip_api = Json.createReader(is_zip_api);
         JsonObject obj_zip_api = rdr_zip_api.readObject();
+        rdr_zip_api.close();
 
         darkSkyModel.setLocation(obj_zip_api.getString("city"), obj_zip_api.getString("state"));
 
@@ -45,6 +46,7 @@ public class DarkSkyAPI extends API {
         JsonReader rdr = Json.createReader(is);
 
         JsonObject obj = rdr.readObject();
+        rdr.close();
         JsonObject current = obj.getJsonObject("currently");
 
         darkSkyModel.setCurrentTemp(current.getJsonNumber("temperature").intValue());

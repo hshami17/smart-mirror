@@ -122,11 +122,13 @@ public class MirrorViewController implements Initializable {
     private void getQrCode() {
         String webAddress = Config.WEB_ADDRESS;
         if (webAddress != null && !webAddress.isEmpty()) {
+            InputStream qrCodeIn = null;
             try {
                 URL qrCodeGenUrl = new URL("http://" + webAddress + "/api/genqrcode");
-                InputStream qrCodeIn = qrCodeGenUrl.openStream();
+                qrCodeIn = qrCodeGenUrl.openStream();
                 byte[] imgUrlBytes = new byte[64];
                 qrCodeIn.read(imgUrlBytes);
+                qrCodeIn.close();
                 String qrCodeImgUrl = new String(imgUrlBytes);
                 Platform.runLater(() -> {
                     imgQrCode.setImage(new Image(qrCodeImgUrl));
@@ -138,6 +140,15 @@ public class MirrorViewController implements Initializable {
             } 
             catch (IOException ex) {
                 Logger.getLogger(MirrorViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            finally {
+                if (qrCodeIn != null) {
+                    try {
+                        qrCodeIn.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }

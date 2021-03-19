@@ -32,6 +32,7 @@ public class UselessFactsAPI extends API {
 
         JsonReader rdr = Json.createReader(connection.getInputStream());
         JsonObject obj = rdr.readObject();
+        rdr.close();
         
         String uselessFact = obj.getString("text");
         uselessFactsModel.setUselessFact(uselessFact);

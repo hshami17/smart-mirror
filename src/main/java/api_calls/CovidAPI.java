@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.net.URL;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
+
 import models.CovidModel;
 import models.ModelManager;
 import utils.Config;
@@ -32,7 +34,9 @@ public class CovidAPI extends API {
             try {
                 URL covidDataUrl = new URL("http://" + webaddress + "/api/covid");
                 InputStream inCovidData = covidDataUrl.openStream();
-                JsonObject covidData = Json.createReader(inCovidData).readObject();
+                JsonReader rdr = Json.createReader(inCovidData);
+                JsonObject covidData = rdr.readObject();
+                rdr.close();
                 
                 String totalCases = covidData.getJsonString("totalCases").getString();
                 String totalDeaths = covidData.getJsonString("totalDeaths").getString();

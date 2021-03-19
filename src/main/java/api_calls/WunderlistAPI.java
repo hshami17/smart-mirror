@@ -44,6 +44,7 @@ public class WunderlistAPI extends API {
         InputStream listIdResponse = connection.getInputStream();
         JsonReader rdr = Json.createReader(listIdResponse);
         JsonObject obj = rdr.readObject();
+        rdr.close();
         tasksModel.setListName(obj.getJsonString("title").getString());
         
         // Get the reminders from this list
@@ -54,6 +55,7 @@ public class WunderlistAPI extends API {
        
         rdr = Json.createReader(response);   
         JsonArray jsonArray = rdr.readArray();
+        rdr.close();
 
         JsonObject taskObj;
 

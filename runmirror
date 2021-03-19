@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -d $HOME/.mirror ]
+then
+	mkdir $HOME/.mirror
+fi
+
 export WEBADDRESS=$(ip route get 1.1.1.1 | grep -oP 'src \K\S+'):8080
 export CONFIGPATH_PY=/root/.mirror/mirror_config.xml
 

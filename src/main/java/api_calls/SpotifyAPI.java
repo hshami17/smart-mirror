@@ -12,6 +12,8 @@ import javafx.scene.image.Image;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
+
 import models.ModelManager;
 import models.SpotifyTrackModel;
 import utils.Config;
@@ -36,7 +38,9 @@ public class SpotifyAPI extends API {
             try {
                 URL spotifyCurrentTrackUrl = new URL("http://" + webaddress + "/spotify-current-track");
                 InputStream inSpotifyApi = spotifyCurrentTrackUrl.openStream();
-                JsonObject objSpotifyApi = Json.createReader(inSpotifyApi).readObject();
+                JsonReader rdr = Json.createReader(inSpotifyApi);
+                JsonObject objSpotifyApi = rdr.readObject();
+                rdr.close();
                 
                 JsonObject itemObj = objSpotifyApi.getJsonObject("item");
 

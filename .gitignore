@@ -8,3 +8,7 @@ go
 web-service/run
 web-service/.idea/
 deploy
+.vscode
+.classpath
+.project
+.settings/
